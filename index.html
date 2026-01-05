@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Acesso Corporativo | Integrux</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #050505; --primary: #2F81F7; --cyan: #00F0FF;
+            --glass: rgba(20, 25, 30, 0.75); --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #FFFFFF; --text-muted: #94A3B8;
+            --input-bg: rgba(0, 0, 0, 0.25); --input-border: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.7);
+        }
+        body.light-mode {
+            --bg-dark: #f0f2f5; --primary: #2563eb; --cyan: #0ea5e9;
+            --glass: #ffffff; --glass-border: #cbd5e1;
+            --text-main: #1e293b; --text-muted: #64748b;
+            --input-bg: #f8fafc; --input-border: #94a3b8;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* Garante que o html/body ocupem 100% mas sem scroll desnecessário */
+        html, body { width: 100%; height: 100%; overflow: hidden; background-color: var(--bg-dark); position: fixed; transition: background-color 0.5s ease; }
+        
+        body { 
+            color: var(--text-main); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: radial-gradient(circle at top left, #0a192f, #000000); 
+            padding: 20px; 
+        }
+        body.light-mode { background: var(--bg-dark); }
+
+        /* Animações de Fundo Sutis */
+        body::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0, 102, 255, 0.1), transparent 70%); top: -200px; left: -200px; z-index: -1; animation: pulse 12s infinite alternate; opacity: 0.8; transition: opacity 0.5s; }
+        body::after { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0, 240, 255, 0.08), transparent 70%); bottom: -100px; right: -100px; z-index: -1; animation: pulse 10s infinite alternate-reverse; opacity: 0.8; transition: opacity 0.5s; }
+        body.light-mode::before, body.light-mode::after { opacity: 0; }
+        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+
+        /* Container Principal */
+        .container { 
+            position: relative; z-index: 10; width: 100%; max-width: 1000px; 
+            display: flex; 
+            box-shadow: 0 25px 50px -12px var(--shadow-color); 
+            border-radius: 24px; border: 1px solid var(--glass-border); 
+            backdrop-filter: blur(20px); background: var(--glass); 
+            overflow: hidden; min-height: 600px; 
+            transition: all 0.5s ease; 
+        }
+        body.light-mode .container { box-shadow: 0 20px 60px rgba(0,0,0,0.1); border-color: transparent; }
+
+        /* Lado Esquerdo (Marca/Desktop) */
+        .brand-side { 
+            flex: 0.8; 
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 0, 0, 0)); 
+            padding: 50px; 
+            display: flex; flex-direction: column; justify-content: center; 
+            border-right: 1px solid var(--glass-border); 
+            position: relative; min-width: 300px; 
+            transition: background 0.5s; 
+        }
+        body.light-mode .brand-side { background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-right-color: var(--glass-border); }
+        
+        .brand-logo-text { 
+            font-size: 3rem; 
+            font-weight: 800; 
+            letter-spacing: 3px; 
+            margin-bottom: 20px;
+            color: var(--text-main); /* Cor sólida baseada no tema */
+        }
+        
+        .brand-side p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 350px; font-weight: 500; }
+        .brand-highlight { color: var(--primary); font-weight: 700; }
+
+        /* Lado Direito (Formulário) */
+        .form-side { 
+            flex: 1.2; 
+            padding: 50px; 
+            position: relative; 
+            overflow-y: auto; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; /* Centraliza tudo */
+            min-width: 320px; 
+        }
+        
+        /* Logo no topo do formulário (Para Mobile principalmente) */
+        .form-logo-area { display: flex; justify-content: center; margin-bottom: 40px; }
+        .form-logo-text { font-weight: 800; letter-spacing: 2px; font-size: 1.5rem; color: var(--text-main); }
+
+        .form-container { width: 100%; max-width: 380px; transition: opacity 0.3s ease; }
+        
+        /* Títulos Centralizados */
+        h2 { font-size: 1.8rem; margin-bottom: 8px; color: var(--text-main); text-align: center; }
+        .sub-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; display: block; text-align: center; }
+
+        .input-group { margin-bottom: 20px; position: relative; }
+        .input-group label { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); transition: 0.3s; pointer-events: none; font-size: 0.95rem; background: transparent; padding: 0 4px; }
+        .form-input { width: 100%; padding: 16px 16px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 12px; color: var(--text-main); outline: none; font-size: 1rem; transition: 0.3s; }
+        .form-input:focus, .form-input:not(:placeholder-shown) { border-color: var(--primary); background: rgba(0, 102, 255, 0.03); box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1); }
+        .form-input:focus ~ label, .form-input:not(:placeholder-shown) ~ label { top: 0; font-size: 0.75rem; color: var(--primary); background: var(--glass); padding: 2px 6px; border-radius: 4px; }
+
+        .btn-submit { width: 100%; padding: 16px; margin-top: 10px; background: linear-gradient(90deg, var(--primary), #0044AA); border: none; border-radius: 12px; color: white; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px -5px rgba(0, 102, 255, 0.4); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(0, 102, 255, 0.6); }
+
+        .toggle-link { text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; display: block; width: 100%; }
+        .toggle-link:hover { color: var(--primary); }
+        .toggle-link strong { font-weight: 600; }
+
+        .toast { position: fixed; top: 20px; right: 20px; background: rgba(16, 185, 129, 0.95); backdrop-filter: blur(10px); color: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transform: translateX(150%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 100; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        .toast.error { background: rgba(248, 81, 73, 0.95); }
+        .toast.show { transform: translateX(0); }
+
+        .theme-toggle-container { position: absolute; top: 25px; right: 25px; z-index: 999; }
+        .theme-btn { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50%; width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: var(--text-main); font-size: 1.1rem; }
+        .theme-btn:hover { transform: scale(1.05); background: var(--input-bg); color: var(--primary); }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 850px) {
+            .container { flex-direction: column; height: 100%; max-height: none; border-radius: 0; border: none; background: transparent; box-shadow: none; }
+            .brand-side { display: none; } /* Esconde o painel esquerdo no mobile */
+            .form-side { width: 100%; padding: 30px; height: 100%; justify-content: center; align-items: center; }
+            .form-container { max-width: 100%; width: 100%; }
+            body { padding: 0; }
+            body.light-mode .form-side { background-color: var(--bg-dark); }
+            .theme-toggle-container { top: 20px; right: 20px; }
+            .form-logo-area { margin-bottom: 30px; display: flex; } /* Mostra o logo pequeno no mobile */
+        }
+        
+        @media (min-width: 851px) {
+            .form-logo-area { display: none; } /* Esconde o logo pequeno no desktop pois já tem o grande na esquerda */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle-container">
+        <button id="themeToggle" class="theme-btn" title="Alternar Tema">
+             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="70 40 325 325" preserveAspectRatio="xMidYMid meet" style="width: 22px; height: 22px; fill: currentColor;">
+                <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
+                    <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
+                    <path d="M2416 3903 c32 -38 61 -70 64 -73 6 -5 262 -300 304 -350 40 -49 141 -165 146 -170 3 -3 22 -25 42 -50 l37 -46 -92 -105 c-95 -110 -446 -520 -530 -621 l-49 -58 200 0 199 0 99 117 c54 65 122 142 149 173 130 146 410 480 410 489 0 10 -29 45 -179 220 -54 64 -110 130 -124 146 -14 17 -53 62 -86 100 -34 39 -74 86 -90 105 -16 19 -60 70 -98 113 l-70 77 -195 0 -195 0 58 -67z"></path>
+                    <path d="M3300 3564 c0 -3 44 -60 98 -125 53 -66 117 -144 141 -174 l43 -54 -146 -170 c-80 -94 -146 -173 -146 -176 0 -3 33 -5 74 -5 l74 0 154 168 c84 92 157 170 162 173 4 4 7 11 5 17 -2 5 -74 87 -159 181 l-155 171 -72 0 c-40 0 -73 -3 -73 -6z"></path>
+                </g>
+            </svg>
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="brand-side">
+            <div class="brand-logo-text">INTEGRUX</div>
+            <p>
+                Simples. Robusto. Integrado.<br>
+                A inteligência que o seu negócio exige.
+            </p>
+        </div>
+
+        <div class="form-side">
+            <div class="form-logo-area">
+                <span class="form-logo-text">INTEGRUX</span>
+            </div>
+
+            <div id="loginSection" class="form-container">
+                <h2 id="formTitle">Bem-vindo</h2>
+                <span class="sub-text" id="formSubtitle">Acesse o painel financeiro.</span>
+                
+                <form id="authForm">
+                    <div class="input-group" id="nameGroup" style="display: none;">
+                        <input type="text" id="regName" class="form-input" placeholder=" " autocomplete="off">
+                        <label>Nome completo</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="loginUser" class="form-input" placeholder=" " required autocomplete="off">
+                        <label>Usuário</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPass" class="form-input" placeholder=" " required>
+                        <label>Senha</label>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit" id="btnAction">ENTRAR</button>
+                    
+                    <div class="toggle-link" id="toggleMode">
+                        Não tem conta? <strong>Cadastre-se</strong>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="bi bi-info-circle-fill" style="font-size: 1.2rem;"></i>
+        <div id="toastMessage"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // TEMA
+            const toggleBtn = document.getElementById('themeToggle');
+            const body = document.body;
+            const savedTheme = localStorage.getItem('integrux_theme');
+            if (savedTheme === 'light') body.classList.add('light-mode');
+
+            toggleBtn.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+                localStorage.setItem('integrux_theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+            });
+
+            // LIMPEZA DE SESSÃO AO ENTRAR
+            sessionStorage.removeItem('integrux_session');
+        });
+
+        // UTILITÁRIOS
+        function hashPassword(pwd) { return btoa(pwd.split('').reverse().join('') + 'INTEGRUX_SALT_V2'); }
+        
+        function getDB() {
+            const stored = localStorage.getItem('integrux_users_db');
+            if (stored) return JSON.parse(stored);
+            // Usuário padrão (Seed) - Senha "123"
+            return [{ name: "Usuário Padrão", role: "Membro", user: "integrux", passHash: hashPassword("123"), initial: "I" }];
+        }
+
+        function saveDB(db) { localStorage.setItem('integrux_users_db', JSON.stringify(db)); }
+
+        // LÓGICA DE REGISTRO / LOGIN
+        let isRegisterMode = false;
+        const form = document.getElementById('authForm');
+        const title = document.getElementById('formTitle');
+        const subtitle = document.getElementById('formSubtitle');
+        const nameGroup = document.getElementById('nameGroup');
+        const btnAction = document.getElementById('btnAction');
+        const toggleLink = document.getElementById('toggleMode');
+
+        toggleLink.addEventListener('click', () => {
+            isRegisterMode = !isRegisterMode;
+            form.reset(); // Limpa campos ao trocar
+            if (isRegisterMode) {
+                title.innerText = "Criar Conta";
+                subtitle.innerText = "Preencha seus dados para começar.";
+                nameGroup.style.display = "block";
+                document.getElementById('regName').required = true;
+                btnAction.innerText = "CADASTRAR";
+                toggleLink.innerHTML = "Já tem conta? <strong>Entrar</strong>";
+            } else {
+                title.innerText = "Bem-vindo";
+                subtitle.innerText = "Acesse o painel financeiro.";
+                nameGroup.style.display = "none";
+                document.getElementById('regName').required = false;
+                btnAction.innerText = "ENTRAR";
+                toggleLink.innerHTML = "Não tem conta? <strong>Cadastre-se</strong>";
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userVal = document.getElementById('loginUser').value.trim();
+            const passVal = document.getElementById('loginPass').value;
+            
+            if(!userVal || !passVal) return showToast("Preencha todos os campos.", true);
+            
+            const passHash = hashPassword(passVal);
+            const db = getDB();
+
+            if (isRegisterMode) {
+                // MODO CADASTRO
+                const nameVal = document.getElementById('regName').value.trim();
+                if(!nameVal) return showToast("Nome é obrigatório.", true);
+
+                if(db.find(u => u.user.toLowerCase() === userVal.toLowerCase())) {
+                    showToast("Este usuário já existe.", true);
+                    return;
+                }
+                const newUser = {
+                    id: Date.now(),
+                    name: nameVal,
+                    role: "Membro",
+                    user: userVal,
+                    passHash: passHash,
+                    initial: nameVal.charAt(0).toUpperCase()
+                };
+                db.push(newUser);
+                saveDB(db);
+                
+                // Auto-login após cadastro
+                loginSuccess(newUser, true);
+
+            } else {
+                // MODO LOGIN
+                const foundUser = db.find(u => u.user.toLowerCase() === userVal.toLowerCase() && u.passHash === passHash);
+                if (foundUser) {
+                    loginSuccess(foundUser, false);
+                } else {
+                    showToast("Usuário ou senha incorretos.", true);
+                }
+            }
+        });
+
+        function loginSuccess(user, isNew) {
+            sessionStorage.setItem('integrux_session', JSON.stringify(user));
+            showToast(isNew ? `Conta criada! Bem-vindo, ${user.name}.` : `Bem-vindo de volta, ${user.name}!`, false);
+            btnAction.innerText = "AGUARDE...";
+            btnAction.disabled = true;
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+        }
+
+        function showToast(msg, isError) {
+            const toast = document.getElementById('toast');
+            const toastContent = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+            
+            if(isError) {
+                toast.classList.add('error');
+                icon.className = 'bi bi-exclamation-circle-fill';
+                toastContent.innerHTML = `<strong style="display:block; font-size: 0.9rem;">Atenção</strong><span style="font-size: 0.85rem; opacity: 0.9;">${msg}</span>`;
+            } else {
+                toast.classList.remove('error');
+                icon.className = 'bi bi-check-circle-fill';
+                toastContent.innerHTML = `<strong style="display:block; font-size: 0.9rem;">Sucesso!</strong><span style="font-size: 0.85rem; opacity: 0.9;">${msg}</span>`;
+            }
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+    </script>
+</body>
+</html>

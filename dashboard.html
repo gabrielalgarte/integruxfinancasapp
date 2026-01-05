@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https: data:;">
+    <title>Integrux Solutions - Painel Financeiro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script>
+        if(!sessionStorage.getItem('integrux_session')) {
+            const defaultUser = { name: "Cliente Integrux", role: "Membro", initial: "C" };
+            sessionStorage.setItem('integrux_session', JSON.stringify(defaultUser));
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-body: #050505; --bg-panel: #0E0F11; --bg-card: #141619; --border-color: #2D333B;
+            --primary: #2F81F7; --primary-glow: rgba(47, 129, 247, 0.4); --success: #238636;
+            --danger: #F85149; --warning: #e3b341; --info: #a371f7;
+            --text-main: #E6EDF3; --text-muted: #7D8590; --card-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            --input-bg: #0d1117; --logo-fill: #FFFFFF; --nav-hover: rgba(255, 255, 255, 0.03);
+            --nav-active-bg: rgba(47, 129, 247, 0.1); --blur-strength: 6px; --modal-bg: rgba(20, 22, 25, 0.98);
+        }
+        body.light-mode {
+            --bg-body: #f0f2f5; --bg-panel: #ffffff; --bg-card: #ffffff; --border-color: #d1d5db;
+            --primary: #2563eb; --primary-glow: rgba(37, 99, 235, 0.2); --success: #16a34a;
+            --danger: #dc2626; --warning: #d97706; --info: #7c3aed;
+            --text-main: #1e293b; --text-muted: #64748b; --card-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --input-bg: #f8fafc; --logo-fill: #1e293b; --nav-hover: rgba(0, 0, 0, 0.05);
+            --nav-active-bg: rgba(37, 99, 235, 0.1); --modal-bg: rgba(255, 255, 255, 0.98);
+        }
+        body.privacy-mode .blur-sensitive { color: transparent !important; text-shadow: 0 0 var(--blur-strength) rgba(128, 128, 128, 0.5); user-select: none; cursor: default; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-body); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; font-size: 15px; transition: background-color 0.3s ease, color 0.3s ease; }
+        
+        #ptr-loader { position: fixed; top: -60px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 50%; z-index: 999; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #ptr-spinner { width: 20px; height: 20px; border: 2px solid rgba(47, 129, 247, 0.3); border-top: 2px solid var(--primary); border-radius: 50%; }
+        .ptr-spinning { animation: ptr-spin 0.8s linear infinite; }
+        @keyframes ptr-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        aside { width: 260px; background-color: var(--bg-panel); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 25px 15px 15px 15px; padding-top: 40px; position: fixed; height: 100vh; z-index: 100; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 35px; padding-left: 10px; cursor: pointer; }
+        .brand-text { font-size: 1.3rem; font-weight: 800; letter-spacing: 1.5px; color: var(--text-main); font-family: 'Inter', sans-serif; }
+        
+        .nav-menu { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .nav-item { padding: 10px 14px; border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 12px; font-weight: 500; font-size: 0.9rem; }
+        .nav-item:hover { background: var(--nav-hover); color: var(--text-main); }
+        .nav-item.active { background: var(--nav-active-bg); color: var(--primary); border: 1px solid rgba(47, 129, 247, 0.2); }
+        .nav-item i { font-size: 1.1rem; }
+        .btn-logout { margin-top: auto; color: var(--danger); padding: 10px 14px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; }
+        .btn-logout:hover { background: rgba(248, 81, 73, 0.1); }
+
+        main { margin-left: 260px; flex: 1; padding: 30px 40px; width: 100%; padding-top: 50px; transition: transform 0.2s; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; flex-wrap: wrap; }
+        .header-left h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 2px; }
+        .bio-quote { color: var(--text-muted); font-size: 0.85rem; font-style: italic; border-left: 3px solid var(--primary); padding-left: 10px; }
+        
+        .header-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+        .header-actions { display: flex; gap: 8px; }
+        
+        .user-badge { display: flex; align-items: center; gap: 10px; background: var(--bg-card); padding: 4px 4px 4px 12px; border-radius: 50px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); }
+        .avatar-circle { width: 32px; height: 32px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; box-shadow: 0 0 8px var(--primary-glow); border: 2px solid var(--bg-panel); }
+        
+        .icon-btn { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--card-shadow); transition: all 0.3s; color: var(--text-main); position: relative; font-size: 1.1rem; }
+        .icon-btn:hover { transform: scale(1.05); color: var(--primary); }
+        .badge-count { position: absolute; top: -2px; right: -2px; background: var(--danger); color: white; border-radius: 10px; border: 2px solid var(--bg-card); display: none; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; padding: 0 4px; min-width: 18px; height: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .badge-count.active { display: flex; }
+
+        .view-section { display: none; animation: fadeIn 0.4s ease; }
+        .view-section.active-view { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        
+        .card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; border-radius: 12px; position: relative; transition: transform 0.2s, box-shadow 0.3s, border-color 0.3s; box-shadow: var(--card-shadow); overflow: hidden; }
+        .card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .card-val { font-size: 1.6rem; font-weight: 700; font-family: 'JetBrains Mono'; color: var(--text-main); margin: 8px 0; }
+        .card-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        
+        .card-moto { border-left: 4px solid #0066FF; } .card-fiesta { border-left: 4px solid #C0C0C0; }
+        .card-divida { border-left: 4px solid #F85149; } .card-essential { border-left: 4px solid var(--warning); } 
+        .card-loan { border-left: 4px solid var(--info); } 
+        .card-big-goal { border-left: 4px solid #9b59b6; }
+
+        .progress-container { width: 100%; background: rgba(125,125,125,0.1); height: 8px; border-radius: 4px; margin-top: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+        .rule-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 15px; background: rgba(255,255,255,0.05); }
+        .rule-segment { height: 100%; transition: width 0.5s ease; }
+        .rule-legend { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        .cat-bar-container { margin-bottom: 8px; }
+        .cat-bar-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+        .cat-bar-fill { height: 6px; border-radius: 3px; background: var(--primary); opacity: 0.7; }
+        
+        .chart-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 30px; box-shadow: var(--card-shadow); }
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .mini-status { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border-color); }
+        .status-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 5px var(--success); }
+        .total-year-widget { display: flex; align-items: center; background: rgba(47, 129, 247, 0.08); border: 1px solid rgba(47, 129, 247, 0.2); padding: 5px 15px; border-radius: 8px; margin-right: 10px; height: 36px; }
+        .tyw-label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-right: 8px; font-weight: 600; }
+        .tyw-value { font-size: 0.95rem; color: var(--text-main); font-family: 'JetBrains Mono'; font-weight: 700; }
+        
+        .chart-container { height: 280px; width: 100%; overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-end; padding-bottom: 5px; }
+        .chart-wrapper { display: flex; align-items: flex-end; gap: 12px; height: 100%; min-width: 100%; padding-right: 10px; }
+        .chart-bar-group { flex: 1; min-width: 40px; max-width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; transition: 0.2s; }
+        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; opacity: 0; transform: translateY(5px); transition: 0.2s; font-family: 'JetBrains Mono'; }
+        .chart-bar-group:hover .chart-val-top { opacity: 1; transform: translateY(0); }
+        .chart-bar-group:hover .chart-bar { opacity: 1; box-shadow: 0 0 10px var(--success); }
+        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.5s ease; }
+        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; text-align: center; }
+
+        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); box-shadow: var(--card-shadow); }
+        .income-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .income-table th { text-align: left; color: var(--text-muted); padding: 10px 15px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); }
+        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(35, 134, 54, 0.3); }
+
+        .transaction-list { display: flex; flex-direction: column; gap: 8px; }
+        .transaction-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); }
+        .t-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(125,125,125,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 12px; }
+
+        .notif-item { padding: 12px; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s; }
+        .notif-item:hover { background: var(--nav-hover); }
+        .notif-item:last-child { border-bottom: none; }
+
+        .select-filter { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; outline: none; font-size: 0.85rem; height: 36px; }
+        .input-dark { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; height: 40px; }
+        .search-bar { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-main); margin-bottom: 15px; font-size: 0.9rem; }
+
+        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; white-space: nowrap; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-danger { background: rgba(248, 81, 73, 0.1); color: #f85149; }
+        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.4); }
+        .btn-info { background: rgba(163, 113, 247, 0.1); color: var(--info); border: 1px solid rgba(163, 113, 247, 0.3); }
+        .btn:active { transform: scale(0.96); }
+
+        .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; z-index: 110; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; display: none; backdrop-filter: blur(4px); }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px; transition: opacity 0.3s ease; }
+        .modal-overlay.open { display: flex; animation: fadeIn 0.3s; }
+        .modal { background: var(--modal-bg); width: 100%; max-width: 500px; border-radius: 16px; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); overflow: hidden; }
+        @keyframes modalPop { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); }
+        .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
+        .modal-body { padding: 24px; overflow-y: auto; }
+
+        .statement-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .statement-table th { text-align: left; padding: 12px; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
+        .statement-table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-main); }
+        .statement-table tr:last-child td { border-bottom: none; }
+        .statement-table tr:hover { background: var(--nav-hover); }
+
+        .terminal-container { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .terminal-window { height: 300px; overflow-y: auto; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #E6EDF3; scroll-behavior: smooth; }
+        .msg-sys { color: var(--info); margin-bottom: 5px; }
+        .msg-success { color: var(--success); margin-bottom: 5px; text-shadow: 0 0 5px rgba(35, 134, 54, 0.4); }
+        .msg-warn { color: var(--warning); margin-bottom: 5px; }
+        .msg-err { color: var(--danger); margin-bottom: 5px; }
+        .msg-user { color: var(--text-muted); text-align: right; margin-bottom: 8px; font-style: italic; }
+        .cmd-input-area { display: flex; align-items: center; background: #161b22; padding: 10px; border-top: 1px solid #30363d; }
+        .cmd-prompt { color: var(--success); margin-right: 10px; font-weight: bold; font-family: 'JetBrains Mono'; }
+        .cmd-input { flex: 1; background: transparent; border: none; color: var(--text-main); font-family: 'JetBrains Mono'; outline: none; font-size: 0.9rem; }
+
+        #tutorialBubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 340px;
+            background: var(--bg-card);
+            border: 1px solid var(--primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-radius: 16px;
+            z-index: 9999;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .tutorial-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .tutorial-header h2 { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .close-tutorial { background: transparent; border: none; color: var(--text-muted); cursor: pointer; }
+        
+        .step-dots { display: flex; justify-content: center; gap: 5px; margin: 15px 0; }
+        .step-dot { width: 8px; height: 8px; background: var(--border-color); border-radius: 50%; transition: 0.3s; }
+        .step-dot.active { background: var(--primary); transform: scale(1.2); }
+
+        @media (max-width: 1100px) {
+            aside { transform: translateX(-100%); box-shadow: 5px 0 30px rgba(0,0,0,0.5); padding-top: 80px; }
+            aside.open { transform: translateX(0); }
+            main { margin-left: 0; padding: 70px 20px 40px 20px; }
+            .mobile-toggle { display: block; z-index: 200; }
+            header { flex-direction: row; align-items: center; justify-content: space-between; }
+            .header-left { margin-left: 50px; }
+            .header-left h1 { font-size: 1.3rem; }
+            .bio-quote, .user-info-text { display: none; }
+            .income-table th:nth-child(4), .income-table td:nth-child(4), .income-table th:nth-child(5), .income-table td:nth-child(5) { display: none; }
+            .tyw-label { display: none; } 
+            .statement-table th:nth-child(3), .statement-table td:nth-child(3) { display: none; }
+            #tutorialBubble { bottom: 20px; right: 20px; left: 20px; width: auto; max-width: none; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="tutorialBubble">
+        <div id="tutorialContent"></div>
+    </div>
+
+    <div id="ptr-loader"><div id="ptr-spinner"></div></div>
+
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size: 1.5rem;"></i></button>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <aside id="mainSidebar">
+        <div class="brand">
+            <span class="brand-text">INTEGRUX</span>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="switchView('finance', this)"><i class="bi bi-cash-coin"></i>Gestão de gastos</div>
+            <div class="nav-item" onclick="switchView('income', this)"><i class="bi bi-graph-up-arrow"></i>Minha renda</div>
+            <div class="nav-item" onclick="switchView('assets', this)"><i class="bi bi-bank"></i>Patrimônio e dívidas</div>
+            <div class="nav-item" onclick="switchView('strategy', this)"><i class="bi bi-clipboard-data"></i>Estratégia e metas</div>
+            <div class="nav-item" onclick="switchView('tools', this)"><i class="bi bi-terminal"></i>Terminal de pagamentos</div>
+            <div class="nav-item" onclick="switchView('logs', this)"><i class="bi bi-hdd-network"></i>Logs e sistema</div>
+        </nav>
+        <div onclick="logout()" class="btn-logout"><i class="bi bi-box-arrow-right"></i>Sair</div>
+    </aside>
+
+    <main id="mainContent">
+        <header>
+            <div class="header-left">
+                <h1>Controle geral de finanças</h1>
+                <p class="bio-quote">"Registre saídas e renda, controle seus empréstimos e financiamentos. Tudo isso e muito mais!"</p>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button id="notificationToggle" class="icon-btn" title="Notificações" onclick="openNotifications()">
+                        <i class="bi bi-bell"></i>
+                        <div id="notifBadge" class="badge-count"></div>
+                    </button>
+                    <button id="privacyToggle" class="icon-btn" title="Modo Privacidade">
+                        <i class="bi bi-eye-slash"></i>
+                    </button>
+                    <button id="themeToggle" class="icon-btn" title="Alternar Tema">
+                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="70 40 325 325" preserveAspectRatio="xMidYMid meet" style="width: 20px; height: 20px; fill: currentColor;">
+                            <g transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)">
+                                <path d="M1507 3963 c-4 -3 -7 -261 -7 -573 l0 -566 173 -152 c94 -83 195 -172 222 -196 l50 -45 126 -1 127 0 58 68 c32 37 78 87 101 112 23 25 54 61 68 80 14 18 31 37 37 42 7 4 -86 8 -207 8 l-220 0 -75 70 c-41 39 -90 82 -107 96 l-33 26 0 369 0 369 335 2 335 3 -33 35 c-18 19 -52 60 -76 90 -25 30 -49 60 -55 65 -6 6 -28 31 -49 58 l-38 47 -363 0 c-199 0 -366 -3 -369 -7z"></path>
+                                <path d="M2416 3903 c32 -38 61 -70 64 -73 6 -5 262 -300 304 -350 40 -49 141 -165 146 -170 3 -3 22 -25 42 -50 l37 -46 -92 -105 c-95 -110 -446 -520 -530 -621 l-49 -58 200 0 199 0 99 117 c54 65 122 142 149 173 130 146 410 480 410 489 0 10 -29 45 -179 220 -54 64 -110 130 -124 146 -14 17 -53 62 -86 100 -34 39 -74 86 -90 105 -16 19 -60 70 -98 113 l-70 77 -195 0 -195 0 58 -67z"></path>
+                                <path d="M3300 3564 c0 -3 44 -60 98 -125 53 -66 117 -144 141 -174 l43 -54 -146 -170 c-80 -94 -146 -173 -146 -176 0 -3 33 -5 74 -5 l74 0 154 168 c84 92 157 170 162 173 4 4 7 11 5 17 -2 5 -74 87 -159 181 l-155 171 -72 0 c-40 0 -73 -3 -73 -6z"></path>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <div class="user-badge">
+                    <div class="user-info-text" style="text-align: right; margin-right: 10px;">
+                        <div id="userNameDisplay" style="font-size: 0.85rem; font-weight: 700;">Usuário</div>
+                        <div id="userRoleDisplay" style="font-size: 0.7rem; color: var(--primary);"></div>
+                    </div>
+                    <div id="userAvatarLetter" class="avatar-circle">A</div>
+                </div>
+            </div>
+        </header>
+
+        <section id="view-finance" class="view-section active-view">
+            <div class="stats-grid">
+                <div class="card" onclick="openMonthlyReport()" style="cursor: pointer;">
+                    <div class="card-label">Saídas (mês)</div>
+                    <div class="card-val blur-sensitive" style="color: var(--danger)" id="finTotal">R$ 0,00</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+                        <i class="bi bi-file-earmark-text"></i>Clique aqui para ver o extrato completo!
+                    </div>
+                </div>
+                <div class="card" style="border: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="openAddTransaction()">
+                    <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;"><i class="bi bi-plus-lg" style="margin-right: 5px;"></i>Adicione uma nova despesa</div>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px; padding: 15px;">
+                <div style="font-size:0.85rem; margin-bottom:10px; color:var(--text-main); font-weight:600;">Ranking de categorias do mês</div>
+                <div id="categorySummary"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3>Últimas transações</h3>
+                <input type="month" id="filterMonth" class="select-filter" onchange="renderFinance()">
+            </div>
+            <input type="text" id="financeSearch" class="search-bar" placeholder="Buscar (ex: gasolina, mercado)..." onkeyup="renderFinance()">
+            <div class="transaction-list" id="transactionList"></div>
+        </section>
+
+        <section id="view-income" class="view-section">
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <h3 style="margin: 0; font-size:1.1rem;">Evolução líquida</h3>
+                        <div class="mini-status"><div class="status-dot"></div><span style="color: var(--text-muted);">Empresa Parceira</span></div>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <div class="total-year-widget">
+                            <span class="tyw-label">Total:</span>
+                            <span class="tyw-value blur-sensitive" id="yearTotalDisplay">R$ 0,00</span>
+                        </div>
+                        <select id="incomeYearFilter" class="select-filter" onchange="renderIncome()" style="min-width: 80px;"></select>
+                    </div>
+                </div>
+                <div class="chart-container"><div class="chart-wrapper" id="incomeChart"></div></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3>Histórico completo</h3>
+                <button class="btn btn-success" onclick="openAddIncome()"><i class="bi bi-plus"></i>Adicionar nova renda</button>
+            </div>
+            <div class="table-responsive">
+                <table class="income-table">
+                    <thead><tr><th>Data</th><th>Empresa</th><th>Cargo</th><th>Tipo</th><th>Bruto</th><th>Líquido</th><th>Status</th><th></th></tr></thead>
+                    <tbody id="incomeTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="view-assets" class="view-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0;">Gerenciamento de ativos de longo prazo</h3>
+                <button class="btn btn-primary" onclick="openAddAsset()"><i class="bi bi-plus"></i>Adicionar novo ativo</button>
+            </div>
+            <div class="stats-grid" id="assetsContainer"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
+                <h3>Planejamentos e metas</h3>
+                <button class="btn btn-info" onclick="openAddBigGoal()"><i class="bi bi-plus"></i>Adicionar nova meta</button>
+            </div>
+            <div class="stats-grid" id="bigGoalsContainer"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
+                <h3>Monitor de empréstimos</h3>
+                <button class="btn btn-warning" onclick="openAddLoan()"><i class="bi bi-plus"></i>Adicionar novo empréstimo</button>
+            </div>
+            <div class="stats-grid" id="loanCardsContainer"></div>
+        </section>
+
+        <section id="view-strategy" class="view-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3>Gerenciamento de metas e contas</h3>
+                <button class="btn btn-warning" onclick="openAddDebt()"><i class="bi bi-plus"></i>Nova conta</button>
+            </div>
+            
+            <div class="card card-goal" style="margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="card-label" style="color:var(--success)">META DE SOBRA (MÊS ATUAL)</div>
+                    <button class="btn" style="padding: 2px 8px; font-size: 0.7rem;" onclick="Strategy.setGoal()">Definir</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Objetivo:</div>
+                        <div class="blur-sensitive" id="goalTarget" style="font-size: 1.1rem; font-weight: 700;">R$ 0,00</div>
+                    </div>
+                    <div style="text-align: right;">
+                         <div style="font-size: 0.8rem; color: var(--text-muted);">Projeção do salário atual:</div>
+                         <div class="blur-sensitive" id="goalCurrent" style="font-size: 1.1rem; font-weight: 700;">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="progress-container" style="background: rgba(35, 134, 54, 0.1);">
+                    <div class="progress-bar" id="goalBar" style="width: 0%; background-color: var(--success);"></div>
+                </div>
+                <div id="goalMessage" style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);"></div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--warning);">Contas essenciais</h4>
+                    <div id="essentialList" class="transaction-list"></div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 10px; color: var(--info);">Outras obrigações</h4>
+                    <div id="loanList" class="transaction-list"></div>
+                </div>
+            </div>
+            <div class="card card-strategy" style="margin-top: 30px;">
+                <div class="card-label">Sistema de análise 50/30/20</div>
+                <div style="margin-top: 15px;">
+                    <div class="rule-legend"><span class="legend-item"><div class="legend-dot" style="background:var(--success)"></div>Essencial (50%)</span><span id="pctEssencial">0%</span></div>
+                    <div class="rule-bar"><div class="rule-segment" id="barEssencial" style="background:var(--success); width:0%"></div></div>
+                    
+                    <div class="rule-legend"><span class="legend-item"><div class="legend-dot" style="background:var(--warning)"></div>Estilo de vida (30%)</span><span id="pctEstilo">0%</span></div>
+                    <div class="rule-bar"><div class="rule-segment" id="barEstilo" style="background:var(--warning); width:0%"></div></div>
+                    
+                    <div class="rule-legend"><span class="legend-item"><div class="legend-dot" style="background:var(--danger)"></div>Dívidas (20%)</span><span id="pctDividas">0%</span></div>
+                    <div class="rule-bar"><div class="rule-segment" id="barDividas" style="background:var(--danger); width:0%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-tools" class="view-section">
+            <h3>Terminal de pagamentos</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Digite <strong>fixo [bruto]</strong> para definir o salário fixo mensal e, ou <strong>help</strong> para iniciar os pagamentos caso já tenha definido um salário.</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Além disso, você pode adicionar contas por aqui, basta digitar <strong>add [ID]</strong>, ou seja, se utilizar "add Luz", irá gerar o ID Luz para fazer os pagamentos!</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Lembrando que as contas (ID), poderão ser adicionadas pela aba Estratégia e Metas / Adicionar uma nova conta</p>
+            <div class="card" style="padding: 10px;">
+                <div style="display:flex; gap:10px;">
+                    <input type="text" inputmode="decimal" id="assistGross" class="input-dark" placeholder="Simular Bruto (Ex: 3000)">
+                    <button class="btn btn-primary" onclick="Assistant.analyze()">Simular valor com desconto</button>
+                </div>
+            </div>
+            <div class="terminal-container">
+                <div id="assistTerminal" class="terminal-window"></div>
+                <div class="cmd-input-area">
+                    <span class="cmd-prompt">>></span>
+                    <input type="text" id="cmdInput" class="cmd-input" placeholder="Digite comandos aqui..." autocomplete="off">
+                </div>
+            </div>
+        </section>
+
+        <section id="view-logs" class="view-section">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; flex-wrap: wrap; gap:10px;">
+                <h3>Restauração e logs</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="System.backup()"><i class="bi bi-download"></i>Backup JSON</button>
+                    <input type="file" id="restoreFile" style="display:none;" onchange="System.restore(this)">
+                    <button class="btn btn-warning" onclick="document.getElementById('restoreFile').click()"><i class="bi bi-upload"></i>Restaurar</button>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+                 <button class="btn btn-primary" onclick="Logger.export()"><i class="bi bi-file-text"></i>Exportar logs</button>
+                 <button class="btn btn-danger" onclick="Logger.clear()">Limpar logs</button>
+                 <button class="btn btn-danger" style="background-color: #8b0000; border: 1px solid #ff4444;" onclick="System.openReset()"><i class="bi bi-exclamation-triangle-fill"></i>RESET GERAL</button>
+            </div>
+            <div id="logsTerminal" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; max-height: 60vh; overflow-y: auto; padding-right: 5px;"></div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="transactionModal">
+        <div class="modal">
+            <div class="modal-header"><h3>Nova despesa</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('transactionModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <label style="color:var(--text-muted); font-size:0.8rem;">Descrição</label><input type="text" id="tDesc" class="input-dark" placeholder="Ex: Mercado semanal">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Valor (R$)</label><input type="text" inputmode="decimal" id="tAmount" class="input-dark" placeholder="0,00"></div>
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Categoria</label><select id="tCat" class="input-dark"><option value="Aluguel">Aluguel</option><option value="Luz">Luz</option><option value="Agua">Água</option><option value="Internet">Internet</option><option value="Vivo">Celular</option><option value="Mercado">Mercado</option><option value="Fralda">Fralda</option><option value="Gasolina">Gasolina</option><option value="Banco">Banco</option><option value="Compras na Internet">Web</option><option value="Gastos por Fora">Outros</option></select></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 25px;" onclick="saveTransaction()">Salvar transação</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="debtModal">
+        <div class="modal">
+            <div class="modal-header"><h3>Nova conta / dívida</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('debtModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <label style="color:var(--text-muted); font-size:0.8rem;">Tipo de conta</label>
+                <select id="dType" class="input-dark" style="margin-bottom:15px;" onchange="toggleDebtFields()">
+                    <option value="essential">Conta essencial (Aluguel, Luz...)</option>
+                    <option value="loan">Empréstimo / Consignado</option>
+                </select>
+                <label style="color:var(--text-muted); font-size:0.8rem;">Nome da conta (ID)</label>
+                <input type="text" id="dName" class="input-dark" placeholder="Ex: Luz, Internet, Banco X">
+                <div style="font-size:0.7rem; color:var(--warning); margin-bottom:10px;">*Este nome será usado como ID no terminal.</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Saldo devedor</label><input type="text" inputmode="decimal" id="dAmount" class="input-dark" placeholder="0,00"></div>
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Vencimento</label><input type="number" id="dDue" class="input-dark" placeholder="Dia (1-31)"></div>
+                </div>
+                <div id="loanFields" style="display:none; margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
+                    <label style="color:var(--info); font-size:0.8rem; font-weight:700;">Valor da parcela (mensal)</label>
+                    <input type="text" inputmode="decimal" id="dInstValue" class="input-dark" placeholder="0,00" style="margin-bottom:15px; border-color:var(--info);">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div><label style="color:var(--text-muted); font-size:0.8rem;">Parcela atual</label><input type="number" id="dCurrInst" class="input-dark" value="1"></div>
+                        <div><label style="color:var(--text-muted); font-size:0.8rem;">Total parcelas</label><input type="number" id="dTotalInst" class="input-dark" value="12"></div>
+                    </div>
+                </div>
+                <button class="btn btn-warning" style="width: 100%; margin-top: 25px;" onclick="saveDebt()">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="assetAddModal">
+        <div class="modal">
+            <div class="modal-header"><h3>Novo ativo fixo</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('assetAddModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <label style="color:var(--text-muted); font-size:0.8rem;">Nome do ativo</label><input type="text" id="assetName" class="input-dark" placeholder="Ex: Moto, Carro">
+                <label style="color:var(--text-muted); font-size:0.8rem; margin-top:10px; display:block;">Tipo</label>
+                <select id="assetType" class="input-dark" onchange="toggleAssetColor()"><option value="payable">Pagamento em andamento</option><option value="receivable">Recebimento em andamento</option></select>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Parcela atual</label><input type="number" id="assetCurrent" class="input-dark" value="0"></div>
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Total parcelas</label><input type="number" id="assetTotal" class="input-dark" placeholder="60"></div>
+                </div>
+                <div style="margin-top:10px;">
+                    <label style="color:var(--text-muted); font-size:0.8rem;">Valor da parcela (R$)</label><input type="text" inputmode="decimal" id="assetValue" class="input-dark" placeholder="0,00">
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 25px;" onclick="Assets.add()">Criar ativo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="assetManageModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="assetManageTitle">Clique aqui para gerenciar!</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('assetManageModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <p style="color:var(--text-muted); margin-bottom:20px; text-align:center;">Selecione a ação para este ativo.</p>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button id="btnAssetPay" class="btn btn-primary" style="height:50px;">Realizar pagamento / recebimento</button>
+                    <button id="btnAssetUndo" class="btn btn-danger" style="height:50px; background:rgba(248,81,73,0.15); border:1px solid var(--danger);">Corrigir parcela anterior</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="bigGoalModal">
+        <div class="modal">
+            <div class="modal-header"><h3>Nova meta de longo prazo</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('bigGoalModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <label style="color:var(--text-muted); font-size:0.8rem;">Nome da meta</label><input type="text" id="bgName" class="input-dark" placeholder="Ex: Viagem Europa">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Valor total (R$)</label><input type="text" inputmode="decimal" id="bgTotal" class="input-dark" placeholder="0,00"></div>
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Já guardado (R$)</label><input type="text" inputmode="decimal" id="bgCurrent" class="input-dark" placeholder="0,00"></div>
+                </div>
+                <button class="btn btn-info" style="width: 100%; margin-top: 25px;" onclick="saveBigGoal()">Criar meta</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="notifModal">
+        <div class="modal">
+            <div class="modal-header"><h3>Alertas de vencimento</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('notifModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body" id="notifContent">
+                <div style="text-align:center; color:var(--text-muted);">Nenhuma conta próxima do vencimento.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="actionModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header"><h3 id="actionTitle">Ação</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('actionModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <div style="text-align:center; margin-bottom:20px; color:var(--text-muted);">O que deseja fazer com esta conta?</div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <button class="btn btn-info" onclick="Debts.markAsRead()">Marcar como lida</button>
+                    <button class="btn btn-danger" onclick="Debts.deleteFromAction()">Excluir notificação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="incomeModal">
+        <div class="modal">
+            <div class="modal-header"><h3>Nova renda</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('incomeModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body">
+                <div style="margin-bottom:10px;"><label style="color:var(--text-muted); font-size:0.8rem;">Data</label><input type="date" id="incDate" class="input-dark"></div>
+                <div style="margin-bottom:10px;"><label style="color:var(--text-muted); font-size:0.8rem;">Empresa</label><input type="text" id="incCompany" class="input-dark" value="Empresa Exemplo"></div>
+                <div style="margin-bottom:10px;"><label style="color:var(--text-muted); font-size:0.8rem;">Cargo</label><input type="text" id="incRole" class="input-dark" value="Analista"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Bruto (R$)</label><input type="text" inputmode="decimal" id="incGross" class="input-dark" placeholder="0,00"></div>
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Líquido (R$)</label><input type="text" inputmode="decimal" id="incNet" class="input-dark" placeholder="0,00"></div>
+                </div>
+                <div style="margin-top:10px;"><label style="color:var(--text-muted); font-size:0.8rem;">Status inicial</label><select id="incStatus" class="input-dark"><option value="Pago">Pago</option><option value="Pendente" selected>Pendente (A Receber)</option></select></div>
+                <button class="btn btn-success" style="width: 100%; margin-top: 25px;" onclick="Income.save()">Registrar renda</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header"><h3>Extrato detalhado</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('reportModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-body" style="padding: 0;">
+                <div id="reportSummary" style="padding: 20px; background: var(--bg-panel); display: flex; justify-content: space-around; text-align: center; border-bottom: 1px solid var(--border-color);"></div>
+                <div style="padding: 0; max-height: 60vh; overflow-y: auto;">
+                    <table class="statement-table">
+                        <thead><tr><th>Data</th><th>Tipo</th><th>Categoria</th><th>Descrição</th><th>Valor</th><th>Ação</th></tr></thead>
+                        <tbody id="reportTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal" style="max-width: 400px; border-color: var(--danger);">
+            <div class="modal-header" style="background: rgba(248, 81, 73, 0.1);"><h3 style="color: var(--danger);">⚠️ ATENÇÃO - RESET GERAL</h3></div>
+            <div class="modal-body">
+                <p style="text-align: center; margin-bottom: 20px;">Você tem certeza que deseja <strong>APAGAR TODOS OS DADOS</strong>?<br><br>Esta ação não pode ser desfeita. Faça um backup antes.</p>
+                <button id="btnConfirmReset" class="btn btn-danger" style="width: 100%; height: 50px; font-weight: bold; margin-bottom: 10px;" onclick="System.confirmReset()" disabled>Aguarde...</button>
+                <button class="btn" style="width: 100%; border: 1px solid var(--border-color);" onclick="closeModal('resetModal')">NÃO, CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APP_VERSION = 'v2.1_Fixed_Terminal'; 
+        const Security = {
+            sanitize: (str) => {
+                if (typeof str !== 'string') return str;
+                return str.replace(/[&<>"'/]/g, (s) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;' })[s]);
+            },
+            autoLock: () => {
+                let timer; const logoutTime = 600000; 
+                const resetTimer = () => { clearTimeout(timer); timer = setTimeout(() => { alert("Sessão expirada por segurança."); sessionStorage.removeItem('integrux_session'); window.location.reload(); }, logoutTime); };
+                window.onload = resetTimer; document.onmousemove = resetTimer; document.onkeypress = resetTimer; document.ontouchstart = resetTimer; 
+            }
+        };
+
+        const StorageManager = {
+            save: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) { alert('Erro: Armazenamento cheio!'); } },
+            load: (key) => { try { const data = localStorage.getItem(key); return data ? JSON.parse(data) : null; } catch (e) { return null; } },
+            emergencySave: () => {}
+        };
+
+        function parseMoneyInput(value) {
+            if(!value) return 0; if(typeof value === 'number') return value;
+            let clean = value.toString().replace(/[^\d.,]/g, '');
+            if(clean.includes(',')) clean = clean.replace(/\./g, '').replace(',', '.'); else clean = clean.replace(/\./g, '');
+            const floatVal = parseFloat(clean); return isNaN(floatVal) ? 0 : floatVal;
+        }
+
+        let startY = 0; let isPulling = false; const mainContent = document.getElementById('mainContent'); const ptrLoader = document.getElementById('ptr-loader'); const ptrSpinner = document.getElementById('ptr-spinner');
+        window.addEventListener('touchstart', (e) => { if (window.scrollY === 0) { startY = e.touches[0].pageY; isPulling = true; } }, {passive: true});
+        window.addEventListener('touchmove', (e) => { if (!isPulling) return; const y = e.touches[0].pageY; const diff = y - startY; if (diff > 50 && window.scrollY === 0) { const move = Math.min((diff - 50) * 0.25, 200); mainContent.style.transform = `translateY(${move}px)`; ptrLoader.style.top = `${move - 40}px`; ptrSpinner.style.transform = `rotate(${move * 5}deg)`; } }, {passive: true});
+        window.addEventListener('touchend', () => { if (!isPulling) return; isPulling = false; const currentY = parseInt(mainContent.style.transform.replace(/[^0-9]/g, '') || 0); if (currentY > 80) { ptrLoader.style.top = '20px'; ptrSpinner.classList.add('ptr-spinning'); setTimeout(() => { location.reload(); }, 800); } else { mainContent.style.transform = ''; ptrLoader.style.top = '-60px'; } });
+
+        const Tutorial = {
+            currentStep: 0,
+            init: () => {
+                const lastVersion = localStorage.getItem('integrux_tutorial_version');
+                if (lastVersion !== APP_VERSION) {
+                    document.getElementById('tutorialBubble').style.display = 'flex';
+                    Tutorial.showStep(0);
+                }
+            },
+            showStep: (stepIndex) => {
+                Tutorial.currentStep = stepIndex;
+                const container = document.getElementById('tutorialContent');
+                let html = '';
+                let viewToSwitch = '';
+                
+                switch(stepIndex) {
+                    case 0:
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-robot"></i> Bem-vindo</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Olá! Eu sou o assistente do Integrux. Vou te mostrar como controlar suas finanças de forma simples e segura.</p>`;
+                        break;
+                    case 1:
+                        viewToSwitch = 'finance';
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-cash-coin"></i> Gestão de Gastos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Esta é sua tela principal. Aqui você registra despesas diárias e acompanha o fluxo do mês.</p>`;
+                        break;
+                    case 2:
+                        viewToSwitch = 'income';
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-graph-up-arrow"></i> Minha Renda</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Nesta aba, você gerencia seus ganhos. Adicione salários e extras para calcular seu fluxo líquido.</p>`;
+                        break;
+                    case 3:
+                        viewToSwitch = 'assets';
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-bank"></i> Patrimônio</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Aqui controlamos o "Macro":<br>1. <strong>Ativos:</strong> Carros, Motos.<br>2. <strong>Metas:</strong> Viagens, Sonhos.<br>3. <strong>Empréstimos:</strong> Dívidas longas.</p>`;
+                        break;
+                    case 4:
+                        viewToSwitch = 'strategy';
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-clipboard-data"></i> Estratégia</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Defina sua meta de sobra mensal. O sistema aplicará a regra 50/30/20 automaticamente aos seus gastos.</p>`;
+                        break;
+                    case 5:
+                        viewToSwitch = 'tools';
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-terminal"></i> Terminal</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Uma ferramenta poderosa. Use comandos como "fixo 3000" para simulações e cálculos automáticos de salário.</p>`;
+                        break;
+                    case 6: 
+                        viewToSwitch = 'logs';
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-hdd-fill"></i> Armazenamento</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div>
+                        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:10px;">O Integrux funciona <strong>offline</strong>.</p>
+                        <p style="font-size:0.85rem; background:rgba(227,179,65,0.15); border:1px solid var(--warning); padding:10px; border-radius:8px; color:var(--warning);">⚠️ <strong>Importante:</strong> Seus dados ficam salvos no cache do navegador. Não limpe o cache sem antes fazer backup nesta tela.</p>`;
+                        break;
+                    case 7:
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-shield-check"></i> Termos de Uso</h2></div>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Ao clicar em "Concordar", você aceita que a segurança e o backup dos dados são de sua responsabilidade, pois não enviamos informações para nuvens externas.</p>
+                        <div style="font-size:0.75rem; text-align:center; margin-bottom:15px; opacity:0.7;">© 2025 Integrux Solutions.<br>Todos os direitos reservados.</div>`;
+                        break;
+                }
+
+                if(viewToSwitch) {
+                    const navEl = document.querySelector(`.nav-item[onclick*="'${viewToSwitch}'"]`);
+                    switchView(viewToSwitch, navEl);
+                }
+
+                let dots = '<div class="step-dots">';
+                for(let i=0; i<=7; i++) {
+                    dots += `<div class="step-dot ${i === stepIndex ? 'active' : ''}"></div>`;
+                }
+                dots += '</div>';
+
+                let buttonsHtml = '';
+                if (stepIndex === 7) {
+                    buttonsHtml = `<button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="Tutorial.finish()">Li e Concordo</button>`;
+                } else {
+                    buttonsHtml = `<div style="display:flex; gap:10px; margin-top:10px;">
+                        <button class="btn" style="flex:1; background:rgba(255,255,255,0.1); border:1px solid var(--border-color);" onclick="Tutorial.skip()">Pular</button>
+                        <button class="btn btn-primary" style="flex:1" onclick="Tutorial.showStep(${stepIndex + 1})">Próximo</button>
+                    </div>`;
+                }
+
+                container.innerHTML = html + dots + buttonsHtml;
+            },
+            skip: () => {
+                if(confirm("Deseja pular o tutorial e concordar com os termos padrão?")) Tutorial.finish();
+            },
+            finish: () => {
+                localStorage.setItem('integrux_tutorial_version', APP_VERSION);
+                document.getElementById('tutorialBubble').style.display = 'none';
+                switchView('finance', document.querySelector(`.nav-item[onclick*="'finance'"]`));
+            }
+        };
+
+        const Logger = {
+            getLogs: () => StorageManager.load('integrux_logs') || [],
+            log: (action, desc) => { const session = JSON.parse(sessionStorage.getItem('integrux_session')) || { name: 'Desconhecido' }; const now = new Date(); const logs = Logger.getLogs(); logs.unshift({ id: Date.now(), time: now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR'), user: session.name, action, desc }); if(logs.length > 500) logs.pop(); StorageManager.save('integrux_logs', logs); if(document.getElementById('view-logs').classList.contains('active-view')) renderLogs(); },
+            clear: () => { if(confirm('Apagar logs?')) { localStorage.removeItem('integrux_logs'); renderLogs(); } },
+            export: () => { const logs = Logger.getLogs(); if(logs.length === 0) return alert('Sem logs.'); const blob = new Blob([logs.map(l => `[${l.time}] ${l.user} - ${l.action}: ${l.desc}`).join('\n')], { type: 'text/plain' }); const a = document.createElement('a'); a.href = window.URL.createObjectURL(blob); a.download = `Integrux_Logs.txt`; a.click(); }
+        };
+
+        const Assets = {
+            currentAssetId: null,
+            getData: () => StorageManager.load('integrux_assets_v2') || [],
+            getBigGoals: () => StorageManager.load('integrux_big_goals') || [],
+            save: (data) => { StorageManager.save('integrux_assets_v2', data); Assets.render(); },
+            render: () => {
+                const data = Assets.getData(); const container = document.getElementById('assetsContainer'); container.innerHTML = '';
+                if (data.length === 0) container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">Nenhum ativo cadastrado.</div>';
+                else data.forEach(asset => {
+                    const isPayable = asset.type === 'payable'; const color = isPayable ? '#0066FF' : '#C0C0C0';
+                    const statusText = isPayable ? `Pagas: ${asset.current}/${asset.total}` : `Restam: ${asset.total - asset.current}`;
+                    container.innerHTML += `<div class="card" onclick="Assets.manageAsset(${asset.id})" style="cursor:pointer; border-left: 4px solid ${color};"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div class="card-label">${isPayable ? 'Passivo - A Pagar' : 'Ativo - A Receber'}</div><button class="btn" style="padding:0; color:var(--danger);" onclick="Assets.remove(${asset.id}); event.stopPropagation();"><i class="bi bi-trash"></i></button></div><div style="font-size: 1.1rem; font-weight: 700; color: ${color}; margin: 5px 0;">${isPayable ? 'Financiamento' : 'Recebível'}</div><div style="font-size: 1rem; font-weight: 500; margin-bottom: 5px;">${Security.sanitize(asset.name)}</div><div style="display:flex; justify-content:space-between; margin-top:10px; font-size:0.8rem; color:var(--text-muted);"><span>${statusText}</span><span class="blur-sensitive">${asset.value.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}/mês</span></div><div class="progress-container"><div class="progress-bar" style="width: ${(asset.current / asset.total) * 100}%; background-color: ${color};"></div></div></div>`;
+                });
+                const goals = Assets.getBigGoals(); const goalsContainer = document.getElementById('bigGoalsContainer'); goalsContainer.innerHTML = '';
+                if (goals.length === 0) goalsContainer.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">Nenhuma meta definida.</div>';
+                else goals.forEach(g => { goalsContainer.innerHTML += `<div class="card card-big-goal"><div style="display:flex; justify-content:space-between; align-items:center;"><div class="card-label">${Security.sanitize(g.name)}</div><button class="btn" style="padding:2px 6px; font-size:0.7rem; color:var(--danger);" onclick="Assets.deleteBigGoal(${g.id})"><i class="bi bi-x-lg"></i></button></div><div class="card-val blur-sensitive" style="font-size:1.1rem; color:#9b59b6;">${g.current.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div style="font-size:0.7rem; color:var(--text-muted);">Meta: ${g.total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div class="progress-container"><div class="progress-bar" style="width: ${(g.current / g.total) * 100}%; background-color: #9b59b6;"></div></div><button class="btn btn-primary" style="width:100%; margin-top:10px; font-size:0.75rem;" onclick="Assets.addMoneyToGoal(${g.id})">Adicionar valor</button></div>`; });
+                const loanContainer = document.getElementById('loanCardsContainer'); const loans = Debts.getData().filter(d => d.type === 'loan'); loanContainer.innerHTML = '';
+                if (loans.length === 0) loanContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">Nenhum empréstimo ativo.</div>`;
+                else loans.forEach(l => { loanContainer.innerHTML += `<div class="card card-divida"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div class="card-label">${Security.sanitize(l.name)}</div><button class="btn" style="padding:0; color:var(--danger);" onclick="Debts.remove(${l.id})"><i class="bi bi-trash"></i></button></div><div class="card-val blur-sensitive" style="font-size:1.2rem;">${(l.amount || 0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div style="font-size:0.8rem; color:var(--text-muted);">${l.installments && l.installments.total > 0 ? `Parcela ${l.installments.current}/${l.installments.total}` : "Empréstimo Ativo"}</div><div style="font-size:0.75rem; color:var(--danger); margin-top:5px; font-weight:700;">- ${(l.installmentValue || 0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}/mês</div></div>`; });
+            },
+            add: () => {
+                const name = document.getElementById('assetName').value; const total = parseInt(document.getElementById('assetTotal').value); const value = parseMoneyInput(document.getElementById('assetValue').value);
+                if(!name || !total || value <= 0) return alert('Preencha os dados corretamente.');
+                const data = Assets.getData(); data.push({ id: Date.now(), type: document.getElementById('assetType').value, name, current: parseInt(document.getElementById('assetCurrent').value)||0, total, value });
+                Assets.save(data); closeModal('assetAddModal'); Logger.log('Ativo Criado', `${name}`);
+            },
+            remove: (id) => { if(confirm('Excluir este ativo?')) { Assets.save(Assets.getData().filter(a => a.id !== id)); } },
+            manageAsset: (id) => { Assets.currentAssetId = id; const asset = Assets.getData().find(a => a.id === id); if(asset) { document.getElementById('assetManageTitle').innerText = `Gerenciar: ${asset.name}`; document.getElementById('assetManageModal').style.display = 'flex'; const btnPay = document.getElementById('btnAssetPay'); const btnUndo = document.getElementById('btnAssetUndo'); btnPay.onclick = () => { Assets.processAsset(true); closeModal('assetManageModal'); }; btnUndo.onclick = () => { Assets.processAsset(false); closeModal('assetManageModal'); }; } },
+            processAsset: (isForward) => {
+                const data = Assets.getData(); const asset = data.find(a => a.id === Assets.currentAssetId); if(!asset) return;
+                if (isForward) { if(asset.current >= asset.total) return alert('Já finalizado!'); asset.current++; if(asset.type === 'payable') { Finance.add(`Parcela ${asset.name}`, asset.value, 'Gastos por Fora'); } else { const incData = Income.getData(); incData.push({ id: Date.now(), date: new Date().toISOString().slice(0,10), company: `Venda: ${asset.name}`, role: 'Parcela', type: 'Venda', gross: asset.value, net: asset.value, status: 'Pago' }); StorageManager.save('integrux_income', incData); } alert('Registrado com sucesso!'); } 
+                else { if(asset.current <= 0) return alert('Nada para desfazer.'); if(confirm('Desfazer último andamento? (O registro financeiro deve ser apagado manualmente)')) { asset.current--; alert('Corrigido!'); } }
+                Assets.save(data);
+            },
+            addMoneyToGoal: (id) => { const val = parseMoneyInput(prompt("Valor a adicionar (R$):")); if(val > 0) { const goals = Assets.getBigGoals(); const goal = goals.find(g => g.id === id); if(goal) { goal.current += val; StorageManager.save('integrux_big_goals', goals); Finance.add(`Aporte: ${goal.name}`, val, 'Gastos por Fora'); Assets.render(); } } },
+            deleteBigGoal: (id) => { if(confirm('Excluir esta meta?')) { StorageManager.save('integrux_big_goals', Assets.getBigGoals().filter(g => g.id !== id)); Assets.render(); } }
+        };
+
+        function openAddAsset() { document.getElementById('assetAddModal').style.display = 'flex'; }
+        function openAddBigGoal() { document.getElementById('bigGoalModal').style.display = 'flex'; }
+        function saveBigGoal() { const name = document.getElementById('bgName').value; const total = parseMoneyInput(document.getElementById('bgTotal').value); if(!name || total <= 0) return alert('Dados inválidos'); const goals = Assets.getBigGoals(); goals.push({ id: Date.now(), name, total, current: parseMoneyInput(document.getElementById('bgCurrent').value) }); StorageManager.save('integrux_big_goals', goals); closeModal('bigGoalModal'); Assets.render(); }
+
+        const Strategy = {
+            getGoal: () => localStorage.getItem('integrux_goal') ? parseFloat(localStorage.getItem('integrux_goal')) : 0,
+            setGoal: () => { const newVal = prompt("Defina sua meta de SOBRA para o mês (R$):", Strategy.getGoal()); if(newVal && !isNaN(parseFloat(newVal))) { localStorage.setItem('integrux_goal', parseFloat(newVal)); renderStrategy(); } }
+        };
+
+        const Debts = {
+            tempId: null, getData: () => StorageManager.load('integrux_debts') || [], getDismissed: () => JSON.parse(sessionStorage.getItem('integrux_dismissed')) || [],
+            add: (name, amount, type, dueDay, installments, installmentValue = 0) => {
+                const safeName = Security.sanitize(name); const list = Debts.getData(); if(list.find(d => d.name.toLowerCase() === safeName.toLowerCase())) return alert('Já existe uma conta com esse ID!');
+                list.push({ id: Date.now(), name: safeName, amount: parseMoneyInput(amount), type, dueDay: parseInt(dueDay), installments, installmentValue: parseMoneyInput(installmentValue), lastPaid: null }); StorageManager.save('integrux_debts', list); renderStrategy(); Assets.render(); closeModal('debtModal'); Logger.log('Nova Conta', `${safeName} (${type})`); return true;
+            },
+            pay: (id) => { if(confirm('Confirmar pagamento?')) Assistant.processPayment(id); },
+            remove: (id) => { if(confirm('Excluir sem pagar?')) { StorageManager.save('integrux_debts', Debts.getData().filter(i => i.id !== id)); renderStrategy(); Assets.render(); closeModal('actionModal'); closeModal('notifModal'); Debts.checkNotifications(); } },
+            checkNotifications: () => {
+                const list = Debts.getData(); const dismissed = Debts.getDismissed(); const today = new Date().getDate(); const currentMonth = new Date().toISOString().slice(0, 7);
+                const urgent = list.filter(d => d.type === 'essential' && (d.dueDay - today <= 5) && d.amount > 0 && d.lastPaid !== currentMonth && !dismissed.includes(d.id));
+                const badge = document.getElementById('notifBadge'); const content = document.getElementById('notifContent');
+                if(urgent.length > 0) { badge.classList.add('active'); badge.innerText = urgent.length; content.innerHTML = urgent.map(u => `<div class="notif-item" onclick="Debts.openAction('${u.id}', '${u.name}')"><div style="display:flex; justify-content:space-between;"><div><strong style="color:var(--danger)">${u.name}</strong><br><span style="font-size:0.8rem; color:var(--text-muted)">Vence dia ${u.dueDay}</span></div><div style="font-weight:bold;">R$ ${u.amount}</div></div></div>`).join(''); } 
+                else { badge.classList.remove('active'); badge.innerText = ''; content.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted)">Tudo tranquilo!</div>'; }
+            },
+            openAction: (id, name) => { Debts.tempId = parseInt(id); document.getElementById('actionTitle').innerText = name; closeModal('notifModal'); document.getElementById('actionModal').style.display = 'flex'; },
+            markAsRead: () => { if(!Debts.tempId) return; const list = Debts.getDismissed(); list.push(Debts.tempId); sessionStorage.setItem('integrux_dismissed', JSON.stringify(list)); closeModal('actionModal'); Debts.checkNotifications(); },
+            deleteFromAction: () => { if(Debts.tempId) Debts.remove(Debts.tempId); }
+        };
+
+        const Assistant = {
+            currentNet: 0, pendingSalaryData: null,
+            init: () => {
+                const input = document.getElementById('cmdInput'); input.addEventListener('keydown', (e) => { if(e.key === 'Enter') { Assistant.handleCommand(Security.sanitize(input.value)); input.value = ''; } });
+                Assistant.print('Comandos disponíveis:', 'sys'); Assistant.print(' - help: Consultor Inteligente', 'sys'); Assistant.print(' - fixo [valor]: Define salário projetado', 'sys'); Assistant.print(' - add [Nome]: Criar conta rápida', 'sys'); Assistant.print('---------------------------', 'sys');
+            },
+            print: (msg, type = 'sys') => { const term = document.getElementById('assistTerminal'); const div = document.createElement('div'); div.className = 'msg-' + type; div.innerHTML = msg; term.appendChild(div); term.scrollTop = term.scrollHeight; },
+            calculateINSS: (gross) => { if(gross <= 1412) return gross * 0.075; else if(gross <= 2666.68) return (1412 * 0.075) + ((gross - 1412) * 0.09); else if(gross <= 4000.03) return (1412 * 0.075) + ((1254.68) * 0.09) + ((gross - 2666.68) * 0.12); else if(gross <= 7786.02) return (1412 * 0.075) + ((1254.68) * 0.09) + ((1333.35) * 0.12) + ((gross - 4000.03) * 0.14); else return 908.85; },
+            analyze: () => {
+                const gross = parseMoneyInput(document.getElementById('assistGross').value); if(gross <= 0) return Assistant.print('Erro: Salário inválido.', 'err');
+                const inss = Assistant.calculateINSS(gross); const net = gross - inss; Assistant.currentNet = net;
+                Assistant.print('=== SIMULAÇÃO SALARIAL ===', 'sys'); Assistant.print(`Bruto: ${gross.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`); Assistant.print(`INSS: -${inss.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`, 'warn'); Assistant.print(`LÍQUIDO (Simulado): ${net.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`, 'success');
+            },
+            handleCommand: (cmd) => {
+                if(!cmd.trim()) return; const lowerCmd = cmd.toLowerCase().trim();
+                if(lowerCmd === 'cls' || lowerCmd === 'clear') return document.getElementById('assistTerminal').innerHTML = '';
+                Assistant.print(`>> ${cmd}`, 'user');
+                if(Assistant.pendingSalaryData) {
+                    if (['s', 'sim', 'y', 'yes'].includes(lowerCmd)) {
+                        const data = Assistant.pendingSalaryData; const loans = Debts.getData().filter(d => d.type === 'loan'); let totalLoanDeduction = 0; loans.forEach(l => { totalLoanDeduction += (l.installmentValue || 0); });
+                        const finalNet = data.partialNet - totalLoanDeduction; localStorage.setItem('integrux_fixed_salary', finalNet); Assistant.currentNet = finalNet; Assistant.pendingSalaryData = null;
+                        Assistant.print(`Total Empréstimos: -${totalLoanDeduction.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`, 'warn'); Assistant.print(`Líquido Final Salvo: ${finalNet.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`, 'success'); renderStrategy(); return;
+                    } else if (['n', 'nao', 'no'].includes(lowerCmd)) { localStorage.setItem('integrux_fixed_salary', Assistant.pendingSalaryData.partialNet); Assistant.currentNet = Assistant.pendingSalaryData.partialNet; Assistant.pendingSalaryData = null; Assistant.print(`Salvo: ${Assistant.currentNet.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`, 'success'); renderStrategy(); return; }
+                }
+                if(lowerCmd.startsWith('fixo ')) {
+                    const gross = parseMoneyInput(cmd.split(' ')[1]); if(gross > 0) {
+                        const inss = Assistant.calculateINSS(gross); const partialNet = gross - inss;
+                        Assistant.print(`Bruto: ${gross.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`); Assistant.print(`INSS: -${inss.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`, 'warn');
+                        const loans = Debts.getData().filter(d => d.type === 'loan'); if (loans.length > 0) { Assistant.pendingSalaryData = { gross, inss, partialNet }; Assistant.print(`Descontar empréstimos (${loans.length})? [s/n]`, 'sys'); } else { localStorage.setItem('integrux_fixed_salary', partialNet); Assistant.currentNet = partialNet; renderStrategy(); Assistant.print('Salvo!', 'success'); }
+                    } return;
+                }
+                if(lowerCmd.startsWith('add ')) { const name = cmd.split(' ').slice(1).join(' '); const val = prompt(`Valor de ${name}?`); const day = prompt(`Dia de vencimento?`); if(val && day) Debts.add(name, val, 'essential', day, null) ? Assistant.print(`ID "${name}" criado!`, 'success') : Assistant.print('Erro.', 'err'); return; }
+                if(lowerCmd === 'help') {
+                    if(Assistant.currentNet <= 0 && localStorage.getItem('integrux_fixed_salary')) Assistant.currentNet = parseFloat(localStorage.getItem('integrux_fixed_salary'));
+                    if(!Assistant.currentNet) { Assistant.print('Por favor, defina seu salário fixo primeiro digitando "fixo [valor]".', 'warn'); return; }
+                    const debts = Debts.getData(); const essentials = debts.filter(d => d.type === 'essential' && d.lastPaid !== new Date().toISOString().slice(0, 7)).sort((a,b) => a.dueDay - b.dueDay);
+                    if(essentials.length === 0) return Assistant.print('Todas as contas essenciais pagas.', 'success');
+                    let budget = Assistant.currentNet; essentials.forEach(d => { if(budget >= d.amount) { Assistant.print(`✅ PAGAR: [${d.name}] R$ ${d.amount} (Dia ${d.dueDay})`, 'success'); budget -= d.amount; } else { Assistant.print(`⚠️ FALTA: [${d.name}] R$ ${d.amount}`, 'err'); } });
+                    return;
+                }
+                const target = Debts.getData().find(d => d.name.toLowerCase() === lowerCmd);
+                if(target) Assistant.processPayment(target.id); else Assistant.print(`ID "${cmd}" não encontrado.`, 'err');
+            },
+            processPayment: (id) => {
+                const list = Debts.getData(); const item = list.find(i => i.id === id); const currentMonth = new Date().toISOString().slice(0, 7);
+                if(item) {
+                    if(item.lastPaid === currentMonth) return Assistant.print(`Conta "${item.name}" já paga.`, 'warn');
+                    let amountToPay = item.amount === 0 ? parseMoneyInput(prompt(`Valor da fatura de ${item.name}?`)) : item.amount; if(amountToPay <= 0) return;
+                    Finance.add(`Pgto: ${item.name}`, amountToPay, item.type === 'essential' ? 'Aluguel' : 'Banco');
+                    item.lastPaid = currentMonth; StorageManager.save('integrux_debts', list); renderStrategy();
+                    Assistant.print(`✅ ${item.name} paga!`, 'success'); if(Assistant.currentNet > 0) { Assistant.currentNet -= amountToPay; Assistant.print(`Saldo restante: ${Assistant.currentNet.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`, 'sys'); }
+                }
+            }
+        };
+
+        const System = {
+            backup: () => {
+                const backup = { income: StorageManager.load('integrux_income'), finance: StorageManager.load('integrux_finance'), logs: StorageManager.load('integrux_logs'), assets: StorageManager.load('integrux_assets_v2'), debts: StorageManager.load('integrux_debts'), bigGoals: StorageManager.load('integrux_big_goals'), goal: localStorage.getItem('integrux_goal'), fixo: localStorage.getItem('integrux_fixed_salary') };
+                const a = document.createElement('a'); a.href = window.URL.createObjectURL(new Blob([JSON.stringify(backup)], { type: 'application/json' })); a.download = `Integrux_Backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
+            },
+            restore: (input) => {
+                const file = input.files[0]; if(!file) return; const reader = new FileReader();
+                reader.onload = (e) => { try { const data = JSON.parse(e.target.result); if(data.income) StorageManager.save('integrux_income', data.income); if(data.finance) StorageManager.save('integrux_finance', data.finance); if(data.logs) StorageManager.save('integrux_logs', data.logs); if(data.assets) StorageManager.save('integrux_assets_v2', data.assets); if(data.debts) StorageManager.save('integrux_debts', data.debts); if(data.bigGoals) StorageManager.save('integrux_big_goals', data.bigGoals); if(data.goal) localStorage.setItem('integrux_goal', data.goal); if(data.fixo) localStorage.setItem('integrux_fixed_salary', data.fixo); alert('Restaurado!'); location.reload(); } catch(err) { alert('Erro no arquivo.'); } }; reader.readAsText(file);
+            },
+            openReset: () => {
+                document.getElementById('resetModal').style.display = 'flex'; const btn = document.getElementById('btnConfirmReset'); btn.disabled = true; btn.style.opacity = '0.5'; let sec = 5;
+                const timer = setInterval(() => { sec--; if(sec <= 0) { clearInterval(timer); btn.disabled = false; btn.style.opacity = '1'; btn.innerText = 'SIM, RESETAR TUDO'; } else btn.innerText = `Aguarde ${sec}s...`; }, 1000);
+            },
+            confirmReset: () => { localStorage.clear(); sessionStorage.clear(); location.reload(); }
+        };
+
+        const Income = {
+            getData: () => StorageManager.load('integrux_income') || [],
+            save: () => {
+                const date = document.getElementById('incDate').value; const company = Security.sanitize(document.getElementById('incCompany').value); const role = Security.sanitize(document.getElementById('incRole').value); const grossInput = document.getElementById('incGross').value; const netInput = document.getElementById('incNet').value; const status = document.getElementById('incStatus').value;
+                if (!date || !grossInput) return alert('Preencha os dados.');
+                Logger.log('Nova Renda', `${company} - R$ ${netInput}`);
+                const data = Income.getData(); data.push({ id: Date.now(), date, company, role, type: 'Salário', gross: parseMoneyInput(grossInput), net: parseMoneyInput(netInput), status });
+                StorageManager.save('integrux_income', data); renderIncome(); closeModal('incomeModal');
+            },
+            remove: (id) => { if(confirm('Excluir?')) { StorageManager.save('integrux_income', Income.getData().filter(i => i.id !== id)); renderIncome(); } },
+            markAsPaid: (id) => { if(confirm('Confirmar recebimento?')) { const data = Income.getData(); const item = data.find(i => i.id === id); if(item) { item.status = 'Pago'; StorageManager.save('integrux_income', data); renderIncome(); } } }
+        };
+
+        const Finance = {
+            getData: () => StorageManager.load('integrux_finance') || [],
+            add: (desc, amountInput, cat) => {
+                const val = parseMoneyInput(amountInput); if (!desc || val <= 0) return alert('Inválido.');
+                let saveDate = new Date().toISOString().slice(0,10); const currentFilter = document.getElementById('filterMonth').value;
+                if (currentFilter) { const now = new Date(); const [fYear, fMonth] = currentFilter.split('-'); if (now.getMonth() + 1 != fMonth || now.getFullYear() != fYear) saveDate = `${currentFilter}-01`; }
+                const data = Finance.getData(); data.unshift({ id: Date.now(), date: saveDate, desc: Security.sanitize(desc), amount: val, cat });
+                StorageManager.save('integrux_finance', data); renderFinance(); closeModal('transactionModal'); Logger.log('Despesa', `${desc} - R$ ${val}`);
+            },
+            remove: (id) => { StorageManager.save('integrux_finance', Finance.getData().filter(i => i.id !== id)); renderFinance(); if(document.getElementById('reportModal').style.display === 'flex') openMonthlyReport(); }
+        };
+
+        function renderStrategy() {
+            const list = Finance.getData(); const now = new Date(); const currentMonthStr = now.toISOString().slice(0, 7);
+            const currentMonthExpenses = list.filter(i => i.date.startsWith(currentMonthStr));
+            let total = 0, essential = 0, debt = 0, lifestyle = 0;
+            currentMonthExpenses.forEach(i => { total += i.amount; if(['Aluguel', 'Luz', 'Agua', 'Mercado', 'Gasolina', 'Fralda'].includes(i.cat)) essential += i.amount; else if(['Banco', 'Gastos por Fora'].includes(i.cat)) debt += i.amount; else lifestyle += i.amount; });
+            const pEss = total ? (essential / total) * 100 : 0; const pDeb = total ? (debt / total) * 100 : 0; const pLif = total ? (lifestyle / total) * 100 : 0;
+            document.getElementById('pctEssencial').innerText = `${pEss.toFixed(0)}% (R$ ${essential})`; document.getElementById('barEssencial').style.width = `${pEss}%`;
+            document.getElementById('pctEstilo').innerText = `${pLif.toFixed(0)}% (R$ ${lifestyle})`; document.getElementById('barEstilo').style.width = `${pLif}%`;
+            document.getElementById('pctDividas').innerText = `${pDeb.toFixed(0)}% (R$ ${debt})`; document.getElementById('barDividas').style.width = `${pDeb}%`;
+            const goal = Strategy.getGoal(); let projectedIncome = 0; const fixedSalary = localStorage.getItem('integrux_fixed_salary');
+            if(fixedSalary) projectedIncome = parseFloat(fixedSalary); else { const incomes = Income.getData(); if(incomes.length > 0) projectedIncome = incomes.reduce((acc, i) => acc + (i.date.startsWith(currentMonthStr) ? i.net : 0), 0) || incomes[incomes.length-1].net; }
+            const currentBalance = projectedIncome - total;
+            document.getElementById('goalTarget').innerText = goal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}); document.getElementById('goalCurrent').innerText = currentBalance.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(currentBalance < 0) { document.getElementById('goalCurrent').style.color = 'var(--danger)'; document.getElementById('goalBar').style.width = '0%'; document.getElementById('goalMessage').innerText = "Você está no vermelho!"; } 
+            else { document.getElementById('goalCurrent').style.color = 'var(--success)'; const pctGoal = (goal > 0) ? (currentBalance / goal) * 100 : 0; document.getElementById('goalBar').style.width = `${Math.min(pctGoal, 100)}%`; document.getElementById('goalMessage').innerText = goal > 0 && currentBalance >= goal ? "Meta atingida." : "Em progresso."; }
+            const debts = Debts.getData(); const essentialEl = document.getElementById('essentialList'); const loanEl = document.getElementById('loanList'); essentialEl.innerHTML = ''; loanEl.innerHTML = '';
+            const renderItem = (d, cssClass) => { const isPaid = d.lastPaid === currentMonthStr; return `<div class="transaction-item ${cssClass}" style="${isPaid ? 'opacity:0.6;' : ''}"><div><div style="font-weight:500;">${Security.sanitize(d.name)}</div><div style="font-size:0.7rem; color:var(--text-muted);">Vence dia ${d.dueDay}</div></div><div style="display:flex; gap:10px; align-items:center;"><div class="blur-sensitive" style="color:var(--text-main); font-weight:700;">${d.amount > 0 ? 'R$ '+d.amount : 'A definir'}</div>${isPaid ? `<span style="font-size:0.75rem; background:var(--success); color:white; padding:4px 8px; border-radius:4px; font-weight:700;">PAGO</span>` : `<button class="btn" style="padding:4px; color:var(--success);" onclick="Debts.pay(${d.id})"><i class="bi bi-check-lg"></i></button>`}<button class="btn" style="padding:4px; color:var(--danger);" onclick="Debts.remove(${d.id})"><i class="bi bi-trash"></i></button></div></div>`; };
+            const essentials = debts.filter(d => d.type === 'essential').sort((a,b) => a.dueDay - b.dueDay); essentials.forEach(d => essentialEl.innerHTML += renderItem(d, 'card-essential'));
+            const loans = debts.filter(d => d.type === 'loan').sort((a,b) => a.amount - b.amount); loans.forEach(d => loanEl.innerHTML += renderItem(d, 'card-loan'));
+        }
+
+        function renderIncome() {
+            const list = Income.getData(); const yearFilter = document.getElementById('incomeYearFilter'); const tbody = document.getElementById('incomeTableBody'); const chart = document.getElementById('incomeChart');
+            if(list.length === 0) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:20px; color:var(--text-muted)">Nenhuma renda cadastrada.</td></tr>'; chart.innerHTML = '<div style="width:100%; text-align:center; color:var(--text-muted); padding-top:100px;">Sem dados.</div>'; document.getElementById('yearTotalDisplay').innerText = 'R$ 0,00'; yearFilter.innerHTML = '<option>2025</option>'; return; }
+            const years = [...new Set(list.map(i => i.date.split('-')[0]))].sort().reverse(); const currentYear = years.includes('2025') ? '2025' : (years.length > 0 ? years[0] : new Date().getFullYear().toString());
+            if (yearFilter.options.length !== years.length) { yearFilter.innerHTML = ''; years.forEach(y => { const opt = document.createElement('option'); opt.value = y; opt.innerText = y; if(y === currentYear) opt.selected = true; yearFilter.appendChild(opt); }); } if(!yearFilter.value) yearFilter.value = currentYear;
+            const filtered = list.filter(i => i.date.startsWith(yearFilter.value)); document.getElementById('yearTotalDisplay').innerText = filtered.reduce((acc, item) => acc + item.net, 0).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            tbody.innerHTML = ''; filtered.forEach(i => { const d = i.date.split('-'); tbody.innerHTML += `<tr><td style="color:var(--text-main);">${d[2]}/${d[1]}</td><td>${Security.sanitize(i.company)}</td><td>${Security.sanitize(i.role)}</td><td class="blur-sensitive">${i.type}</td><td class="blur-sensitive">${i.gross.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td><td class="blur-sensitive" style="color:var(--success)">${i.net.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td><td>${i.status === 'Pendente' ? `<button class="btn" style="padding:2px 6px; font-size:0.7rem; background:var(--warning); color:black;" onclick="Income.markAsPaid(${i.id})">Receber</button>` : `<span class="badge-pago">${i.status}</span>`}</td><td><button class="btn" style="color:var(--danger); padding:0;" onclick="Income.remove(${i.id})"><i class="bi bi-trash"></i></button></td></tr>`; });
+            chart.innerHTML = ''; const chartData = [...filtered].sort((a,b) => new Date(a.date) - new Date(b.date)); if(chartData.length > 0) { const max = Math.max(...chartData.map(i => i.net)); chartData.forEach(i => { const h = max > 0 ? (i.net / max) * 100 : 0; const d = i.date.split('-'); chart.innerHTML += `<div class="chart-bar-group"><div class="chart-val-top blur-sensitive">${i.net.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div class="chart-bar" style="height:${h}%;"></div><div class="chart-label">${d[2]}/${d[1]}</div></div>`; }); } else { chart.innerHTML = '<div style="width:100%; text-align:center; color:var(--text-muted); padding-top:100px;">Sem dados.</div>'; }
+        }
+
+        function renderFinance() {
+            const list = Finance.getData(); const filter = document.getElementById('filterMonth').value; const search = document.getElementById('financeSearch').value.toLowerCase(); const el = document.getElementById('transactionList'); const catSummary = document.getElementById('categorySummary'); el.innerHTML = '';
+            let filtered = list; if(search) { filtered = list.filter(i => i.desc.toLowerCase().includes(search) || i.cat.toLowerCase().includes(search)); } else { filtered = list.filter(i => !filter || i.date.startsWith(filter)); }
+            if(filtered.length === 0) { el.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Nenhuma transação.</div>'; document.getElementById('finTotal').innerText = 'R$ 0,00'; catSummary.innerHTML = ''; return; }
+            const displayList = search ? filtered : filtered.slice(0, 50);
+            displayList.forEach(i => { const icon = getCategoryIcon(i.cat); el.innerHTML += `<div class="transaction-item"><div style="display:flex; align-items:center;"><div class="t-icon">${icon}</div><div><div style="font-weight:500; color:var(--text-main);">${Security.sanitize(i.desc)}</div><div style="font-size:0.7rem; color:var(--text-muted);">${i.cat} - ${i.date}</div></div></div><div class="blur-sensitive" style="color:var(--danger); font-family:'JetBrains Mono'; font-weight:700;">- ${i.amount.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div></div>`; });
+            document.getElementById('finTotal').innerText = filtered.reduce((a,b) => a + Number(b.amount), 0).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(!search) { const cats = {}; filtered.forEach(i => { cats[i.cat] = (cats[i.cat] || 0) + i.amount; }); const total = filtered.reduce((a,b) => a + Number(b.amount), 0); const sortedCats = Object.entries(cats).sort((a,b) => b[1] - a[1]).slice(0, 3); catSummary.innerHTML = sortedCats.map(c => { const pct = (c[1] / total) * 100; return `<div class="cat-bar-container"><div class="cat-bar-header"><span>${c[0]}</span><span>${pct.toFixed(0)}%</span></div><div class="cat-bar-fill" style="width:${pct}%"></div></div>`; }).join(''); } else catSummary.innerHTML = '';
+        }
+
+        function renderLogs() { const el = document.getElementById('logsTerminal'); const logs = Logger.getLogs(); if(logs.length === 0) { el.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px;">Vazio.</div>'; return; } el.innerHTML = logs.map(l => `<div style="padding:10px; background: rgba(0,0,0,0.2); border-left: 3px solid var(--primary); border-radius: 4px; margin-bottom: 5px;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="color:var(--primary); font-weight:bold;">[${l.action}]</span><span style="color:var(--text-muted); font-size:0.7rem;">${l.time}</span></div><div style="color:var(--text-main);">${Security.sanitize(l.desc)}</div><div style="color:var(--text-muted); font-size:0.7rem; margin-top:4px;">Usuário: ${l.user}</div></div>`).join(''); }
+        function openMonthlyReport() { const filter = document.getElementById('filterMonth').value; const exps = Finance.getData().filter(i => !filter || i.date.startsWith(filter)).sort((a,b) => new Date(b.date) - new Date(a.date)); const total = exps.reduce((a,b) => a + b.amount, 0); document.getElementById('reportSummary').innerHTML = `<div><div style="font-size:0.7rem; color:var(--text-muted)">Total Saídas</div><div style="font-weight:700; color:var(--danger)">${total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div></div><div><div style="font-size:0.7rem; color:var(--text-muted)">Transações</div><div style="font-weight:700;">${exps.length}</div></div>`; const tbody = document.getElementById('reportTableBody'); tbody.innerHTML = ''; if(exps.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted)">Sem movimentações.</td></tr>'; else exps.forEach(i => { const d = i.date.split('-'); tbody.innerHTML += `<tr><td style="color:var(--text-muted); font-family:'JetBrains Mono'">${d[2]}/${d[1]}</td><td>${getCategoryIcon(i.cat)}</td><td>${i.cat}</td><td style="font-weight:500;">${Security.sanitize(i.desc)}</td><td class="blur-sensitive" style="color:var(--danger); font-weight:700; font-family:'JetBrains Mono'">- ${i.amount.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td><td><button class="btn" style="background:transparent; color:var(--text-muted); padding:4px;" onclick="Finance.remove(${i.id})"><i class="bi bi-trash"></i></button></td></tr>`; }); document.getElementById('reportModal').style.display = 'flex'; }
+        function openNotifications() { document.getElementById('notifModal').style.display = 'flex'; }
+        function saveDebt() { const name = document.getElementById('dName').value; const amount = document.getElementById('dAmount').value; const type = document.getElementById('dType').value; if(!name || !amount) return alert('Preencha nome e valor.'); Debts.add(name, amount, type, document.getElementById('dDue').value, type === 'loan' ? { current: document.getElementById('dCurrInst').value, total: document.getElementById('dTotalInst').value } : null, document.getElementById('dInstValue').value); }
+        function openAddLoan() { document.getElementById('dType').value = 'loan'; toggleDebtFields(); document.getElementById('debtModal').style.display = 'flex'; }
+        function toggleDebtFields() { document.getElementById('loanFields').style.display = document.getElementById('dType').value === 'loan' ? 'block' : 'none'; }
+        function toggleAssetColor() {}
+        function getCategoryIcon(cat) { const map = { 'Aluguel': '🏠', 'Luz': '💡', 'Agua': '💧', 'Internet': '🌐', 'Vivo': '📱', 'Fralda': '👶', 'Gasolina': '⛽', 'Banco': '🏦', 'Mercado': '🛒', 'Compras na Internet': '🛍️' }; return map[cat] || '💸'; }
+        function switchView(v, el) { document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active-view')); document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active')); document.getElementById('view-'+v).classList.add('active-view'); if(el) el.classList.add('active'); if(v==='income') renderIncome(); if(v==='finance') renderFinance(); if(v==='logs') renderLogs(); if(v==='assets') Assets.render(); if(v==='strategy') { renderStrategy(); Debts.checkNotifications(); } if(window.innerWidth < 1100) toggleSidebar(); }
+        function toggleSidebar() { const s = document.getElementById('mainSidebar'); s.classList.toggle('open'); document.getElementById('sidebarOverlay').style.display = s.classList.contains('open') ? 'block' : 'none'; }
+        function openAddTransaction() { document.getElementById('transactionModal').style.display = 'flex'; }
+        function openAddIncome() { document.getElementById('incDate').value = new Date().toISOString().slice(0,10); document.getElementById('incomeModal').style.display = 'flex'; }
+        function openAddDebt() { document.getElementById('debtModal').style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function logout() { if(confirm('Sair?')) { sessionStorage.removeItem('integrux_session'); window.location.href = 'index.html'; } }
+        function saveTransaction() { Finance.add(document.getElementById('tDesc').value, document.getElementById('tAmount').value, document.getElementById('tCat').value); }
+
+        window.addEventListener("beforeunload", () => StorageManager.emergencySave());
+        window.onload = function() {
+            const session = JSON.parse(sessionStorage.getItem('integrux_session'));
+            if(session) { document.getElementById('userNameDisplay').innerText = session.name; document.getElementById('userRoleDisplay').innerText = session.role; document.getElementById('userAvatarLetter').innerText = session.initial; }
+            document.body.classList.add('privacy-mode');
+            const toggleBtn = document.getElementById('themeToggle'); const privacyBtn = document.getElementById('privacyToggle');
+            if (localStorage.getItem('integrux_theme') === 'light') document.body.classList.add('light-mode');
+            toggleBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); localStorage.setItem('integrux_theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); });
+            privacyBtn.addEventListener('click', () => { document.body.classList.toggle('privacy-mode'); });
+            document.getElementById('filterMonth').value = new Date().toISOString().slice(0, 7);
+            renderFinance(); Debts.checkNotifications(); Assistant.init(); Security.autoLock(); Tutorial.init();
+        };
+    </script>
+</body>
+</html>
