@@ -22,8 +22,9 @@
             --bg-body: #050505; --bg-panel: #0E0F11; --bg-card: #141619; --border-color: #2D333B;
             --primary: #2F81F7; --primary-glow: rgba(47, 129, 247, 0.4); --success: #238636;
             --danger: #F85149; --warning: #e3b341; --info: #a371f7;
-            /* Novas cores para Investimentos */
-            --invest-gold: #FFD700; --invest-growth: #00E676;
+            /* Cores Específicas Investimentos */
+            --invest-profit: #00E676; --invest-base: #2F81F7;
+            
             --text-main: #E6EDF3; --text-muted: #7D8590; --card-shadow: 0 4px 12px rgba(0,0,0,0.2);
             --input-bg: #0d1117; --logo-fill: #FFFFFF; --nav-hover: rgba(255, 255, 255, 0.03);
             --nav-active-bg: rgba(47, 129, 247, 0.1); --blur-strength: 6px; --modal-bg: rgba(20, 22, 25, 0.98);
@@ -32,7 +33,8 @@
             --bg-body: #f0f2f5; --bg-panel: #ffffff; --bg-card: #ffffff; --border-color: #d1d5db;
             --primary: #2563eb; --primary-glow: rgba(37, 99, 235, 0.2); --success: #16a34a;
             --danger: #dc2626; --warning: #d97706; --info: #7c3aed;
-            --invest-gold: #D4AF37; --invest-growth: #10B981;
+            --invest-profit: #10B981; --invest-base: #2563eb;
+
             --text-main: #1e293b; --text-muted: #64748b; --card-shadow: 0 4px 15px rgba(0,0,0,0.05);
             --input-bg: #f8fafc; --logo-fill: #1e293b; --nav-hover: rgba(0, 0, 0, 0.05);
             --nav-active-bg: rgba(37, 99, 235, 0.1); --modal-bg: rgba(255, 255, 255, 0.98);
@@ -41,13 +43,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-body); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; font-size: 15px; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* Loader Pull-to-refresh */
         #ptr-loader { position: fixed; top: -60px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 50%; z-index: 999; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         #ptr-spinner { width: 20px; height: 20px; border: 2px solid rgba(47, 129, 247, 0.3); border-top: 2px solid var(--primary); border-radius: 50%; }
         .ptr-spinning { animation: ptr-spin 0.8s linear infinite; }
         @keyframes ptr-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Sidebar & Brand */
         aside { width: 260px; background-color: var(--bg-panel); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 25px 15px 15px 15px; padding-top: 40px; position: fixed; height: 100vh; z-index: 100; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 35px; padding-left: 10px; cursor: pointer; }
         .brand-text { font-size: 1.3rem; font-weight: 800; letter-spacing: 1.5px; color: var(--text-main); font-family: 'Inter', sans-serif; }
@@ -60,7 +60,6 @@
         .btn-logout { margin-top: auto; color: var(--danger); padding: 10px 14px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; }
         .btn-logout:hover { background: rgba(248, 81, 73, 0.1); }
 
-        /* Main Content */
         main { margin-left: 260px; flex: 1; padding: 30px 40px; width: 100%; padding-top: 50px; transition: transform 0.2s; }
         
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; flex-wrap: wrap; }
@@ -84,7 +83,6 @@
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
         
-        /* ESTILO GERAL DOS CARDS */
         .card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 18px; border-radius: 12px; position: relative; transition: transform 0.2s, box-shadow 0.3s, border-color 0.3s; box-shadow: var(--card-shadow); overflow: hidden; }
         .card:hover { border-color: var(--primary); transform: translateY(-2px); }
         .card-val { font-size: 1.6rem; font-weight: 700; font-family: 'JetBrains Mono'; color: var(--text-main); margin: 8px 0; }
@@ -179,13 +177,24 @@
         .cmd-input { flex: 1; background: transparent; border: none; color: var(--text-main); font-family: 'JetBrains Mono'; outline: none; font-size: 0.9rem; }
 
         #tutorialBubble {
-            position: fixed; bottom: 30px; right: 30px; width: 340px;
-            background: var(--bg-card); border: 1px solid var(--primary);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); border-radius: 16px;
-            z-index: 9999; padding: 20px; display: none;
-            flex-direction: column; animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 340px;
+            background: var(--bg-card);
+            border: 1px solid var(--primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-radius: 16px;
+            z-index: 9999;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
         
         .tutorial-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .tutorial-header h2 { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
@@ -210,36 +219,40 @@
             #tutorialBubble { bottom: 20px; right: 20px; left: 20px; width: auto; max-width: none; }
         }
 
-        /* ESTILOS PARA ABA DE INVESTIMENTOS */
-        .invest-summary-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;
-        }
-        .card-invest {
-            border-left: 4px solid var(--invest-growth);
-        }
-        .card-reserve {
-            border-left: 4px solid var(--invest-gold);
-        }
-        .calc-box {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-color);
-            padding: 15px; border-radius: 10px; margin-bottom: 15px;
-        }
-        .result-box {
-            background: var(--nav-active-bg);
-            padding: 15px; border-radius: 10px; text-align: center;
-            border: 1px solid var(--primary); margin-top: 15px;
-        }
-        .result-val {
-            font-size: 1.5rem; font-weight: 700; color: var(--primary); font-family: 'JetBrains Mono'; margin: 5px 0;
-        }
-        .goal-card-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;
-        }
+        /* SIMULATOR STYLES */
+        .simulator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .sim-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 16px; box-shadow: var(--card-shadow); }
+        .sim-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        
+        .sim-input-group { margin-bottom: 20px; }
+        .sim-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }
+        .sim-value { font-weight: 700; color: var(--primary); font-family: 'JetBrains Mono'; }
+        
+        .range-slider { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; }
+        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; border: 2px solid var(--bg-card); box-shadow: 0 0 10px var(--primary-glow); }
+        
+        .sim-result-area { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .sim-total-label { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
+        .sim-total-val { font-size: 2rem; font-weight: 800; color: var(--success); font-family: 'JetBrains Mono'; text-shadow: 0 0 20px rgba(35, 134, 54, 0.2); }
+        
+        .sim-chart-bar { height: 12px; width: 100%; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; margin-top: 15px; display: flex; }
+        .bar-principal { height: 100%; background: var(--primary); width: 50%; transition: width 0.3s; }
+        .bar-interest { height: 100%; background: var(--invest-profit); width: 50%; transition: width 0.3s; }
+        
+        .sim-legend { display: flex; justify-content: center; gap: 20px; margin-top: 10px; font-size: 0.75rem; color: var(--text-muted); }
+        .legend-dot-p { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+        .legend-dot-i { width: 8px; height: 8px; border-radius: 50%; background: var(--invest-profit); }
+
+        .invest-list-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; transition: transform 0.2s; }
+        .invest-list-item:hover { transform: translateX(5px); border-color: var(--primary); }
+        .inv-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(47, 129, 247, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem; margin-right: 15px; }
+        .inv-info h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
+        .inv-info p { font-size: 0.75rem; color: var(--text-muted); }
+        .inv-val { text-align: right; }
+        .inv-val h4 { font-size: 1rem; font-weight: 700; color: var(--text-main); font-family: 'JetBrains Mono'; }
+        .inv-type-badge { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: var(--text-muted); display: inline-block; margin-top: 4px; }
     </style>
 </head>
-<body>
-    </head>
 <body>
     
     <div id="tutorialBubble">
@@ -258,7 +271,7 @@
         <nav class="nav-menu">
             <div class="nav-item active" onclick="switchView('finance', this)"><i class="bi bi-cash-coin"></i>Gestão de gastos</div>
             <div class="nav-item" onclick="switchView('income', this)"><i class="bi bi-graph-up-arrow"></i>Minha renda</div>
-            <div class="nav-item" onclick="switchView('investments', this)"><i class="bi bi-piggy-bank"></i>Investimentos</div>
+            <div class="nav-item" onclick="switchView('invest', this)"><i class="bi bi-graph-up"></i>Investimentos</div>
             
             <div class="nav-item" onclick="switchView('assets', this)"><i class="bi bi-bank"></i>Patrimônio e dívidas</div>
             <div class="nav-item" onclick="switchView('strategy', this)"><i class="bi bi-clipboard-data"></i>Estratégia e metas</div>
@@ -271,8 +284,8 @@
     <main id="mainContent">
         <header>
             <div class="header-left">
-                <h1>Painel Financeiro</h1>
-                <p class="bio-quote">"O controle é a base da liberdade."</p>
+                <h1>Controle geral de finanças</h1>
+                <p class="bio-quote">"Registre saídas e renda, controle seus empréstimos e financiamentos. Tudo isso e muito mais!"</p>
             </div>
             <div class="header-right">
                 <div class="header-actions">
@@ -296,7 +309,7 @@
                 <div class="user-badge">
                     <div class="user-info-text" style="text-align: right; margin-right: 10px;">
                         <div id="userNameDisplay" style="font-size: 0.85rem; font-weight: 700;">Usuário</div>
-                        <div id="userRoleDisplay" style="font-size: 0.7rem; color: var(--primary);">Cargo</div>
+                        <div id="userRoleDisplay" style="font-size: 0.7rem; color: var(--primary);"></div>
                     </div>
                     <div id="userAvatarLetter" class="avatar-circle">A</div>
                 </div>
@@ -316,12 +329,10 @@
                     <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;"><i class="bi bi-plus-lg" style="margin-right: 5px;"></i>Adicione nova despesa</div>
                 </div>
             </div>
-            
             <div class="card" style="margin-bottom: 20px; padding: 15px;">
                 <div style="font-size:0.85rem; margin-bottom:10px; color:var(--text-main); font-weight:600;">Ranking de categorias do mês</div>
                 <div id="categorySummary"></div>
             </div>
-
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3>Últimas transações</h3>
                 <input type="month" id="filterMonth" class="select-filter" onchange="renderFinance()">
@@ -359,88 +370,84 @@
             </div>
         </section>
 
-        <section id="view-investments" class="view-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="margin: 0;">Carteira Inteligente</h3>
-                <button class="btn btn-primary" onclick="Invest.openAddModal()"><i class="bi bi-plus-lg"></i> Novo Aporte</button>
-            </div>
-
-            <div class="invest-summary-grid">
-                <div class="card card-reserve">
-                    <div class="card-label">Reserva de Emergência</div>
-                    <div class="card-val blur-sensitive" style="color: var(--invest-gold)" id="valReserve">R$ 0,00</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px;">Meta: <span id="metaReserveText">0</span> meses de custo</div>
-                    <div class="progress-container"><div class="progress-bar" id="barReserve" style="width: 0%; background-color: var(--invest-gold);"></div></div>
-                </div>
-                <div class="card card-invest">
-                    <div class="card-label">Total Investido</div>
-                    <div class="card-val blur-sensitive" style="color: var(--invest-growth)" id="valInvestTotal">R$ 0,00</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);"><i class="bi bi-graph-up"></i> Patrimônio acumulado</div>
-                </div>
-            </div>
-
-            <h3 style="margin: 30px 0 15px 0;">Simuladores</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                
-                <div class="calc-box">
-                    <h4 style="color: var(--text-main); margin-bottom: 10px;"><i class="bi bi-calculator"></i> Projeção de Riqueza</h4>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
-                        <input type="number" id="calcInitial" class="input-dark" placeholder="Inicial (R$)" style="height:35px;">
-                        <input type="number" id="calcMonthly" class="input-dark" placeholder="Mensal (R$)" style="height:35px;">
+        <section id="view-invest" class="view-section">
+            <div class="simulator-grid">
+                <div class="sim-card">
+                    <div class="sim-title"><i class="bi bi-calculator-fill" style="color:var(--primary)"></i> Simulador de Riqueza</div>
+                    
+                    <div class="sim-input-group">
+                        <div class="sim-label"><span>Aporte Inicial</span><span class="sim-value" id="dispInitial">R$ 1.000</span></div>
+                        <input type="range" class="range-slider" min="0" max="50000" step="100" value="1000" id="simInitial" oninput="Invest.updateSim()">
                     </div>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <input type="number" id="calcRate" class="input-dark" placeholder="Taxa Anual (%)" style="height:35px;">
-                        <input type="number" id="calcYears" class="input-dark" placeholder="Anos" style="height:35px;">
+                    
+                    <div class="sim-input-group">
+                        <div class="sim-label"><span>Aporte Mensal</span><span class="sim-value" id="dispMonthly">R$ 500</span></div>
+                        <input type="range" class="range-slider" min="0" max="10000" step="50" value="500" id="simMonthly" oninput="Invest.updateSim()">
                     </div>
-                    <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="Invest.simulateCompound()">Simular</button>
-                    <div id="simResult" class="result-box" style="display:none;">
-                        <div style="font-size:0.8rem; color:var(--text-muted);">Em <span id="resYears"></span> anos você terá:</div>
-                        <div class="result-val blur-sensitive" id="resFinal">R$ 0,00</div>
-                        <div style="font-size:0.7rem; color:var(--text-muted);">Total investido: <span id="resPrincipal"></span></div>
-                    </div>
-                </div>
 
-                <div class="calc-box">
-                    <h4 style="color: var(--text-main); margin-bottom: 10px;"><i class="bi bi-trophy"></i> Liberdade Financeira</h4>
-                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Quanto preciso para viver de renda?</p>
-                    <input type="number" id="calcCost" class="input-dark" placeholder="Seu custo de vida mensal (R$)" style="margin-bottom:10px;">
-                    <button class="btn btn-info" style="width:100%;" onclick="Invest.simulateFreedom()">Calcular Meta</button>
-                    <div id="freedomResult" class="result-box" style="display:none; border-color: var(--info);">
-                        <div style="font-size:0.8rem; color:var(--text-muted);">Você precisa acumular:</div>
-                        <div class="result-val blur-sensitive" id="resFreedom" style="color: var(--info);">R$ 0,00</div>
-                        <div style="font-size:0.7rem; color:var(--text-muted);">Considerando regra segura dos 4% (ou 300x)</div>
+                    <div class="sim-input-group">
+                        <div class="sim-label"><span>Taxa Anual (%)</span><span class="sim-value" id="dispRate">12%</span></div>
+                        <input type="range" class="range-slider" min="1" max="20" step="0.5" value="12" id="simRate" oninput="Invest.updateSim()">
+                    </div>
+
+                    <div class="sim-input-group">
+                        <div class="sim-label"><span>Tempo (Anos)</span><span class="sim-value" id="dispYears">10 Anos</span></div>
+                        <input type="range" class="range-slider" min="1" max="50" step="1" value="10" id="simYears" oninput="Invest.updateSim()">
+                    </div>
+
+                    <div class="sim-result-area">
+                        <div class="sim-total-label">Total Acumulado</div>
+                        <div class="sim-total-val" id="simFinalResult">R$ 0,00</div>
+                        
+                        <div class="sim-chart-bar">
+                            <div class="bar-principal" id="barPrincipal" style="width: 50%"></div>
+                            <div class="bar-interest" id="barInterest" style="width: 50%"></div>
+                        </div>
+                        <div class="sim-legend">
+                            <div style="display:flex; align-items:center; gap:5px;"><div class="legend-dot-p"></div>Seu Dinheiro</div>
+                            <div style="display:flex; align-items:center; gap:5px;"><div class="legend-dot-i"></div>Juros (Lucro)</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
-                <h3>Meus Ativos</h3>
-                <div style="font-size:0.8rem; color:var(--text-muted);">Lista detalhada</div>
+                <div class="sim-card">
+                    <div class="sim-title" style="justify-content:space-between;">
+                        <span><i class="bi bi-wallet2" style="color:var(--invest-profit)"></i> Minha Carteira</span>
+                        <button class="btn btn-primary" onclick="Invest.openAddModal()" style="font-size:0.75rem; padding: 4px 12px;">+ Novo</button>
+                    </div>
+                    
+                    <div style="margin-bottom:20px;">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Patrimônio Total Investido</div>
+                        <div class="card-val blur-sensitive" style="color:var(--text-main);" id="totalInvestedDisplay">R$ 0,00</div>
+                    </div>
+
+                    <div id="investmentsList" style="max-height: 400px; overflow-y: auto;">
+                        </div>
+                </div>
             </div>
-            <div class="transaction-list" id="investList"></div>
         </section>
 
         <section id="view-assets" class="view-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="margin: 0;">Gestão de Patrimônio</h3>
-                <button class="btn btn-primary" onclick="openAddAsset()"><i class="bi bi-plus-lg"></i> Novo ativo</button>
+                <h3 style="margin: 0;">Gerenciamento de ativos de longo prazo</h3>
+                <button class="btn btn-primary" onclick="openAddAsset()"><i class="bi bi-plus"></i>Novo ativo</button>
             </div>
             <div class="stats-grid" id="assetsContainer"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
-                <h3>Objetivos Financeiros</h3>
-                <button class="btn btn-info" onclick="openAddBigGoal()"><i class="bi bi-plus-lg"></i> Nova meta</button>
+                <h3>Planejamentos e metas</h3>
+                <button class="btn btn-info" onclick="openAddBigGoal()"><i class="bi bi-plus"></i>Nova meta</button>
             </div>
             <div class="stats-grid" id="bigGoalsContainer"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
-                <h3>Compromissos & Financiamentos</h3>
-                <button class="btn btn-warning" onclick="openAddLoan()"><i class="bi bi-plus-lg"></i> Empréstimo</button>
+                <h3>Monitor de empréstimos</h3>
+                <button class="btn btn-warning" onclick="openAddLoan()"><i class="bi bi-plus"></i>Empréstimo</button>
             </div>
             <div class="stats-grid" id="loanCardsContainer"></div>
         </section>
 
         <section id="view-strategy" class="view-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3>Resultados (Sair do vermelho)</h3>
+                <h3>Gerenciamento de metas e contas</h3>
                 <button class="btn btn-warning" onclick="openAddDebt()"><i class="bi bi-plus"></i>Nova conta</button>
             </div>
             <div class="card card-goal" style="margin-bottom: 25px;">
@@ -454,7 +461,7 @@
                         <div class="blur-sensitive" id="goalTarget" style="font-size: 1.1rem; font-weight: 700;">R$ 0,00</div>
                     </div>
                     <div style="text-align: right;">
-                         <div style="font-size: 0.8rem; color: var(--text-muted);">Projeção atual:</div>
+                         <div style="font-size: 0.8rem; color: var(--text-muted);">Projeção do salário atual:</div>
                          <div class="blur-sensitive" id="goalCurrent" style="font-size: 1.1rem; font-weight: 700;">R$ 0,00</div>
                     </div>
                 </div>
@@ -488,11 +495,13 @@
 
         <section id="view-tools" class="view-section">
             <h3>Terminal de pagamentos</h3>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Digite <strong>fixo [bruto]</strong> para definir o salário, ou <strong>help</strong> para iniciar os pagamentos.</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Digite <strong>fixo [bruto]</strong> para definir o salário fixo mensal e, ou <strong>help</strong> para iniciar os pagamentos caso já tenha definido um salário.</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Além disso, você pode adicionar contas por aqui, basta digitar <strong>add [ID]</strong>, ou seja, se utilizar "add Luz", irá gerar o ID Luz para fazer os pagamentos!</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Lembrando que as contas (ID), poderão ser adicionadas pela aba Estratégia e Metas / Adicionar uma nova conta</p>
             <div class="card" style="padding: 10px;">
                 <div style="display:flex; gap:10px;">
                     <input type="text" inputmode="decimal" id="assistGross" class="input-dark" placeholder="Simular Bruto (Ex: 3000)">
-                    <button class="btn btn-primary" onclick="Assistant.analyze()">Simular</button>
+                    <button class="btn btn-primary" onclick="Assistant.analyze()">Simular valor com desconto</button>
                 </div>
             </div>
             <div class="terminal-container">
@@ -506,7 +515,7 @@
 
         <section id="view-logs" class="view-section">
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; flex-wrap: wrap; gap:10px;">
-                <h3>Auditoria & backup</h3>
+                <h3>Restauração e logs</h3>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-primary" onclick="System.backup()"><i class="bi bi-download"></i>Backup JSON</button>
                     <input type="file" id="restoreFile" style="display:none;" onchange="System.restore(this)">
@@ -535,26 +544,26 @@
             </div>
         </div>
     </div>
-
+    
     <div class="modal-overlay" id="investAddModal">
         <div class="modal">
             <div class="modal-header"><h3>Novo Investimento</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('investAddModal')"><i class="bi bi-x-lg"></i></button></div>
             <div class="modal-body">
-                <label style="color:var(--text-muted); font-size:0.8rem;">Nome</label><input type="text" id="invName" class="input-dark" placeholder="Ex: CDB Nubank, Tesouro Selic">
-                <div style="margin-top:10px;">
+                <label style="color:var(--text-muted); font-size:0.8rem;">Nome do Ativo</label><input type="text" id="invName" class="input-dark" placeholder="Ex: CDB Nubank, Tesouro Selic">
+                <div style="margin-top:15px;">
                     <label style="color:var(--text-muted); font-size:0.8rem;">Tipo</label>
                     <select id="invType" class="input-dark">
-                        <option value="Reserva">Reserva de Emergência</option>
                         <option value="Renda Fixa">Renda Fixa (CDB, Tesouro)</option>
                         <option value="Ações">Ações / FIIs</option>
                         <option value="Cripto">Criptomoedas</option>
+                        <option value="Reserva">Reserva de Emergência</option>
                     </select>
                 </div>
-                <div style="margin-top:10px;">
-                    <label style="color:var(--text-muted); font-size:0.8rem;">Valor Aportado (R$)</label>
+                <div style="margin-top:15px;">
+                    <label style="color:var(--text-muted); font-size:0.8rem;">Valor Atual (R$)</label>
                     <input type="text" inputmode="decimal" id="invAmount" class="input-dark" placeholder="0,00">
                 </div>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 25px;" onclick="Invest.add()">Salvar Investimento</button>
+                <button class="btn btn-success" style="width: 100%; margin-top: 25px;" onclick="Invest.add()">Salvar na Carteira</button>
             </div>
         </div>
     </div>
@@ -565,15 +574,15 @@
             <div class="modal-body">
                 <label style="color:var(--text-muted); font-size:0.8rem;">Tipo de conta</label>
                 <select id="dType" class="input-dark" style="margin-bottom:15px;" onchange="toggleDebtFields()">
-                    <option value="essential">🚨 Conta essencial</option>
-                    <option value="loan">🏦 Empréstimo / Consignado</option>
+                    <option value="essential">Conta essencial (Aluguel, Luz...)</option>
+                    <option value="loan">Empréstimo / Consignado</option>
                 </select>
                 <label style="color:var(--text-muted); font-size:0.8rem;">Nome da conta (ID)</label>
-                <input type="text" id="dName" class="input-dark" placeholder="Ex: Luz, Internet">
+                <input type="text" id="dName" class="input-dark" placeholder="Ex: Luz, Internet, Banco X">
                 <div style="font-size:0.7rem; color:var(--warning); margin-bottom:10px;">*Este nome será usado como ID no terminal.</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
                     <div><label style="color:var(--text-muted); font-size:0.8rem;">Saldo devedor</label><input type="text" inputmode="decimal" id="dAmount" class="input-dark" placeholder="0,00"></div>
-                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Vencimento</label><input type="number" id="dDue" class="input-dark" placeholder="Dia"></div>
+                    <div><label style="color:var(--text-muted); font-size:0.8rem;">Vencimento</label><input type="number" id="dDue" class="input-dark" placeholder="Dia (1-31)"></div>
                 </div>
                 <div id="loanFields" style="display:none; margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
                     <label style="color:var(--info); font-size:0.8rem; font-weight:700;">Valor da parcela (mensal)</label>
@@ -594,7 +603,7 @@
             <div class="modal-body">
                 <label style="color:var(--text-muted); font-size:0.8rem;">Nome do ativo</label><input type="text" id="assetName" class="input-dark" placeholder="Ex: Moto, Carro">
                 <label style="color:var(--text-muted); font-size:0.8rem; margin-top:10px; display:block;">Tipo</label>
-                <select id="assetType" class="input-dark" onchange="toggleAssetColor()"><option value="payable">A pagar (Passivo)</option><option value="receivable">A receber (Ativo)</option></select>
+                <select id="assetType" class="input-dark" onchange="toggleAssetColor()"><option value="payable">Pagamento em andamento</option><option value="receivable">Recebimento em andamento</option></select>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                     <div><label style="color:var(--text-muted); font-size:0.8rem;">Parcela atual</label><input type="number" id="assetCurrent" class="input-dark" value="0"></div>
                     <div><label style="color:var(--text-muted); font-size:0.8rem;">Total parcelas</label><input type="number" id="assetTotal" class="input-dark" placeholder="60"></div>
@@ -609,12 +618,12 @@
 
     <div class="modal-overlay" id="assetManageModal">
         <div class="modal">
-            <div class="modal-header"><h3 id="assetManageTitle">Gerenciar ativo</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('assetManageModal')"><i class="bi bi-x-lg"></i></button></div>
+            <div class="modal-header"><h3 id="assetManageTitle">Clique aqui para gerenciar!</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('assetManageModal')"><i class="bi bi-x-lg"></i></button></div>
             <div class="modal-body">
                 <p style="color:var(--text-muted); margin-bottom:20px; text-align:center;">Selecione a ação para este ativo.</p>
                 <div style="display:flex; flex-direction:column; gap:10px;">
                     <button id="btnAssetPay" class="btn btn-primary" style="height:50px;">Realizar pagamento / recebimento</button>
-                    <button id="btnAssetUndo" class="btn btn-danger" style="height:50px; background:rgba(248,81,73,0.15); border:1px solid var(--danger);">⚠️ Corrigir último</button>
+                    <button id="btnAssetUndo" class="btn btn-danger" style="height:50px; background:rgba(248,81,73,0.15); border:1px solid var(--danger);">Corrigir parcela anterior</button>
                 </div>
             </div>
         </div>
@@ -649,7 +658,7 @@
             <div class="modal-body">
                 <div style="text-align:center; margin-bottom:20px; color:var(--text-muted);">O que deseja fazer com esta conta?</div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <button class="btn btn-info" onclick="Debts.markAsRead()">Marcar lida</button>
+                    <button class="btn btn-info" onclick="Debts.markAsRead()">Marcar como lida</button>
                     <button class="btn btn-danger" onclick="Debts.deleteFromAction()">Excluir</button>
                 </div>
             </div>
@@ -698,6 +707,7 @@
             </div>
         </div>
     </div>
+
     <script>
         const APP_VERSION = 'v2.1_Official_Invest';
         const Security = {
@@ -747,7 +757,7 @@
                     case 0: html = `<div class="tutorial-header"><h2><i class="bi bi-robot"></i> Bem-vindo</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Olá! Vou te mostrar como controlar suas finanças.</p>`; break;
                     case 1: viewToSwitch = 'finance'; html = `<div class="tutorial-header"><h2><i class="bi bi-cash-coin"></i> Gestão de Gastos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Tela principal para registrar despesas.</p>`; break;
                     case 2: viewToSwitch = 'income'; html = `<div class="tutorial-header"><h2><i class="bi bi-graph-up-arrow"></i> Minha Renda</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Gerencie seus ganhos mensais aqui.</p>`; break;
-                    case 3: viewToSwitch = 'investments'; html = `<div class="tutorial-header"><h2><i class="bi bi-piggy-bank"></i> Investimentos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Nova aba! Controle sua Reserva de Emergência, simule juros compostos e calcule sua liberdade financeira.</p>`; break;
+                    case 3: viewToSwitch = 'invest'; html = `<div class="tutorial-header"><h2><i class="bi bi-graph-up"></i> Investimentos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Simule o futuro do seu dinheiro e controle seus ativos.</p>`; break;
                     case 4: viewToSwitch = 'assets'; html = `<div class="tutorial-header"><h2><i class="bi bi-bank"></i> Patrimônio</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Controle bens (carros, casas), metas de longo prazo e empréstimos.</p>`; break;
                     case 5: viewToSwitch = 'strategy'; html = `<div class="tutorial-header"><h2><i class="bi bi-clipboard-data"></i> Estratégia</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Defina metas de sobra e organize contas essenciais.</p>`; break;
                     case 6: viewToSwitch = 'tools'; html = `<div class="tutorial-header"><h2><i class="bi bi-terminal"></i> Terminal</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Use comandos inteligentes como "fixo [valor]" para definir salário.</p>`; break;
@@ -768,55 +778,41 @@
             save: (data) => { StorageManager.save('integrux_investments', data); Invest.render(); },
             add: () => {
                 const name = document.getElementById('invName').value; const type = document.getElementById('invType').value; const amount = parseMoneyInput(document.getElementById('invAmount').value);
-                if (!name || amount <= 0) return alert('Preencha os dados.');
-                const list = Invest.getData(); list.push({ id: Date.now(), name, type, amount, date: new Date().toLocaleDateString('pt-BR') });
-                Invest.save(list); closeModal('investAddModal'); Logger.log('Novo Investimento', `${name} - R$ ${amount}`);
+                if(!name || amount <= 0) return alert('Inválido.');
+                const data = Invest.getData(); data.push({ id: Date.now(), name, type, amount, date: new Date().toLocaleDateString('pt-BR') });
+                Invest.save(data); closeModal('investAddModal'); Logger.log('Investimento', `${name} - ${amount}`);
             },
-            remove: (id) => { if(confirm('Remover investimento?')) Invest.save(Invest.getData().filter(i => i.id !== id)); },
+            remove: (id) => { if(confirm('Remover?')) Invest.save(Invest.getData().filter(i => i.id !== id)); },
             render: () => {
-                const list = Invest.getData(); const el = document.getElementById('investList'); el.innerHTML = '';
-                let total = 0; let reserve = 0;
-                list.forEach(i => {
-                    total += i.amount; if(i.type === 'Reserva') reserve += i.amount;
-                    el.innerHTML += `<div class="transaction-item"><div><div style="font-weight:500;">${Security.sanitize(i.name)}</div><div style="font-size:0.7rem; color:var(--text-muted);">${i.type} - ${i.date}</div></div><div style="display:flex; gap:10px;"><span style="color:var(--invest-growth); font-weight:700;">+ R$ ${i.amount.toLocaleString('pt-BR')}</span><button class="btn" style="padding:0; color:var(--danger);" onclick="Invest.remove(${i.id})"><i class="bi bi-trash"></i></button></div></div>`;
-                });
-                document.getElementById('valInvestTotal').innerText = total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                document.getElementById('valReserve').innerText = reserve.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                
-                // Cálculo da meta de reserva (6 meses de custo fixo estimado)
-                const fixedSalary = parseFloat(localStorage.getItem('integrux_fixed_salary')) || 0;
-                // Estimando custo como 80% do salário líquido se não houver dados, ou baseado no gasto médio
-                const estimatedCost = fixedSalary * 0.8; 
-                const goalReserve = estimatedCost * 6; 
-                document.getElementById('metaReserveText').innerText = "6";
-                const pct = goalReserve > 0 ? (reserve / goalReserve) * 100 : 0;
-                document.getElementById('barReserve').style.width = `${Math.min(pct, 100)}%`;
+                const list = Invest.getData(); const el = document.getElementById('investmentsList'); el.innerHTML = '';
+                let total = 0; list.forEach(i => { total += i.amount; el.innerHTML += `<div class="invest-list-item"><div class="inv-info"><h4>${Security.sanitize(i.name)}</h4><p>${i.type} • ${i.date}</p></div><div class="inv-val"><h4>R$ ${i.amount.toLocaleString('pt-BR')}</h4><button class="btn" style="padding:2px; color:var(--danger);" onclick="Invest.remove(${i.id})"><i class="bi bi-trash"></i></button></div></div>`; });
+                document.getElementById('totalInvestedDisplay').innerText = total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
             },
-            simulateCompound: () => {
-                const init = parseFloat(document.getElementById('calcInitial').value) || 0;
-                const month = parseFloat(document.getElementById('calcMonthly').value) || 0;
-                const rate = parseFloat(document.getElementById('calcRate').value) || 0;
-                const years = parseFloat(document.getElementById('calcYears').value) || 0;
-                if(years <= 0) return alert('Defina o tempo em anos.');
+            openAddModal: () => document.getElementById('investAddModal').style.display = 'flex',
+            updateSim: () => {
+                const init = parseFloat(document.getElementById('simInitial').value);
+                const monthly = parseFloat(document.getElementById('simMonthly').value);
+                const rate = parseFloat(document.getElementById('simRate').value);
+                const years = parseFloat(document.getElementById('simYears').value);
                 
+                document.getElementById('dispInitial').innerText = init.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                document.getElementById('dispMonthly').innerText = monthly.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                document.getElementById('dispRate').innerText = rate + '%';
+                document.getElementById('dispYears').innerText = years + ' Anos';
+
                 const r = rate / 100 / 12; const n = years * 12;
-                const fv = init * Math.pow((1 + r), n) + (month * (Math.pow((1 + r), n) - 1)) / r;
-                const totalInv = init + (month * n);
+                const fv = init * Math.pow((1 + r), n) + (monthly * (Math.pow((1 + r), n) - 1)) / r;
+                const totalInvested = init + (monthly * n);
+                const interest = fv - totalInvested;
                 
-                document.getElementById('resYears').innerText = years;
-                document.getElementById('resFinal').innerText = fv.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                document.getElementById('resPrincipal').innerText = totalInv.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                document.getElementById('simResult').style.display = 'block';
-            },
-            simulateFreedom: () => {
-                const cost = parseFloat(document.getElementById('calcCost').value) || 0;
-                if(cost <= 0) return;
-                // Regra dos 300 (Custo mensal * 300 = Montante para retirar 4% ao ano)
-                const meta = cost * 300;
-                document.getElementById('resFreedom').innerText = meta.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                document.getElementById('freedomResult').style.display = 'block';
-            },
-            openAddModal: () => document.getElementById('investAddModal').style.display = 'flex'
+                document.getElementById('simFinalResult').innerText = fv.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+                
+                const pctPrincipal = (totalInvested / fv) * 100;
+                const pctInterest = 100 - pctPrincipal;
+                
+                document.getElementById('barPrincipal').style.width = pctPrincipal + '%';
+                document.getElementById('barInterest').style.width = pctInterest + '%';
+            }
         };
 
         const Logger = {
@@ -905,7 +901,7 @@
                 const gross = parseMoneyInput(document.getElementById('assistGross').value); if(gross <= 0) return Assistant.print('Erro: Salário inválido.', 'err');
                 const inss = Assistant.calculateINSS(gross); const net = gross - inss; Assistant.currentNet = net;
                 Assistant.print('=== SIMULAÇÃO SALARIAL ===', 'sys'); Assistant.print(`Bruto: ${gross.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`); Assistant.print(`INSS: -${inss.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`, 'warn'); Assistant.print(`LÍQUIDO (Simulado): ${net.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`, 'success');
-                const loans = Debts.getData().filter(d => d.type === 'loan'); if (loans.length > 0) { Assistant.pendingSalaryData = { gross, inss, partialNet: net }; Assistant.print(`Detectei ${loans.length} empréstimos. Deseja descontar eles (CLT)? [s/n]`, 'sys'); } else { localStorage.setItem('integrux_fixed_salary', net); Assistant.currentNet = net; renderStrategy(); Assistant.print('Salvo como salário fixo!', 'success'); }
+                const loans = Debts.getData().filter(d => d.type === 'loan'); if (loans.length > 0) { Assistant.pendingSalaryData = { gross, inss, partialNet: net }; Assistant.print(`Detectei ${loans.length} empréstimos. Descontar (CLT)? [s/n]`, 'sys'); } else { localStorage.setItem('integrux_fixed_salary', net); Assistant.currentNet = net; renderStrategy(); Assistant.print('Salvo como salário fixo!', 'success'); }
             },
             handleCommand: (cmd) => {
                 if(!cmd.trim()) return; const lowerCmd = cmd.toLowerCase().trim();
@@ -1039,7 +1035,7 @@
         function toggleDebtFields() { document.getElementById('loanFields').style.display = document.getElementById('dType').value === 'loan' ? 'block' : 'none'; }
         function toggleAssetColor() {}
         function getCategoryIcon(cat) { const map = { 'Aluguel': '🏠', 'Luz': '💡', 'Agua': '💧', 'Internet': '🌐', 'Vivo': '📱', 'Fralda': '👶', 'Gasolina': '⛽', 'Banco': '🏦', 'Mercado': '🛒', 'Compras na Internet': '🛍️' }; return map[cat] || '💸'; }
-        function switchView(v, el) { document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active-view')); document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active')); document.getElementById('view-'+v).classList.add('active-view'); if(el) el.classList.add('active'); if(v==='income') renderIncome(); if(v==='finance') renderFinance(); if(v==='logs') renderLogs(); if(v==='assets') Assets.render(); if(v==='strategy') { renderStrategy(); Debts.checkNotifications(); } if(v==='investments') Invest.render(); if(window.innerWidth < 1100) toggleSidebar(); }
+        function switchView(v, el) { document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active-view')); document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active')); document.getElementById('view-'+v).classList.add('active-view'); if(el) el.classList.add('active'); if(v==='income') renderIncome(); if(v==='finance') renderFinance(); if(v==='logs') renderLogs(); if(v==='assets') Assets.render(); if(v==='strategy') { renderStrategy(); Debts.checkNotifications(); } if(v==='invest') Invest.render(); if(window.innerWidth < 1100) toggleSidebar(); }
         function toggleSidebar() { const s = document.getElementById('mainSidebar'); s.classList.toggle('open'); document.getElementById('sidebarOverlay').style.display = s.classList.contains('open') ? 'block' : 'none'; }
         function openAddTransaction() { document.getElementById('transactionModal').style.display = 'flex'; }
         function openAddIncome() { document.getElementById('incDate').value = new Date().toISOString().slice(0,10); document.getElementById('incomeModal').style.display = 'flex'; }
