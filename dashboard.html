@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -93,11 +92,10 @@
         .card:hover { border-color: var(--primary); transform: translateY(-2px); }
         .card-val { font-size: 1.6rem; font-weight: 700; font-family: 'JetBrains Mono'; color: var(--text-main); margin: 8px 0; }
         .card-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-        
-        .card-moto { border-left: 4px solid #0066FF; } .card-fiesta { border-left: 4px solid #C0C0C0; }
-        .card-divida { border-left: 4px solid #F85149; } .card-essential { border-left: 4px solid var(--warning); } 
-        .card-loan { border-left: 4px solid var(--info); } 
-        .card-big-goal { border-left: 4px solid #9b59b6; }
+
+        .card-moto, .card-fiesta, .card-divida, .card-essential, .card-loan, .card-big-goal {
+        border: 1px solid var(--border-color); 
+        }
 
         .progress-container { width: 100%; background: rgba(125,125,125,0.1); height: 8px; border-radius: 4px; margin-top: 10px; overflow: hidden; }
         .progress-bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
@@ -208,101 +206,6 @@
             aside.open { transform: translateX(0); }
             main { margin-left: 0; padding: 70px 20px 40px 20px; }
             .mobile-toggle { display: block; z-index: 200; }
-            header { flex-direction: row; alistatus-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 5px var(--success); }
-        .total-year-widget { display: flex; align-items: center; background: rgba(47, 129, 247, 0.08); border: 1px solid rgba(47, 129, 247, 0.2); padding: 5px 15px; border-radius: 8px; margin-right: 10px; height: 36px; }
-        .tyw-label { font-size: 0.7rem; color: var(--primary); text-transform: uppercase; margin-right: 8px; font-weight: 600; }
-        .tyw-value { font-size: 0.95rem; color: var(--text-main); font-family: 'JetBrains Mono'; font-weight: 700; }
-        
-        .chart-container { height: 280px; width: 100%; overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-end; padding-bottom: 5px; }
-        .chart-wrapper { display: flex; align-items: flex-end; gap: 12px; height: 100%; min-width: 100%; padding-right: 10px; }
-        .chart-bar-group { flex: 1; min-width: 40px; max-width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; cursor: pointer; position: relative; transition: 0.2s; }
-        .chart-val-top { font-size: 0.65rem; color: var(--text-main); margin-bottom: 4px; opacity: 0; transform: translateY(5px); transition: 0.2s; font-family: 'JetBrains Mono'; }
-        .chart-bar-group:hover .chart-val-top { opacity: 1; transform: translateY(0); }
-        .chart-bar-group:hover .chart-bar { opacity: 1; box-shadow: 0 0 10px var(--success); }
-        .chart-bar { width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.5s ease; }
-        .chart-label { margin-top: 6px; font-size: 0.65rem; color: var(--text-muted); font-family: 'JetBrains Mono'; text-align: center; }
-
-        .table-responsive { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); box-shadow: var(--card-shadow); }
-        .income-table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        .income-table th { text-align: left; color: var(--text-muted); padding: 10px 15px; font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
-        .income-table td { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-main); }
-        .badge-pago { background: rgba(35, 134, 54, 0.2); color: #238636; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(35, 134, 54, 0.3); }
-
-        .transaction-list { display: flex; flex-direction: column; gap: 8px; }
-        .transaction-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); }
-        .t-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(125,125,125,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 12px; }
-
-        .notif-item { padding: 12px; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s; }
-        .notif-item:hover { background: var(--nav-hover); }
-        .notif-item:last-child { border-bottom: none; }
-
-        .select-filter { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 6px; cursor: pointer; outline: none; font-size: 0.85rem; height: 36px; }
-        .input-dark { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 0.9rem; height: 40px; }
-        .search-bar { width: 100%; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; color: var(--text-main); margin-bottom: 15px; font-size: 0.9rem; }
-
-        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; font-size: 0.85rem; height: 38px; white-space: nowrap; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-danger { background: rgba(248, 81, 73, 0.1); color: #f85149; }
-        .btn-warning { background: rgba(227, 179, 65, 0.2); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.4); }
-        .btn-info { background: rgba(163, 113, 247, 0.1); color: var(--info); border: 1px solid rgba(163, 113, 247, 0.3); }
-        .btn:active { transform: scale(0.96); }
-
-        .mobile-toggle { display: none; position: fixed; top: 15px; left: 15px; z-index: 110; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; display: none; backdrop-filter: blur(4px); }
-
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px; transition: opacity 0.3s ease; }
-        .modal-overlay.open { display: flex; animation: fadeIn 0.3s; }
-        .modal { background: var(--modal-bg); width: 100%; max-width: 500px; border-radius: 16px; border: 1px solid var(--border-color); display: flex; flex-direction: column; max-height: 90vh; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); overflow: hidden; }
-        @keyframes modalPop { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); }
-        .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
-        .modal-body { padding: 24px; overflow-y: auto; }
-
-        .statement-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .statement-table th { text-align: left; padding: 12px; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.02); }
-        .statement-table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-main); }
-        .statement-table tr:last-child td { border-bottom: none; }
-        .statement-table tr:hover { background: var(--nav-hover); }
-
-        .terminal-container { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .terminal-window { height: 300px; overflow-y: auto; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #E6EDF3; scroll-behavior: smooth; }
-        
-        /* ESTILO CHAT ASSISTENTE */
-        .msg-sys { color: var(--info); margin-bottom: 5px; }
-        .msg-success { color: var(--success); margin-bottom: 5px; }
-        .msg-warn { color: var(--warning); margin-bottom: 5px; }
-        .msg-err { color: var(--danger); margin-bottom: 5px; }
-        .msg-user { color: var(--text-muted); text-align: right; margin-bottom: 8px; font-style: italic; border-right: 2px solid var(--primary); padding-right: 10px; }
-        .chat-tag { display: inline-block; background: rgba(47, 129, 247, 0.15); color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; margin-right: 5px; border: 1px solid rgba(47, 129, 247, 0.3); transition: 0.2s; }
-        .chat-tag:hover { background: var(--primary); color: white; }
-
-        .cmd-input-area { display: flex; align-items: center; background: #161b22; padding: 10px; border-top: 1px solid #30363d; }
-        .cmd-prompt { color: var(--success); margin-right: 10px; font-weight: bold; font-family: 'JetBrains Mono'; }
-        .cmd-input { flex: 1; background: transparent; border: none; color: var(--text-main); font-family: 'JetBrains Mono'; outline: none; font-size: 0.9rem; }
-
-        #tutorialBubble {
-            position: fixed; bottom: 30px; right: 30px; width: 340px;
-            background: var(--bg-card); border: 1px solid var(--primary);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); border-radius: 16px;
-            z-index: 9999; padding: 20px; display: none;
-            flex-direction: column; animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        
-        .tutorial-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .tutorial-header h2 { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .close-tutorial { background: transparent; border: none; color: var(--text-muted); cursor: pointer; }
-        
-        .step-dots { display: flex; justify-content: center; gap: 5px; margin: 15px 0; }
-        .step-dot { width: 8px; height: 8px; background: var(--border-color); border-radius: 50%; transition: 0.3s; }
-        .step-dot.active { background: var(--primary); transform: scale(1.2); }
-
-        @media (max-width: 1100px) {
-            aside { transform: translateX(-100%); box-shadow: 5px 0 30px rgba(0,0,0,0.5); padding-top: 80px; }
-            aside.open { transform: translateX(0); }
-            main { margin-left: 0; padding: 70px 20px 40px 20px; }
-            .mobile-toggle { display: block; z-index: 200; }
             header { flex-direction: row; align-items: center; justify-content: space-between; }
             .header-left { margin-left: 50px; }
             .header-left h1 { font-size: 1.3rem; }
@@ -313,7 +216,6 @@
             #tutorialBubble { bottom: 20px; right: 20px; left: 20px; width: auto; max-width: none; }
         }
 
-        /* INVESTIMENTOS CSS */
         .invest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .cofrinho-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow: hidden; }
         .cofrinho-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--invest-gold); }
@@ -333,7 +235,6 @@
         .yield-card { background: rgba(0, 230, 118, 0.05); border: 1px solid rgba(0, 230, 118, 0.2); border-radius: 12px; padding: 15px; margin-top: 20px; width: 100%; display: flex; align-items: center; gap: 15px; }
         .yield-icon { width: 40px; height: 40px; background: rgba(0, 230, 118, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--invest-profit); font-size: 1.2rem; }
 
-        /* Slider CSS Corrigido */
         .range-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; margin: 10px 0; cursor: pointer; }
         .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--primary); border-radius: 50%; cursor: pointer; border: 2px solid var(--bg-card); box-shadow: 0 0 10px var(--primary-glow); margin-top: -6px; }
         .range-slider::-moz-range-thumb { width: 18px; height: 18px; background: var(--primary); border: 2px solid var(--bg-card); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--primary-glow); }
@@ -352,7 +253,6 @@
         .inv-val { text-align: right; }
         .inv-val h4 { font-size: 1rem; font-weight: 700; color: var(--text-main); font-family: 'JetBrains Mono'; }
 
-        /* Multiple Reserve Items Style */
         .multi-reserve-item { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
         .multi-reserve-item:last-child { border-bottom: none; }
         .multi-reserve-name { font-weight: 600; color: var(--text-main); }
@@ -432,7 +332,6 @@
             opacity: 1;
         }
 
-        /* Cores Específicas por Tipo */
         .type-renda-fixa .asset-icon-box { background: rgba(47, 129, 247, 0.15); color: var(--chart-1); }
         .type-renda-fixa .asset-pill { background: rgba(47, 129, 247, 0.1); color: var(--chart-1); border: 1px solid rgba(47, 129, 247, 0.2); }
         
@@ -457,6 +356,34 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
         }
+
+        body.tutorial-active aside,
+        body.tutorial-active .mobile-toggle,
+        body.tutorial-active .header-actions,
+        body.tutorial-active .sidebar-overlay { 
+            display: none !important; 
+        }
+        
+        body.tutorial-active main {
+            margin-left: 0 !important;
+            padding-top: 20px !important;
+            filter: none !important; 
+            pointer-events: auto !important;
+            opacity: 1 !important;
+        }
+        /* Adicione isso ao final do seu CSS */
+.badge-vencida {
+    background: rgba(248, 81, 73, 0.2);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -484,7 +411,7 @@
             <div class="nav-item" onclick="switchView('tools', this)"><i class="bi bi-terminal"></i>Terminal de pagamentos</div>
             <div class="nav-item" onclick="switchView('logs', this)"><i class="bi bi-hdd-network"></i>Logs e sistema</div>
         </nav>
-        <div onclick="logout()" class="btn-logout"><i class="bi bi-box-arrow-right"></i>Sair</div>
+        <div onclick="logout()" class="btn-logout"><i class="bi bi-box-arrow-right"></i>Encerrar sistema</div>
     </aside>
 
     <main id="mainContent">
@@ -582,10 +509,10 @@
             <div class="invest-grid">
                 <div class="cofrinho-card">
                     <div class="cofrinho-icon"><i class="bi bi-piggy-bank-fill"></i></div>
-                    <div class="cofrinho-label">Minha Reserva (Instituição)</div>
+                    <div class="cofrinho-label">Minha reserva (Instituição)</div>
                     <div class="cofrinho-val blur-sensitive" id="reserveVal">R$ 0,00</div>
                     <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;" id="reserveLoc">Não definido</div>
-                    <button class="btn btn-warning" style="width:100%; color:black;" onclick="Invest.openReserveModal()">Editar Reserva</button>
+                    <button class="btn btn-warning" style="width:100%; color:black;" onclick="Invest.openReserveModal()">Adicionar nova reserva</button>
                 </div>
 
                 <div class="card" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
@@ -600,7 +527,7 @@
                     <div class="yield-card">
                         <div class="yield-icon"><i class="bi bi-graph-up-arrow"></i></div>
                         <div>
-                            <div style="font-size:0.75rem; color:var(--text-muted);">Est. Rendimento Mensal (0.8%)</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">Est. rendimento mensal (0.8%)</div>
                             <div style="font-weight:700; color:var(--invest-profit);" class="blur-sensitive" id="yieldEst">+ R$ 0,00</div>
                         </div>
                     </div>
@@ -608,14 +535,14 @@
 
                 <div class="card">
                     <div class="card-label" style="margin-bottom:15px;"><i class="bi bi-calculator"></i> Simulador de Futuro (10% a.a)</div>
-                    <div class="sim-row"><span>Aporte Mensal</span><span class="sim-val-text" id="simM_disp">R$ 500</span></div>
+                    <div class="sim-row"><span>Aporte mensal</span><span class="sim-val-text" id="simM_disp">R$ 500</span></div>
                     <input type="range" class="range-slider" min="100" max="5000" step="50" value="500" id="simM" oninput="Invest.updateSim()">
                     
                     <div class="sim-row"><span>Tempo (Anos)</span><span class="sim-val-text" id="simY_disp">10 Anos</span></div>
                     <input type="range" class="range-slider" min="1" max="40" step="1" value="10" id="simY" oninput="Invest.updateSim()">
 
                     <div style="margin-top:20px; text-align:center; padding:15px; background:rgba(47,129,247,0.1); border-radius:10px;">
-                        <div style="font-size:0.8rem; color:var(--text-muted);">Total Acumulado</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Total acumulado</div>
                         <div class="card-val blur-sensitive" style="color:var(--primary); margin:5px 0;" id="simResult">R$ 0,00</div>
                         <div style="font-size:0.75rem; color:var(--text-muted);">Juros: <span style="color:var(--invest-profit)" id="simInterest">R$ 0,00</span></div>
                     </div>
@@ -623,7 +550,7 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3>Meus Ativos</h3>
+                <h3>Gerenciador de ativos</h3>
                 <button class="btn btn-primary" onclick="Invest.openAddModal()"><i class="bi bi-plus"></i>Novo Aporte</button>
             </div>
             
@@ -633,35 +560,38 @@
         <section id="view-assets" class="view-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h3 style="margin: 0;">Gerenciamento de ativos de longo prazo</h3>
-                <button class="btn btn-primary" onclick="openAddAsset()"><i class="bi bi-plus"></i>Novo ativo</button>
+                <button class="btn btn-primary" onclick="openAddAsset()"><i class="bi bi-plus"></i>Adicionar novo ativo</button>
             </div>
             <div class="stats-grid" id="assetsContainer"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
                 <h3>Planejamentos e metas</h3>
-                <button class="btn btn-info" onclick="openAddBigGoal()"><i class="bi bi-plus"></i>Nova meta</button>
+                <button class="btn btn-info" onclick="openAddBigGoal()"><i class="bi bi-plus"></i>Adicionar nova meta</button>
             </div>
             <div class="stats-grid" id="bigGoalsContainer"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px 0;">
                 <h3>Monitor de empréstimos</h3>
-                <button class="btn btn-warning" onclick="openAddLoan()"><i class="bi bi-plus"></i>Empréstimo</button>
+                <button class="btn btn-warning" onclick="openAddLoan()"><i class="bi bi-plus"></i>Adicionar novo empréstimo</button>
             </div>
             <div class="stats-grid" id="loanCardsContainer"></div>
         </section>
 
-        <section id="view-strategy" class="view-section">
+<section id="view-strategy" class="view-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                 <h3>Gerenciamento de metas e contas</h3>
-                <button class="btn btn-warning" onclick="openAddDebt()"><i class="bi bi-plus"></i>Nova conta</button>
+                <button class="btn btn-success" onclick="Strategy.setGoal()">
+                    <i class="bi bi-bullseye"></i> Definir Objetivo
+                </button>
             </div>
+
             <div class="card card-goal" style="margin-bottom: 25px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div class="card-label" style="color:var(--success)">META DE SOBRA (MÊS ATUAL)</div>
-                    <button class="btn" style="padding: 2px 8px; font-size: 0.7rem;" onclick="Strategy.setGoal()">Definir</button>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
                     <div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Objetivo:</div>
-                        <div class="blur-sensitive" id="goalTarget" style="font-size: 1.1rem; font-weight: 700;">R$ 0,00</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Meta Financeira:</div>
+                        <div class="blur-sensitive" id="goalTarget" style="font-size: 1.3rem; font-weight: 700; line-height: 1.1;">R$ 0,00</div>
+                        <div id="goalDesc" style="font-size: 0.85rem; color: var(--success); font-weight: 500; margin-top: 2px;">(Sem meta definida)</div>
                     </div>
                     <div style="text-align: right;">
                          <div style="font-size: 0.8rem; color: var(--text-muted);">Projeção do salário atual:</div>
@@ -673,6 +603,7 @@
                 </div>
                 <div id="goalMessage" style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);"></div>
             </div>
+
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
                 <div>
                     <h4 style="margin-bottom: 10px; color: var(--warning);">Contas essenciais</h4>
@@ -683,6 +614,7 @@
                     <div id="loanList" class="transaction-list"></div>
                 </div>
             </div>
+            
             <div class="card card-strategy" style="margin-top: 30px;">
                 <div class="card-label">Análise 50/30/20 (Mês atual)</div>
                 <div style="margin-top: 15px;">
@@ -697,13 +629,12 @@
         </section>
 
         <section id="view-tools" class="view-section">
-            <h3>Assistente Virtual Integrux</h3>
             <div class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column; height: 500px;">
                 <div id="assistTerminal" class="terminal-window" style="flex: 1; background: #0d1117; padding: 20px; overflow-y: auto;">
                     </div>
                 <div class="cmd-input-area" style="background: #161b22; padding: 15px; border-top: 1px solid #30363d;">
                     <span class="cmd-prompt">>></span>
-                    <input type="text" id="cmdInput" class="cmd-input" placeholder="Converse com o assistente..." autocomplete="off">
+                    <input type="text" id="cmdInput" class="cmd-input" placeholder="Inicie seus investimentos, faça pagamentos, tudo isso por aqui!.." autocomplete="off">
                 </div>
             </div>
         </section>
@@ -744,25 +675,25 @@
         <div class="modal">
             <div class="modal-header"><h3>Novo Aporte</h3><button class="btn" style="background:transparent; color:var(--text-main); padding:0; width:30px;" onclick="closeModal('investAddModal')"><i class="bi bi-x-lg"></i></button></div>
             <div class="modal-body">
-                <label style="color:var(--text-muted); font-size:0.8rem;">Nome do Ativo</label><input type="text" id="invName" class="input-dark" placeholder="Ex: CDB Nubank, Tesouro Selic">
+                <label style="color:var(--text-muted); font-size:0.8rem;">Nome do ativo</label><input type="text" id="invName" class="input-dark" placeholder="Ex: CDB Nubank, Tesouro Selic">
                 <div style="margin-top:15px;">
                     <label style="color:var(--text-muted); font-size:0.8rem;">Tipo</label>
                     <select id="invType" class="input-dark">
-                        <option value="Renda Fixa">Renda Fixa (CDB, Tesouro)</option>
+                        <option value="Renda Fixa">Renda fixa (CDB, Tesouro)</option>
                         <option value="Ações">Ações / FIIs</option>
                         <option value="Cripto">Criptomoedas</option>
-                        <option value="Reserva">Reserva de Emergência</option>
+                        <option value="Reserva">Reserva de emergência</option>
                         <option value="Outros">Outros</option>
                     </select>
                 </div>
                 <div style="margin-top:15px;">
-                    <label style="color:var(--text-muted); font-size:0.8rem;">Valor Aportado (R$)</label>
+                    <label style="color:var(--text-muted); font-size:0.8rem;">Valor aportado (R$)</label>
                     <input type="text" inputmode="decimal" id="invAmount" class="input-dark" placeholder="0,00">
                 </div>
                 
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="debitFromFinance">
-                    <label for="debitFromFinance">Debitar este valor do meu Saldo de Gastos?</label>
+                    <label for="debitFromFinance">Deseja debitar esse valor do saldo?</label>
                 </div>
 
                 <button class="btn btn-success" style="width: 100%; margin-top: 25px;" onclick="Invest.add()">Salvar na Carteira</button>
@@ -946,9 +877,9 @@
             </div>
         </div>
     </div>
-
+    <script src="js/financeiro.js"></script> 
     <script>
-        const APP_VERSION = 'v3.0_Chatbot_Integrated'; 
+        const APP_VERSION = 'v3.2';
         const Security = {
             sanitize: (str) => {
                 if (typeof str !== 'string') return str;
@@ -962,7 +893,7 @@
         };
 
         const StorageManager = {
-            save: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) { alert('Erro: Armazenamento cheio!'); } },
+            save: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) { alert('Erro: Seu armazenamento está cheio!'); } },
             load: (key) => { try { const data = localStorage.getItem(key); return data ? JSON.parse(data) : null; } catch (e) { return null; } },
             emergencySave: () => {}
         };
@@ -973,16 +904,49 @@
             if(clean.includes(',')) clean = clean.replace(/\./g, '').replace(',', '.'); else clean = clean.replace(/\./g, '');
             const floatVal = parseFloat(clean); return isNaN(floatVal) ? 0 : floatVal;
         }
+        let startY = 0; let isPulling = false; 
+        const mainContent = document.getElementById('mainContent'); 
+        const ptrLoader = document.getElementById('ptr-loader'); 
+        const ptrSpinner = document.getElementById('ptr-spinner');
 
-        let startY = 0; let isPulling = false; const mainContent = document.getElementById('mainContent'); const ptrLoader = document.getElementById('ptr-loader'); const ptrSpinner = document.getElementById('ptr-spinner');
-        window.addEventListener('touchstart', (e) => { if (window.scrollY === 0) { startY = e.touches[0].pageY; isPulling = true; } }, {passive: true});
-        window.addEventListener('touchmove', (e) => { if (!isPulling) return; const y = e.touches[0].pageY; const diff = y - startY; if (diff > 50 && window.scrollY === 0) { const move = Math.min((diff - 50) * 0.25, 200); mainContent.style.transform = `translateY(${move}px)`; ptrLoader.style.top = `${move - 40}px`; ptrSpinner.style.transform = `rotate(${move * 5}deg)`; } }, {passive: true});
-        window.addEventListener('touchend', () => { if (!isPulling) return; isPulling = false; const currentY = parseInt(mainContent.style.transform.replace(/[^0-9]/g, '') || 0); if (currentY > 80) { ptrLoader.style.top = '20px'; ptrSpinner.classList.add('ptr-spinning'); setTimeout(() => { location.reload(); }, 800); } else { mainContent.style.transform = ''; ptrLoader.style.top = '-60px'; } });
+        window.addEventListener('touchstart', (e) => { 
+            // Proteção: Não permite puxar se estiver na aba do Terminal (Tools)
+            if(document.getElementById('view-tools').classList.contains('active-view')) return;
+            
+            if (window.scrollY === 0) { startY = e.touches[0].pageY; isPulling = true; } 
+        }, {passive: true});
 
+        window.addEventListener('touchmove', (e) => { 
+            if (!isPulling) return; 
+            // Proteção dupla para o Terminal
+            if(document.getElementById('view-tools').classList.contains('active-view')) return;
+
+            const y = e.touches[0].pageY; const diff = y - startY; 
+            if (diff > 50 && window.scrollY === 0) { 
+                const move = Math.min((diff - 50) * 0.25, 200); 
+                mainContent.style.transform = `translateY(${move}px)`; 
+                ptrLoader.style.top = `${move - 40}px`; 
+                ptrSpinner.style.transform = `rotate(${move * 5}deg)`; 
+            } 
+        }, {passive: true});
+
+        window.addEventListener('touchend', () => { 
+            if (!isPulling) return; isPulling = false; 
+            const currentY = parseInt(mainContent.style.transform.replace(/[^0-9]/g, '') || 0); 
+            if (currentY > 80) { 
+                ptrLoader.style.top = '20px'; 
+                ptrSpinner.classList.add('ptr-spinning'); 
+                setTimeout(() => { location.reload(); }, 800); 
+            } else { 
+                mainContent.style.transform = ''; ptrLoader.style.top = '-60px'; 
+            } 
+        });
         const Tutorial = {
             currentStep: 0,
             init: () => {
                 if (localStorage.getItem('integrux_tutorial_version') !== APP_VERSION) {
+                    document.body.classList.add('tutorial-active');
+                    
                     document.getElementById('tutorialBubble').style.display = 'flex';
                     Tutorial.showStep(0);
                 }
@@ -990,29 +954,80 @@
             showStep: (stepIndex) => {
                 Tutorial.currentStep = stepIndex;
                 const container = document.getElementById('tutorialContent');
-                let html = ''; let viewToSwitch = '';
+                const session = JSON.parse(sessionStorage.getItem('integrux_session'));
+                const userName = session ? session.name.split(' ')[0] : 'Usuário';
+
+                let html = '';
+                let viewToSwitch = '';
                 
                 switch(stepIndex) {
-                    case 0: html = `<div class="tutorial-header"><h2><i class="bi bi-robot"></i> Bem-vindo</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Olá! Vou te mostrar como controlar suas finanças.</p>`; break;
-                    case 1: viewToSwitch = 'finance'; html = `<div class="tutorial-header"><h2><i class="bi bi-cash-coin"></i> Gestão de Gastos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Tela principal para registrar despesas.</p>`; break;
-                    case 2: viewToSwitch = 'income'; html = `<div class="tutorial-header"><h2><i class="bi bi-graph-up-arrow"></i> Minha Renda</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Gerencie seus ganhos mensais aqui.</p>`; break;
-                    case 3: viewToSwitch = 'invest'; html = `<div class="tutorial-header"><h2><i class="bi bi-rocket-takeoff"></i> Investimentos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Nova aba! Acompanhe sua carteira e gerencie sua reserva de emergência em múltiplos locais.</p>`; break;
-                    case 4: viewToSwitch = 'assets'; html = `<div class="tutorial-header"><h2><i class="bi bi-bank"></i> Patrimônio</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Controle bens (carros, casas), metas de longo prazo e empréstimos.</p>`; break;
-                    case 5: viewToSwitch = 'strategy'; html = `<div class="tutorial-header"><h2><i class="bi bi-clipboard-data"></i> Estratégia</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Defina metas de sobra e organize contas essenciais.</p>`; break;
-                    case 6: viewToSwitch = 'tools'; html = `<div class="tutorial-header"><h2><i class="bi bi-terminal"></i> Terminal</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Agora com Inteligência Artificial Simulada. Converse com o Assistente Integrux.</p>`; break;
-                    case 7: viewToSwitch = 'logs'; html = `<div class="tutorial-header"><h2><i class="bi bi-hdd-fill"></i> Backup</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="font-size:0.85rem; background:rgba(227,179,65,0.15); border:1px solid var(--warning); padding:10px; border-radius:8px; color:var(--warning);">⚠️ <strong>Importante:</strong> Seus dados ficam no navegador. Faça backup regularmente aqui.</p>`; break;
-                    case 8: html = `<div class="tutorial-header"><h2><i class="bi bi-shield-check"></i> Termos de Uso</h2></div><p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Ao concordar, você assume a responsabilidade pelos dados locais.</p><div style="font-size:0.75rem; text-align:center; opacity:0.7;">© 2025 Integrux Solutions.</div>`; break;
+                    case 0: // Bem-vindo
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-robot"></i> Assistente Integrux</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Olá <strong>${userName}</strong>, seja bem-vindo ao painel financeiro da Integrux. Vamos fazer um tour pelo aplicativo?</p>`; 
+                        break;
+                    case 1: // Gastos
+                        viewToSwitch = 'finance'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-cash-coin"></i> Gestão de Gastos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Nessa aba você poderá controlar seus gastos, extratos completos de despesas e muito mais!</p>`; 
+                        break;
+                    case 2: // Renda
+                        viewToSwitch = 'income'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-graph-up-arrow"></i> Minha Renda</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Você pode adicionar novas rendas, e acompanhar tanto por gráfico, </p>`; 
+                        break;
+                    case 3: // Investimentos
+                        viewToSwitch = 'invest'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-rocket-takeoff"></i> Investimentos</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Acesse o painel de Investimentos para monitorar sua carteira de ativos e reservas financeiras.</p>`; 
+                        break;
+                    case 4: // Patrimônio
+                        viewToSwitch = 'assets'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-bank"></i> Patrimônio</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Em Patrimônio, você tem a visão global de bens duráveis (Casa, Carro) e o controle de empréstimos ativos.</p>`; 
+                        break;
+                    case 5: // Estratégia
+                        viewToSwitch = 'strategy'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-clipboard-data"></i> Estratégia</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Defina metas de sobra mensal e organize a prioridade de pagamentos das contas essenciais.</p>`; 
+                        break;
+                    case 6: // Terminal
+                        viewToSwitch = 'tools'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-terminal"></i> Terminal Integrux</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="color:var(--text-muted); font-size:0.9rem;">Interaja com o Assistente Virtual para automação de processos financeiros, cálculos e dúvidas.</p>`; 
+                        break;
+                    case 7: // Logs/Backup
+                        viewToSwitch = 'logs'; 
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-hdd-fill"></i> Segurança de Dados</h2><button class="close-tutorial" onclick="Tutorial.skip()"><i class="bi bi-x-lg"></i></button></div><p style="font-size:0.85rem; background:rgba(227,179,65,0.15); border:1px solid var(--warning); padding:10px; border-radius:8px; color:var(--warning);">⚠️ <strong>Aviso Importante:</strong> Seus dados são armazenados localmente neste dispositivo. Realize backups (Download JSON) regularmente nesta tela.</p>`; 
+                        break;
+                    case 8: // Termos
+                        html = `<div class="tutorial-header"><h2><i class="bi bi-shield-check"></i> Inicialização</h2></div><p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Ao finalizar, você confirma que o sistema está configurado para seu uso pessoal.</p><div style="font-size:0.75rem; text-align:center; opacity:0.7;">© 2025 Integrux Solutions.</div>`; 
+                        break;
                 }
-                if(viewToSwitch) { switchView(viewToSwitch, document.querySelector(`.nav-item[onclick*="'${viewToSwitch}'"]`)); }
-                let dots = '<div class="step-dots">'; for(let i=0; i<=8; i++) dots += `<div class="step-dot ${i === stepIndex ? 'active' : ''}"></div>`; dots += '</div>';
-                let btn = stepIndex === 8 ? `<button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="Tutorial.finish()">Li e Concordo</button>` : `<div style="display:flex; gap:10px; margin-top:10px;"><button class="btn" style="flex:1; background:rgba(255,255,255,0.1);" onclick="Tutorial.skip()">Pular</button><button class="btn btn-primary" style="flex:1" onclick="Tutorial.showStep(${stepIndex + 1})">Próximo</button></div>`;
+
+                // Troca a tela de fundo sem ativar a sidebar (graças ao CSS pointer-events: none e display: none da sidebar)
+                if(viewToSwitch) { 
+                    switchView(viewToSwitch); 
+                }
+                
+                let dots = '<div class="step-dots">'; 
+                for(let i=0; i<=8; i++) dots += `<div class="step-dot ${i === stepIndex ? 'active' : ''}"></div>`; 
+                dots += '</div>';
+                
+                let btn = stepIndex === 8 ? 
+                    `<button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="Tutorial.finish()">Li e Concordo</button>` : 
+                    `<div style="display:flex; gap:10px; margin-top:10px;"><button class="btn" style="flex:1; background:rgba(255,255,255,0.1);" onclick="Tutorial.skip()">Pular</button><button class="btn btn-primary" style="flex:1" onclick="Tutorial.showStep(${stepIndex + 1})">Próximo</button></div>`;
+                
                 container.innerHTML = html + dots + btn;
             },
-            skip: () => { if(confirm("Pular tutorial?")) Tutorial.finish(); },
-            finish: () => { localStorage.setItem('integrux_tutorial_version', APP_VERSION); document.getElementById('tutorialBubble').style.display = 'none'; switchView('finance', document.querySelector(`.nav-item[onclick*="'finance'"]`)); }
+            skip: () => { 
+                if(confirm("Você tem certeza que deseja pular o tutorial? Caso selecione 'sim', você concorda com os termos de política e de usuário!")) Tutorial.finish(); 
+            },
+            finish: () => { 
+                localStorage.setItem('integrux_tutorial_version', APP_VERSION); 
+                document.getElementById('tutorialBubble').style.display = 'none'; 
+                
+                // REMOVE A CLASSE: NAVBAR VOLTA A APARECER AQUI
+                document.body.classList.remove('tutorial-active');
+                
+                // Volta para a tela inicial
+                switchView('finance', document.querySelector(`.nav-item[onclick*="'finance'"]`)); 
+            }
         };
 
-        const Invest = {
+const Invest = {
             getData: () => StorageManager.load('integrux_investments') || [],
             getReserve: () => {
                 const data = StorageManager.load('integrux_reserve');
@@ -1021,6 +1036,8 @@
                 return { type: 'single', items: [{ inst: data.institution || 'Não definido', val: data.value || 0 }] };
             },
             tempMultiList: [],
+            
+            // --- MODAIS E CONTROLES ---
             toggleMultipleReserves: () => {
                 const isMulti = document.getElementById('hasMultipleReserves').checked;
                 document.getElementById('singleReserveContainer').style.display = isMulti ? 'none' : 'block';
@@ -1051,16 +1068,12 @@
                 document.getElementById('multiResObj').value = '';
                 Invest.renderMultiList();
             },
-            removeMultiItem: (idx) => {
-                Invest.tempMultiList.splice(idx, 1);
-                Invest.renderMultiList();
-            },
+            removeMultiItem: (idx) => { Invest.tempMultiList.splice(idx, 1); Invest.renderMultiList(); },
             saveReserve: () => {
                 const isMulti = document.getElementById('hasMultipleReserves').checked;
                 let dataToSave;
-                if(isMulti) {
-                    dataToSave = { type: 'multi', items: Invest.tempMultiList };
-                } else {
+                if(isMulti) { dataToSave = { type: 'multi', items: Invest.tempMultiList }; } 
+                else {
                     const inst = document.getElementById('resInstitution').value;
                     const val = parseMoneyInput(document.getElementById('resValue').value);
                     dataToSave = { type: 'single', items: [{ inst, val, obj: 'Geral' }] };
@@ -1073,7 +1086,6 @@
                 const isMulti = res.type === 'multi';
                 document.getElementById('hasMultipleReserves').checked = isMulti;
                 Invest.toggleMultipleReserves();
-                
                 if(!isMulti) {
                     document.getElementById('resInstitution').value = res.items[0].inst !== 'Não definido' ? res.items[0].inst : '';
                     document.getElementById('resValue').value = res.items[0].val > 0 ? res.items[0].val : '';
@@ -1096,19 +1108,26 @@
             remove: (id) => { if(confirm('Remover investimento?')) Invest.save(Invest.getData().filter(i => i.id !== id)); },
             getIcon: (type) => { switch(type) { case 'Renda Fixa': return '<i class="bi bi-graph-up-arrow"></i>'; case 'Ações': return '<i class="bi bi-building"></i>'; case 'Cripto': return '<i class="bi bi-currency-bitcoin"></i>'; case 'Reserva': return '<i class="bi bi-shield-check"></i>'; default: return '<i class="bi bi-wallet2"></i>'; } },
             getTypeClass: (type) => { switch(type) { case 'Renda Fixa': return 'type-renda-fixa'; case 'Ações': return 'type-acoes'; case 'Cripto': return 'type-cripto'; default: return ''; } },
+            openAddModal: () => document.getElementById('investAddModal').style.display = 'flex',
+
             render: () => {
-                const list = Invest.getData(); const el = document.getElementById('investList'); el.innerHTML = '';
-                let total = 0; let types = {};
+                const list = Invest.getData(); 
+                const el = document.getElementById('investList'); 
+                el.innerHTML = '';
                 
+                let types = {}; 
+                let totalList = 0; 
+
                 list.forEach(i => {
-                    total += i.amount; types[i.type] = (types[i.type] || 0) + i.amount;
+                    totalList += i.amount; 
+                    types[i.type] = (types[i.type] || 0) + i.amount;
                     el.innerHTML += `<div class="asset-card ${Invest.getTypeClass(i.type)}"><div class="asset-header"><div class="asset-icon-box">${Invest.getIcon(i.type)}</div><div class="asset-pill">${i.type}</div></div><div class="asset-body"><h4>${Security.sanitize(i.name)}</h4><div class="asset-val blur-sensitive">R$ ${i.amount.toLocaleString('pt-BR')}</div><div class="asset-date">Aportado em: ${i.date}</div></div><button class="asset-delete-btn" onclick="Invest.remove(${i.id})"><i class="bi bi-trash"></i></button></div>`;
                 });
-                
+
                 const res = Invest.getReserve();
                 let totalRes = 0;
                 res.items.forEach(i => totalRes += i.val);
-                
+
                 document.getElementById('reserveVal').innerText = totalRes.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
                 
                 if (res.type === 'multi' && res.items.length > 1) {
@@ -1116,25 +1135,51 @@
                 } else {
                     document.getElementById('reserveLoc').innerText = res.items[0].inst;
                 }
-                
-                document.getElementById('totalInvestChart').innerText = total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-                
-                if(total > 0) {
-                    const colors = { 'Renda Fixa': 'var(--chart-1)', 'Ações': 'var(--chart-2)', 'Cripto': 'var(--chart-3)', 'Outros': 'var(--chart-4)', 'Reserva': 'var(--invest-gold)' };
-                    let gradientStr = ''; let currentDeg = 0; let legendHtml = '';
+
+                const grandTotal = totalList + totalRes;
+                document.getElementById('totalInvestChart').innerText = grandTotal.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+                if (totalRes > 0) {
+                    types['Reserva'] = (types['Reserva'] || 0) + totalRes;
+                }
+
+                if(grandTotal > 0) {
+                    const colors = { 
+                        'Renda Fixa': 'var(--chart-1)', 
+                        'Ações': 'var(--chart-2)',    
+                        'Cripto': 'var(--chart-3)',     
+                        'Outros': 'var(--chart-4)',     
+                        'Reserva': 'var(--invest-gold)' 
+                    };
+                    
+                    let gradientStr = ''; 
+                    let currentDeg = 0; 
+                    let legendHtml = '';
+                    
                     Object.keys(types).forEach(type => {
-                        const deg = (types[type] / total) * 360; const color = colors[type] || 'var(--text-muted)';
-                        gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `; currentDeg += deg;
-                        legendHtml += `<div class="legend-item"><div class="dot" style="background:${color}"></div>${type}</div>`;
+                        const deg = (types[type] / grandTotal) * 360; 
+                        const color = colors[type] || 'var(--text-muted)';
+                        
+                        gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `; 
+                        currentDeg += deg;
+
+                        const pct = ((types[type] / grandTotal) * 100).toFixed(0);
+                        legendHtml += `<div class="legend-item"><div class="dot" style="background:${color}"></div>${type} (${pct}%)</div>`;
                     });
-                    document.getElementById('pieChart').style.background = `conic-gradient(${gradientStr.slice(0, -2)})`; document.getElementById('pieLegend').innerHTML = legendHtml;
-                    const estYield = total * 0.008; document.getElementById('yieldEst').innerText = `+ ${estYield.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`;
+                    
+                    document.getElementById('pieChart').style.background = `conic-gradient(${gradientStr.slice(0, -2)})`; 
+                    document.getElementById('pieLegend').innerHTML = legendHtml;
+
+                    const estYield = grandTotal * 0.008; 
+                    document.getElementById('yieldEst').innerText = `+ ${estYield.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`;
                 } else {
-                    document.getElementById('pieChart').style.background = 'var(--border-color)'; document.getElementById('pieLegend').innerHTML = '<span style="font-size:0.7rem;">Sem dados</span>';
+                    document.getElementById('pieChart').style.background = 'var(--border-color)'; 
+                    document.getElementById('pieLegend').innerHTML = '<span style="font-size:0.7rem;">Sem dados</span>';
+                    document.getElementById('yieldEst').innerText = '+ R$ 0,00';
                 }
                 Invest.updateSim();
             },
-            openAddModal: () => document.getElementById('investAddModal').style.display = 'flex',
+            
             updateSim: () => {
                 const init = parseFloat(document.getElementById('simM').value);
                 const years = parseFloat(document.getElementById('simY').value);
@@ -1166,14 +1211,28 @@
                 else data.forEach(asset => {
                     const isPayable = asset.type === 'payable'; const color = isPayable ? '#0066FF' : '#C0C0C0';
                     const statusText = isPayable ? `Pagas: ${asset.current}/${asset.total}` : `Restam: ${asset.total - asset.current}`;
-                    container.innerHTML += `<div class="card" onclick="Assets.manageAsset(${asset.id})" style="cursor:pointer; border-left: 4px solid ${color};"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div class="card-label">${isPayable ? 'Passivo - A Pagar' : 'Ativo - A Receber'}</div><button class="btn" style="padding:0; color:var(--danger);" onclick="Assets.remove(${asset.id}); event.stopPropagation();"><i class="bi bi-trash"></i></button></div><div style="font-size: 1.1rem; font-weight: 700; color: ${color}; margin: 5px 0;">${isPayable ? 'Financiamento' : 'Recebível'}</div><div style="font-size: 1rem; font-weight: 500; margin-bottom: 5px;">${Security.sanitize(asset.name)}</div><div style="display:flex; justify-content:space-between; margin-top:10px; font-size:0.8rem; color:var(--text-muted);"><span>${statusText}</span><span class="blur-sensitive">${asset.value.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}/mês</span></div><div class="progress-container"><div class="progress-bar" style="width: ${(asset.current / asset.total) * 100}%; background-color: ${color};"></div></div></div>`;
+                    // Mude para:
+container.innerHTML += `<div class="card" onclick="Assets.manageAsset(${asset.id})" style="cursor:pointer;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div class="card-label" style="color:${color}">${isPayable ? 'Passivo - A Pagar' : 'Ativo - A Receber'}</div>
+        <button class="btn" style="padding:0; color:var(--danger);" onclick="Assets.remove(${asset.id}); event.stopPropagation();"><i class="bi bi-trash"></i></button>
+                </div>
+                ```
+
+
                 });
                 const goals = Assets.getBigGoals(); const goalsContainer = document.getElementById('bigGoalsContainer'); goalsContainer.innerHTML = '';
                 if (goals.length === 0) goalsContainer.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">Nenhuma meta definida.</div>';
                 else goals.forEach(g => { goalsContainer.innerHTML += `<div class="card card-big-goal"><div style="display:flex; justify-content:space-between; align-items:center;"><div class="card-label">${Security.sanitize(g.name)}</div><button class="btn" style="padding:2px 6px; font-size:0.7rem; color:var(--danger);" onclick="Assets.deleteBigGoal(${g.id})"><i class="bi bi-x-lg"></i></button></div><div class="card-val blur-sensitive" style="font-size:1.1rem; color:#9b59b6;">${g.current.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div style="font-size:0.7rem; color:var(--text-muted);">Meta: ${g.total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div class="progress-container"><div class="progress-bar" style="width: ${(g.current / g.total) * 100}%; background-color: #9b59b6;"></div></div><button class="btn btn-primary" style="width:100%; margin-top:10px; font-size:0.75rem;" onclick="Assets.addMoneyToGoal(${g.id})">Adicionar valor</button></div>`; });
                 const loanContainer = document.getElementById('loanCardsContainer'); const loans = Debts.getData().filter(d => d.type === 'loan'); loanContainer.innerHTML = '';
                 if (loans.length === 0) loanContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">Nenhum empréstimo ativo.</div>`;
-                else loans.forEach(l => { loanContainer.innerHTML += `<div class="card card-divida"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div class="card-label">${Security.sanitize(l.name)}</div><button class="btn" style="padding:0; color:var(--danger);" onclick="Debts.remove(${l.id})"><i class="bi bi-trash"></i></button></div><div class="card-val blur-sensitive" style="font-size:1.2rem;">${(l.amount || 0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div style="font-size:0.8rem; color:var(--text-muted);">${l.installments && l.installments.total > 0 ? `Parcela ${l.installments.current}/${l.installments.total}` : "Empréstimo Ativo"}</div><div style="font-size:0.75rem; color:var(--danger); margin-top:5px; font-weight:700;">- ${(l.installmentValue || 0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}/mês</div></div>`; });
+                else loans.forEach(l => { 
+                    let progress = 0;
+                    if(l.installments && l.installments.total > 0) {
+                        progress = (l.installments.current / l.installments.total) * 100;
+                    }
+                    loanContainer.innerHTML += `<div class="card card-divida"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div class="card-label">${Security.sanitize(l.name)}</div><button class="btn" style="padding:0; color:var(--danger);" onclick="Debts.remove(${l.id})"><i class="bi bi-trash"></i></button></div><div class="card-val blur-sensitive" style="font-size:1.2rem;">${(l.amount || 0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div><div style="font-size:0.8rem; color:var(--text-muted);">${l.installments && l.installments.total > 0 ? `Parcela ${l.installments.current}/${l.installments.total}` : "Empréstimo Ativo"}</div><div class="progress-container"><div class="progress-bar" style="width: ${progress}%; background-color: var(--info);"></div></div><div style="font-size:0.75rem; color:var(--danger); margin-top:5px; font-weight:700;">- ${(l.installmentValue || 0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}/mês</div></div>`; 
+                });
             },
             add: () => {
                 const name = document.getElementById('assetName').value; const total = parseInt(document.getElementById('assetTotal').value); const value = parseMoneyInput(document.getElementById('assetValue').value);
@@ -1199,7 +1258,28 @@
 
         const Strategy = {
             getGoal: () => localStorage.getItem('integrux_goal') ? parseFloat(localStorage.getItem('integrux_goal')) : 0,
-            setGoal: () => { const newVal = prompt("Defina sua meta de SOBRA para o mês (R$):", Strategy.getGoal()); if(newVal && !isNaN(parseFloat(newVal))) { localStorage.setItem('integrux_goal', parseFloat(newVal)); renderStrategy(); } }
+            
+            setGoal: () => { 
+                // 1. Pergunta o Valor
+                const currentVal = Strategy.getGoal();
+                const newVal = prompt("1. Qual o VALOR da sua meta de sobra? (R$)", currentVal > 0 ? currentVal : ''); 
+                
+                // Se o usuário digitou um número válido
+                if(newVal && !isNaN(parseFloat(newVal))) { 
+                    
+                    // 2. Pergunta o Nome/Motivo
+                    const currentDesc = localStorage.getItem('integrux_goal_desc') || '';
+                    const newDesc = prompt("2. Qual o NOME deste objetivo? (Ex: Viagem, Carro, Reserva)", currentDesc);
+                    
+                    // 3. Salva os dois dados
+                    localStorage.setItem('integrux_goal', parseFloat(newVal)); 
+                    // Se deixar em branco, salva como "Meta Geral"
+                    localStorage.setItem('integrux_goal_desc', newDesc ? newDesc : 'Meta Geral');
+                    
+                    // 4. Atualiza a tela
+                    renderStrategy(); 
+                } 
+            }
         };
 
         const Debts = {
@@ -1208,7 +1288,7 @@
                 const safeName = Security.sanitize(name); const list = Debts.getData(); if(list.find(d => d.name.toLowerCase() === safeName.toLowerCase())) return alert('Já existe uma conta com esse ID!');
                 list.push({ id: Date.now(), name: safeName, amount: parseMoneyInput(amount), type, dueDay: parseInt(dueDay), installments, installmentValue: parseMoneyInput(installmentValue), lastPaid: null }); StorageManager.save('integrux_debts', list); renderStrategy(); Assets.render(); closeModal('debtModal'); Logger.log('Nova Conta', `${safeName} (${type})`); return true;
             },
-            pay: (id) => { if(confirm('Confirmar pagamento?')) Assistant.processPayment(id); },
+            pay: (id) => { if(confirm('Confirmar pagamento?')) Assistant.processPayment(id); }, 
             remove: (id) => { if(confirm('Excluir sem pagar?')) { StorageManager.save('integrux_debts', Debts.getData().filter(i => i.id !== id)); renderStrategy(); Assets.render(); closeModal('actionModal'); closeModal('notifModal'); Debts.checkNotifications(); } },
             checkNotifications: () => {
                 const list = Debts.getData(); const dismissed = Debts.getDismissed(); const today = new Date().getDate(); const currentMonth = new Date().toISOString().slice(0, 7);
@@ -1225,214 +1305,387 @@
         const Assistant = {
             state: 'IDLE',
             tempData: {},
-            init: () => {
-                const input = document.getElementById('cmdInput');
-                const term = document.getElementById('assistTerminal');
-                
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        const val = Security.sanitize(input.value);
-                        input.value = '';
-                        if (val.trim()) Assistant.processInput(val);
-                    }
+
+            getLiquidBalance: () => {
+                const fixedSalary = parseFloat(localStorage.getItem('integrux_fixed_salary') || 0);
+                const transactions = Finance.getData();
+                const currentMonth = new Date().toISOString().slice(0, 7);
+                const monthTrans = transactions.filter(t => t.date.startsWith(currentMonth));
+                let extraIncome = 0; let expenses = 0;
+                monthTrans.forEach(t => {
+                    if (t.amount > 0 && t.cat !== 'Salário') extraIncome += t.amount;
+                    else if (t.amount < 0) expenses += Math.abs(t.amount);
                 });
+                return (fixedSalary + extraIncome) - expenses;
+            },
 
-                // Mensagens iniciais do Chatbot
-                const session = JSON.parse(sessionStorage.getItem('integrux_session'));
-                const userName = session ? session.name.split(' ')[0] : 'Usuário';
+            init: () => {
+                const input = document.getElementById('cmdInput'); const term = document.getElementById('assistTerminal');
+                const newInp = input.cloneNode(true); input.parentNode.replaceChild(newInp, input);
+                newInp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const val = Security.sanitize(newInp.value); newInp.value = ''; if (val.trim()) Assistant.processInput(val); } });
+                term.innerHTML = ''; Assistant.print('<em>Iniciando central de comandos Integrux...</em>', 'sys');
+                const session = JSON.parse(sessionStorage.getItem('integrux_session')); const name = session ? session.name.split(' ')[0] : 'Usuário';
+                setTimeout(() => { Assistant.print(`Olá, <strong>${name}</strong>.`, 'success'); Assistant.showMainMenu(); }, 600);
+            },
 
-                term.innerHTML = ''; // Limpa terminal
-                Assistant.print('<em>Conectando ao servidor neural...</em>', 'sys');
-                setTimeout(() => {
-                    Assistant.print('<strong>Assistente Integrux conectado.</strong>', 'success');
-                    Assistant.print(`Olá, <strong>${userName}</strong>! Em que posso ajudar você hoje?`, 'sys');
-                    
-                    // Botões de ação rápida (Tags)
-                    const actionsDiv = document.createElement('div');
-                    actionsDiv.style.marginTop = '10px';
-                    actionsDiv.innerHTML = `
-                        <span class="chat-tag" onclick="Assistant.trigger('pagar')">💸 Pagar Conta</span>
-                        <span class="chat-tag" onclick="Assistant.trigger('investir')">📈 Investir</span>
-                        <span class="chat-tag" onclick="Assistant.trigger('simular')">🧮 Simular Salário</span>
-                    `;
-                    term.appendChild(actionsDiv);
-                    term.scrollTop = term.scrollHeight;
-                }, 800);
+            showMainMenu: () => {
+                const liquid = Assistant.getLiquidBalance(); const color = liquid >= 0 ? '#4caf50' : '#f44336';
+                let msg = `Saldo em Conta: <strong style="color:${color}">R$ ${liquid.toLocaleString('pt-BR')}</strong>.<br>`;
+                if (liquid <= 0) msg += `<span style="font-size:0.8rem; color:#ff9800;">Atenção: Você está sem liquidez.</span><br>`;
+                msg += `Em que posso ajudar?`;
+                Assistant.print(msg, 'sys');
+                
+                Assistant.appendActions([ 
+                    { text: '💸 Pagar Conta', action: "pagar" }, 
+                    { text: '📈 Investir', action: "investir" }, 
+                    { text: '💰 Salário/Renda', action: "salario" }, 
+                    { text: '🧾 Nova Despesa', action: "add_conta" },
+                    { text: '🗑️ Limpar Chat', action: "clear_chat" } 
+                ]);
+                Assistant.state = 'IDLE';
             },
-            trigger: (cmd) => {
-                Assistant.processInput(cmd);
+
+            appendActions: (actions) => {
+                const term = document.getElementById('assistTerminal'); const div = document.createElement('div');
+                div.className = 'chat-actions-container'; div.style.marginTop = '10px'; div.style.display = 'flex'; div.style.gap = '8px'; div.style.flexWrap = 'wrap';
+                actions.forEach(act => { const btn = document.createElement('span'); btn.className = 'chat-tag'; btn.innerHTML = act.text; btn.style.cursor = 'pointer'; btn.onclick = () => Assistant.trigger(act.action); div.appendChild(btn); });
+                term.appendChild(div); term.scrollTop = term.scrollHeight;
             },
-            print: (msg, type = 'sys') => {
-                const term = document.getElementById('assistTerminal');
-                const div = document.createElement('div');
-                div.className = 'msg-' + type;
-                div.innerHTML = msg;
-                term.appendChild(div);
-                term.scrollTop = term.scrollHeight;
+
+            trigger: (cmd) => { Assistant.processInput(cmd); },
+            print: (msg, type = 'sys') => { const term = document.getElementById('assistTerminal'); const div = document.createElement('div'); div.className = 'msg-' + type; div.innerHTML = msg; term.appendChild(div); term.scrollTop = term.scrollHeight; },
+            
+            // --- CÁLCULO DE SALÁRIO (SIMULAÇÃO OU FIXO) ---
+            processSalaryCalculation: (grossVal, loansToDeduct, isSimulation) => {
+                const allDebts = Debts.getData();
+                if(typeof processarHolerite !== 'function') return Assistant.print('Erro: Lógica financeira ausente.');
+
+                const result = processarHolerite(grossVal, loansToDeduct);
+                
+                let msg = '';
+                if(isSimulation) {
+                    msg = `🔮 <strong>Simulação de Salário</strong><br>`;
+                } else {
+                    localStorage.setItem('integrux_fixed_salary', result.liquido);
+                    msg = `✅ <strong>Salário Fixo Definido!</strong><br>`;
+                    // Só registra transações se NÃO for simulação
+                    result.transacoes.forEach(t => {
+                        let finalVal = t.valor;
+                        if(t.tipo === 'DESPESA') finalVal = finalVal * -1;
+                        Finance.add(t.descricao, finalVal, t.categoria);
+                        if (t.idEmprestimoRelacionado) {
+                            const debt = allDebts.find(d => d.id === t.idEmprestimoRelacionado);
+                            if (debt) {
+                                debt.lastPaid = new Date().toISOString().slice(0, 7); 
+                                if(debt.installments) debt.installments.current = parseInt(debt.installments.current) + 1;
+                            }
+                        }
+                    });
+                    StorageManager.save('integrux_debts', allDebts);
+                    Assets.render();
+                }
+
+                msg += `<small>Bruto: R$ ${result.bruto.toLocaleString('pt-BR')} | INSS: -R$ ${result.inss.toLocaleString('pt-BR')}</small><br>`;
+                if (result.totalEmprestimos > 0) { msg += `<small>Empréstimos descontados: -R$ ${result.totalEmprestimos.toLocaleString('pt-BR')}</small><br>`; } 
+                else { msg += `<small>Empréstimos: Não descontados.</small><br>`; }
+                msg += `💰 <strong>Líquido: R$ ${result.liquido.toLocaleString('pt-BR')}</strong><br>`;
+                msg += `------------------------------<br>`;
+
+                // Cálculo de sobra baseado em contas pendentes (apenas visualização)
+                if(isSimulation) {
+                    const currentMonth = new Date().toISOString().slice(0, 7);
+                    const pendingBills = allDebts.filter(d => d.type !== 'loan' && d.lastPaid !== currentMonth).reduce((acc, d) => acc + d.amount, 0);
+                    const balanceAfterBills = result.liquido - pendingBills;
+                    msg += `Se este fosse seu salário, após pagar as contas pendentes (R$ ${pendingBills.toLocaleString('pt-BR')}), sobraria: <strong>R$ ${balanceAfterBills.toLocaleString('pt-BR')}</strong>`;
+                }
+
+                Assistant.print(msg, isSimulation ? 'info' : 'success');
+                if(!isSimulation && typeof renderStrategy === 'function') renderStrategy();
+                
+                // Botão para limpar após simulação ou finalizar
+                if(isSimulation) {
+                     Assistant.appendActions([{ text: '🗑️ Limpar Simulação', action: "clear_chat" }, { text: '🏠 Menu', action: "menu" }]);
+                } else {
+                     Assistant.showMainMenu();
+                }
             },
+
+            // --- PROCESSAMENTO DE INPUTS ---
             processInput: (text) => {
-                // Echo user input
-                Assistant.print(text, 'user');
                 const lower = text.toLowerCase().trim();
 
-                // Máquina de Estados
+                if (lower === 'clear_chat') {
+                    document.getElementById('assistTerminal').innerHTML = ''; 
+                    Assistant.state = 'IDLE'; 
+                    Assistant.showMainMenu(); 
+                    return;
+                }
+
+                if (['cancelar', 'voltar', 'menu'].includes(lower)) { Assistant.state = 'IDLE'; return Assistant.showMainMenu(); }
+                
+                // Ignora comandos internos para não imprimir no chat
+                if(!['pagar', 'investir', 'salario', 'add_conta', 'sim', 'não', 'confirm_loan_yes', 'confirm_loan_no', 'simular_salario', 'definir_fixo', 'novo_fixo'].includes(lower) && !lower.startsWith('pay_id_') && !lower.startsWith('sel_id_')) {
+                    Assistant.print(text, 'user');
+                }
+
                 if (Assistant.state === 'IDLE') {
-                    if (['oi', 'olá', 'ola', 'hi'].some(x => lower.includes(x))) {
-                        return Assistant.print('Olá! Como posso ser útil? Tente "simular" ou "pagar".');
+                    if (lower === 'pagar') {
+                        const liquid = Assistant.getLiquidBalance();
+                        if (liquid <= 0) return Assistant.print('Você não tem saldo suficiente. Adicione fundos para continuar.', 'err');
+                        const debts = Debts.getData(); const currentMonth = new Date().toISOString().slice(0, 7);
+                        const pending = debts.filter(d => d.lastPaid !== currentMonth && d.amount > 0);
+                        if (pending.length === 0) return Assistant.print('Nenhuma conta pendente.', 'success');
+                        
+                        Assistant.print(`Saldo: R$ ${liquid.toLocaleString('pt-BR')}. Qual conta pagar?`, 'sys');
+                        const actions = pending.map(d => ({ text: `💸 ${d.name} (R$ ${d.amount})`, action: `pay_id_${d.id}` }));
+                        actions.push({ text: 'Cancelar', action: 'cancelar' });
+                        Assistant.appendActions(actions);
+                        Assistant.state = 'WAITING_PAYMENT_SELECTION';
+                        return;
                     }
-                    if (lower.includes('simular') || lower.includes('salario')) {
-                        Assistant.state = 'WAITING_SALARY';
-                        return Assistant.print('Entendido. Qual é o seu salário <strong>BRUTO</strong>? (Digite apenas números, ex: 3000)');
+                    if (lower === 'investir') {
+                        const liquid = Assistant.getLiquidBalance();
+                        if (liquid <= 0) return Assistant.print('Regularize seu saldo antes.', 'err');
+                        Assistant.state = 'WAITING_INVEST_AMOUNT';
+                        return Assistant.print(`Saldo livre: <strong>R$ ${liquid.toLocaleString('pt-BR')}</strong>. Quanto investir?`);
                     }
-                    if (lower.includes('pagar')) {
+                    if (lower === 'salario') {
+                        const currentFixed = parseFloat(localStorage.getItem('integrux_fixed_salary') || 0);
+                        Assistant.print(`Salário fixo atual: <strong>R$ ${currentFixed.toLocaleString('pt-BR')}</strong>.`);
+                        Assistant.print('O que deseja fazer?', 'sys');
+                        Assistant.appendActions([ 
+                            { text: '🧮 Simular Bruto (Temporário)', action: 'simular_salario' }, 
+                            { text: '💾 Definir Novo Salário Fixo', action: 'definir_fixo' },
+                            { text: '➕ Renda Extra', action: 'add_renda_extra' } 
+                        ]);
+                        return;
+                    }
+                    if (lower === 'simular_salario') {
+                        Assistant.tempData.isSimulation = true;
+                        Assistant.state = 'WAITING_GROSS_SALARY';
+                        return Assistant.print('Digite o valor <strong>BRUTO</strong> para a SIMULAÇÃO:');
+                    }
+                    if (lower === 'definir_fixo') {
+                        Assistant.print('⚠️ <strong>Atenção:</strong> O salário fixo define sua base mensal. Altere apenas se houve mudança real de emprego ou contrato.', 'warn');
+                        Assistant.appendActions([{ text: 'Continuar', action: 'novo_fixo' }, { text: 'Cancelar', action: 'cancelar' }]);
+                        return;
+                    }
+                    if (lower === 'novo_fixo') {
+                        Assistant.tempData.isSimulation = false;
+                        Assistant.state = 'WAITING_GROSS_SALARY';
+                        return Assistant.print('Digite o NOVO valor <strong>BRUTO</strong> do seu salário:');
+                    }
+
+                    if (lower === 'add_renda_extra') { Assistant.state = 'WAITING_EXTRA_INCOME_DESC'; return Assistant.print('Qual a origem da renda?'); }
+                    
+                    // --- SISTEMA DE ID PARA ADICIONAR CONTA ---
+                    if (lower === 'add_conta') { 
                         const debts = Debts.getData();
-                        const pending = debts.filter(d => d.lastPaid !== new Date().toISOString().slice(0, 7) && d.amount > 0);
-                        if(pending.length === 0) return Assistant.print('Você não tem contas pendentes cadastradas com valor definido. Digite "add [Nome]" para criar uma nova.', 'success');
+                        let msg = 'Contas já cadastradas (IDs):<br>';
                         
-                        let msg = 'Contas pendentes:<br>';
-                        pending.forEach(p => msg += `• <strong>${p.name}</strong>: R$ ${p.amount} (Vence dia ${p.dueDay})<br>`);
-                        msg += '<br>Qual delas deseja pagar? Digite o nome.';
-                        Assistant.state = 'WAITING_PAYMENT_NAME';
-                        return Assistant.print(msg);
-                    }
-                    if (lower.startsWith('add ')) {
-                        const name = text.split(' ').slice(1).join(' ');
-                        Assistant.tempData.newBillName = name;
-                        Assistant.state = 'WAITING_BILL_VALUE';
-                        return Assistant.print(`Ok, vamos adicionar "<strong>${name}</strong>". Qual o valor da conta?`);
-                    }
-                    if (lower.includes('investir')) {
-                        return Assistant.print('Para investir, recomendo usar a aba <strong>Investimentos</strong> no menu lateral para ter acesso aos gráficos e simuladores visuais!', 'info');
-                    }
-                    return Assistant.print('Desculpe, não entendi. Tente: "simular", "pagar" ou "add [nome da conta]".', 'err');
-                }
-
-                if (Assistant.state === 'WAITING_SALARY') {
-                    const val = parseMoneyInput(text);
-                    if (val <= 0) return Assistant.print('Valor inválido. Tente novamente (ex: 3500).', 'err');
-                    
-                    // Cálculo INSS 2024 (Simplificado Progressivo)
-                    let inss = 0;
-                    if(val <= 1412) inss = val * 0.075;
-                    else if(val <= 2666.68) inss = (1412 * 0.075) + ((val - 1412) * 0.09);
-                    else if(val <= 4000.03) inss = (1412 * 0.075) + (1254.68 * 0.09) + ((val - 2666.68) * 0.12);
-                    else if(val <= 7786.02) inss = (1412 * 0.075) + (1254.68 * 0.09) + (1333.35 * 0.12) + ((val - 4000.03) * 0.14);
-                    else inss = 908.85; // Teto
-
-                    const net = val - inss;
-                    Assistant.tempData.salary = { gross: val, inss: inss, net: net };
-
-                    // Verificar Empréstimos
-                    const loans = Debts.getData().filter(d => d.type === 'loan');
-                    let loanTotal = 0;
-                    loans.forEach(l => loanTotal += (l.installmentValue || 0));
-                    Assistant.tempData.loanTotal = loanTotal;
-
-                    Assistant.print(`Salário Bruto: R$ ${val.toLocaleString('pt-BR')}`);
-                    Assistant.print(`Desconto INSS: - R$ ${inss.toLocaleString('pt-BR')}`, 'warn');
-                    
-                    if (loanTotal > 0) {
-                        Assistant.print(`Detectei empréstimos somando <strong>R$ ${loanTotal.toLocaleString('pt-BR')}</strong>.`, 'info');
-                        Assistant.print('Deseja descontar esses empréstimos do líquido? (Sim/Não)', 'sys');
-                        Assistant.state = 'CONFIRM_LOAN_DEDUCTION';
-                    } else {
-                        Assistant.print(`Líquido Estimado: <strong>R$ ${net.toLocaleString('pt-BR')}</strong>`, 'success');
-                        Assistant.print('Deseja salvar esse valor como seu Salário Fixo mensal? (Sim/Não)', 'sys');
-                        Assistant.state = 'CONFIRM_SAVE_SALARY';
-                    }
-                    return;
-                }
-
-                if (Assistant.state === 'CONFIRM_LOAN_DEDUCTION') {
-                    if (['s','sim','y'].includes(lower)) {
-                        const final = Assistant.tempData.salary.net - Assistant.tempData.loanTotal;
-                        Assistant.tempData.salary.net = final;
-                        Assistant.print(`Ok, descontado. Líquido Final: <strong>R$ ${final.toLocaleString('pt-BR')}</strong>`, 'success');
-                    } else {
-                        Assistant.print(`Mantendo valor original: <strong>R$ ${Assistant.tempData.salary.net.toLocaleString('pt-BR')}</strong>`);
-                    }
-                    Assistant.print('Salvar este valor como fixo? (Sim/Não)');
-                    Assistant.state = 'CONFIRM_SAVE_SALARY';
-                    return;
-                }
-
-                if (Assistant.state === 'CONFIRM_SAVE_SALARY') {
-                    if (['s','sim','y'].includes(lower)) {
-                        localStorage.setItem('integrux_fixed_salary', Assistant.tempData.salary.net);
-                        renderStrategy(); // Atualiza a tela
-                        Assistant.print('✅ Salário fixo atualizado com sucesso!', 'success');
-                    } else {
-                        Assistant.print('Ok, operação cancelada.');
-                    }
-                    Assistant.state = 'IDLE';
-                    return;
-                }
-
-                if (Assistant.state === 'WAITING_PAYMENT_NAME') {
-                    const target = Debts.getData().find(d => d.name.toLowerCase() === lower);
-                    if (target) {
-                        // Processa pagamento
-                        const currentMonth = new Date().toISOString().slice(0, 7);
-                        if(target.lastPaid === currentMonth) return Assistant.print('Essa conta já consta como paga este mês.', 'warn');
+                        // Lista IDs existentes
+                        if(debts.length > 0) {
+                            debts.forEach((d, index) => {
+                                // Usamos index + 1 como ID visual simples
+                                msg += `(ID ${index + 1}) ${d.name}<br>`;
+                            });
+                        } else {
+                            msg += 'Nenhuma conta cadastrada.<br>';
+                        }
                         
-                        Finance.add(`Pgto: ${target.name}`, target.amount, target.type === 'essential' ? 'Aluguel' : 'Banco');
-                        target.lastPaid = currentMonth;
-                        StorageManager.save('integrux_debts', Debts.getData()); // Salva corretamente
-                        renderStrategy();
-                        Assistant.print(`✅ Pagamento de <strong>${target.name}</strong> registrado!`, 'success');
-                        Assistant.state = 'IDLE';
-                    } else {
-                        Assistant.print('Conta não encontrada. Digite o nome exato ou "cancelar".', 'err');
-                        if(lower === 'cancelar') Assistant.state = 'IDLE';
+                        // Próximo ID Sugerido
+                        const nextId = debts.length + 1;
+                        msg += `<br>Digite o <strong>NÚMERO do ID</strong> existente para repetir a conta, ou digite um <strong>NOVO NOME</strong> (será ID ${nextId}).`;
+                        
+                        Assistant.print(msg);
+                        Assistant.state = 'WAITING_BILL_ID_OR_NAME'; 
+                        return; 
+                    }
+                    return Assistant.print('Não entendi. Use os botões.');
+                }
+
+                // --- FLUXO DE SALÁRIO (SIMULAÇÃO E FIXO) ---
+                if (Assistant.state === 'WAITING_GROSS_SALARY') {
+                    const grossVal = parseMoneyInput(text);
+                    if (!grossVal) return Assistant.print('Valor inválido.');
+                    const allDebts = Debts.getData();
+                    const loans = allDebts.filter(d => d.type === 'loan').map(d => ({ id: d.id, nome: d.name, valorParcela: Number(d.installmentValue || 0) }));
+                    
+                    if (loans.length > 0) {
+                        const totalLoans = loans.reduce((a, b) => a + b.valorParcela, 0);
+                        Assistant.tempData.pendingGross = grossVal;
+                        Assistant.tempData.pendingLoans = loans; 
+                        Assistant.print(`Identifiquei <strong>${loans.length} empréstimos</strong> (Total: R$ ${totalLoans.toLocaleString('pt-BR')}).<br>Eles já foram descontados na folha?`, 'warn');
+                        Assistant.appendActions([ { text: 'Sim, descontar', action: 'confirm_loan_yes' }, { text: 'Não, valor cheio', action: 'confirm_loan_no' } ]);
+                        Assistant.state = 'WAITING_LOAN_CONFIRMATION';
+                        return;
+                    }
+                    // Sem empréstimos, finaliza direto
+                    Assistant.processSalaryCalculation(grossVal, [], Assistant.tempData.isSimulation);
+                    return;
+                }
+
+                if (Assistant.state === 'WAITING_LOAN_CONFIRMATION') {
+                    const grossVal = Assistant.tempData.pendingGross;
+                    const loans = Assistant.tempData.pendingLoans;
+                    const isSim = Assistant.tempData.isSimulation;
+                    
+                    if (lower === 'confirm_loan_yes') { 
+                        Assistant.processSalaryCalculation(grossVal, loans, isSim); 
+                    } else { 
+                        Assistant.print('Ok, processando sem abater empréstimos.', 'sys'); 
+                        Assistant.processSalaryCalculation(grossVal, [], isSim); 
                     }
                     return;
                 }
-                
-                if (Assistant.state === 'WAITING_BILL_VALUE') {
-                    const val = parseMoneyInput(text);
-                    if (val <= 0) return Assistant.print('Valor inválido.', 'err');
-                    Assistant.tempData.newBillVal = val;
-                    Assistant.state = 'WAITING_BILL_DAY';
-                    return Assistant.print('Qual o dia do vencimento? (1-31)');
+
+                // --- FLUXO DE PAGAMENTO ---
+                if (Assistant.state === 'WAITING_PAYMENT_SELECTION') {
+                    if (lower.startsWith('pay_id_')) {
+                        const id = parseInt(lower.replace('pay_id_', ''));
+                        const debts = Debts.getData(); const target = debts.find(d => d.id === id);
+                        if (target) {
+                            const liquid = Assistant.getLiquidBalance();
+                            if (liquid < target.amount) return Assistant.print(`Saldo insuficiente.`);
+                            Finance.add(`Pagamento: ${target.name}`, target.amount * -1, target.type === 'essential' ? 'Contas' : 'Dívida');
+                            target.lastPaid = new Date().toISOString().slice(0, 7);
+                            if(target.type === 'loan' && target.installments) target.installments.current++;
+                            StorageManager.save('integrux_debts', debts);
+                            if(typeof renderStrategy === 'function') renderStrategy(); Assets.render();
+                            Assistant.print(`<strong>${target.name}</strong> pago!`, 'success'); Assistant.showMainMenu();
+                        }
+                    } else Assistant.showMainMenu();
+                    return;
                 }
-                
+
+                // --- FLUXO DE INVESTIMENTO ---
+                if (Assistant.state === 'WAITING_INVEST_AMOUNT') {
+                    const val = parseMoneyInput(text); const liquid = Assistant.getLiquidBalance();
+                    if (!val || val <= 0) return Assistant.print('Valor inválido.');
+                    if (val > liquid) return Assistant.print(`Saldo insuficiente.`);
+                    
+                    Assistant.tempData.investAmount = val;
+                    Assistant.print(`Valor R$ ${val.toLocaleString('pt-BR')} aceito. Em qual tipo de fundo você deseja investir hoje?`);
+                    Assistant.appendActions([ { text: '🛡️ Reserva', action: 'dest_reserva' }, { text: '📈 Ações', action: 'dest_acao' }, { text: '🏦 Fixa', action: 'dest_fixa' } ]);
+                    Assistant.state = 'WAITING_INVEST_DEST';
+                    return;
+                }
+
+                if (Assistant.state === 'WAITING_INVEST_DEST') {
+                    let typeKey = '';
+                    if (lower === 'dest_reserva') typeKey = 'Reserva';
+                    else if (lower === 'dest_acao') typeKey = 'Ações';
+                    else if (lower === 'dest_fixa') typeKey = 'Renda Fixa';
+                    else return Assistant.print('Selecione uma opção válida.');
+
+                    Assistant.tempData.investType = typeKey;
+                    Assistant.state = 'WAITING_INVEST_INSTITUTION';
+                    return Assistant.print(`Certo, ${typeKey}. <strong>Em qual instituição</strong> está guardado? (Ex: Nubank, XP)`);
+                }
+
+                if (Assistant.state === 'WAITING_INVEST_INSTITUTION') {
+                    const institution = Security.sanitize(text);
+                    const amount = Assistant.tempData.investAmount;
+                    const type = Assistant.tempData.investType;
+                    let logName = '';
+
+                    if (type === 'Reserva') {
+                        logName = `Reserva (${institution})`;
+                        const reserveData = Invest.getReserve();
+                        const existingItem = reserveData.items.find(i => i.inst.toLowerCase().includes(institution.toLowerCase()));     
+                        if (existingItem) {
+                            existingItem.val += amount;
+                        } else {
+                            if (reserveData.type === 'single' && reserveData.items[0].inst === 'Não definido') {
+                                reserveData.items[0].inst = institution;
+                                reserveData.items[0].val += amount;
+                            } else {
+                                reserveData.type = 'multi';
+                                reserveData.items.push({ inst: institution, val: amount, obj: 'Via assistente' });
+                            }
+                        }
+                        StorageManager.save('integrux_reserve', reserveData);
+                    } else {
+                        logName = `${type} - ${institution}`;
+                        const invList = Invest.getData();
+                        invList.push({
+                            id: Date.now(),
+                            name: `${institution} (${type})`,
+                            type: type,
+                            amount: amount,
+                            date: new Date().toLocaleDateString('pt-BR')
+                        });
+                        Invest.save(invList);
+                    }
+
+                    Finance.add(`Aporte: ${logName}`, amount * -1, 'Investimento'); 
+                    Invest.render();
+                    if(typeof renderStrategy === 'function') renderStrategy();
+                    
+                    Assistant.print(`✅ <strong>R$ ${amount.toLocaleString('pt-BR')}</strong> investidos!`, 'success');
+                    Assistant.showMainMenu();
+                    return;
+                }
+
+                // --- OUTROS FLUXOS ---
+                if (Assistant.state === 'WAITING_EXTRA_INCOME_DESC') { Assistant.tempData.incomeDesc = text; Assistant.state = 'WAITING_EXTRA_INCOME_VAL'; return Assistant.print('Qual valor você deseja adicionar?'); }
+                if (Assistant.state === 'WAITING_EXTRA_INCOME_VAL') {
+                    const val = parseMoneyInput(text); if (!val) return Assistant.print('Inválido.');
+                    Finance.add(Assistant.tempData.incomeDesc, val, 'Adicionar renda extra');
+                    Assistant.print('Renda adicionada', 'success'); renderStrategy(); Assistant.showMainMenu(); return;
+                }
+
+                // --- NOVO SISTEMA DE ID OU NOME PARA CONTA ---
+                if (Assistant.state === 'WAITING_BILL_ID_OR_NAME') {
+                    // Verifica se digitou um número (ID)
+                    if (!isNaN(text)) {
+                        const idIndex = parseInt(text) - 1; // Ajusta array base 0
+                        const debts = Debts.getData();
+                        if (debts[idIndex]) {
+                            Assistant.tempData.newBillName = debts[idIndex].name;
+                            Assistant.print(`Selecionado: <strong>${debts[idIndex].name}</strong>. Qual o valor?`);
+                            Assistant.state = 'WAITING_BILL_VAL';
+                        } else {
+                            Assistant.print('ID não encontrado. Digite o número correto ou um novo nome.', 'err');
+                        }
+                    } else {
+                        // Digitou nome (Novo)
+                        Assistant.tempData.newBillName = text;
+                        Assistant.print(`Nova conta: <strong>${text}</strong>. Qual o valor?`);
+                        Assistant.state = 'WAITING_BILL_VAL';
+                    }
+                    return;
+                }
+
+                if (Assistant.state === 'WAITING_BILL_VAL') {
+                    const val = parseMoneyInput(text); if(!val) return Assistant.print('Inválido.');
+                    Assistant.tempData.newBillVal = val; Assistant.print('Dia do vencimento (1-31)?'); Assistant.state = 'WAITING_BILL_DAY'; return;
+                }
                 if (Assistant.state === 'WAITING_BILL_DAY') {
-                    const day = parseInt(text);
-                    if (!day || day < 1 || day > 31) return Assistant.print('Dia inválido.', 'err');
-                    
+                    const day = parseInt(text); if(!day || day < 1 || day > 31) return Assistant.print('Dia inválido.');
                     Debts.add(Assistant.tempData.newBillName, Assistant.tempData.newBillVal, 'essential', day, null);
-                    Assistant.print(`✅ Conta <strong>${Assistant.tempData.newBillName}</strong> adicionada com sucesso!`, 'success');
-                    Assistant.state = 'IDLE';
-                    return;
+                    Assistant.print('Conta registrada!', 'success'); Assistant.showMainMenu(); return;
                 }
+            },
+            
+            processPayment: (id) => {
+                 switchView('tools', document.querySelector(`.nav-item[onclick*="'tools'"]`));
+                 Assistant.print('Iniciando pagamento...', 'sys');
+                 Assistant.trigger('pagar');
+                 setTimeout(() => Assistant.trigger(`pay_id_${id}`), 500);
             }
         };
 
         const System = {
-            backup: () => {
-                const backup = { income: StorageManager.load('integrux_income'), finance: StorageManager.load('integrux_finance'), logs: StorageManager.load('integrux_logs'), assets: StorageManager.load('integrux_assets_v2'), debts: StorageManager.load('integrux_debts'), bigGoals: StorageManager.load('integrux_big_goals'), goal: localStorage.getItem('integrux_goal'), fixo: localStorage.getItem('integrux_fixed_salary'), investments: StorageManager.load('integrux_investments') };
-                const a = document.createElement('a'); a.href = window.URL.createObjectURL(new Blob([JSON.stringify(backup)], { type: 'application/json' })); a.download = `Integrux_Backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
-            },
-            restore: (input) => {
-                const file = input.files[0]; if(!file) return; const reader = new FileReader();
-                reader.onload = (e) => { try { const data = JSON.parse(e.target.result); if(data.income) StorageManager.save('integrux_income', data.income); if(data.finance) StorageManager.save('integrux_finance', data.finance); if(data.logs) StorageManager.save('integrux_logs', data.logs); if(data.assets) StorageManager.save('integrux_assets_v2', data.assets); if(data.debts) StorageManager.save('integrux_debts', data.debts); if(data.bigGoals) StorageManager.save('integrux_big_goals', data.bigGoals); if(data.goal) localStorage.setItem('integrux_goal', data.goal); if(data.fixo) localStorage.setItem('integrux_fixed_salary', data.fixo); if(data.investments) StorageManager.save('integrux_investments', data.investments); alert('Restaurado!'); location.reload(); } catch(err) { alert('Erro no arquivo.'); } }; reader.readAsText(file);
-            },
-            openReset: () => {
-                document.getElementById('resetModal').style.display = 'flex'; const btn = document.getElementById('btnConfirmReset'); btn.disabled = true; btn.style.opacity = '0.5'; let sec = 5;
-                const timer = setInterval(() => { sec--; if(sec <= 0) { clearInterval(timer); btn.disabled = false; btn.style.opacity = '1'; btn.innerText = 'SIM, RESETAR TUDO'; } else btn.innerText = `Aguarde ${sec}s...`; }, 1000);
-            },
+            backup: () => { const backup = { income: StorageManager.load('integrux_income'), finance: StorageManager.load('integrux_finance'), logs: StorageManager.load('integrux_logs'), assets: StorageManager.load('integrux_assets_v2'), debts: StorageManager.load('integrux_debts'), bigGoals: StorageManager.load('integrux_big_goals'), goal: localStorage.getItem('integrux_goal'), fixo: localStorage.getItem('integrux_fixed_salary'), investments: StorageManager.load('integrux_investments') }; const a = document.createElement('a'); a.href = window.URL.createObjectURL(new Blob([JSON.stringify(backup)], { type: 'application/json' })); a.download = `Integrux_Backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); },
+            restore: (input) => { const file = input.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = (e) => { try { const data = JSON.parse(e.target.result); if(data.income) StorageManager.save('integrux_income', data.income); if(data.finance) StorageManager.save('integrux_finance', data.finance); if(data.logs) StorageManager.save('integrux_logs', data.logs); if(data.assets) StorageManager.save('integrux_assets_v2', data.assets); if(data.debts) StorageManager.save('integrux_debts', data.debts); if(data.bigGoals) StorageManager.save('integrux_big_goals', data.bigGoals); if(data.goal) localStorage.setItem('integrux_goal', data.goal); if(data.fixo) localStorage.setItem('integrux_fixed_salary', data.fixo); if(data.investments) StorageManager.save('integrux_investments', data.investments); alert('Restaurado!'); location.reload(); } catch(err) { alert('Erro no arquivo.'); } }; reader.readAsText(file); },
+            openReset: () => { document.getElementById('resetModal').style.display = 'flex'; const btn = document.getElementById('btnConfirmReset'); btn.disabled = true; btn.style.opacity = '0.5'; let sec = 5; const timer = setInterval(() => { sec--; if(sec <= 0) { clearInterval(timer); btn.disabled = false; btn.style.opacity = '1'; btn.innerText = 'SIM, RESETAR TUDO'; } else btn.innerText = `Aguarde ${sec}s...`; }, 1000); },
             confirmReset: () => { localStorage.clear(); sessionStorage.clear(); location.reload(); }
         };
 
         const Income = {
             getData: () => StorageManager.load('integrux_income') || [],
-            save: () => {
-                const date = document.getElementById('incDate').value; const company = Security.sanitize(document.getElementById('incCompany').value); const role = Security.sanitize(document.getElementById('incRole').value); const grossInput = document.getElementById('incGross').value; const netInput = document.getElementById('incNet').value; const status = document.getElementById('incStatus').value;
-                if (!date || !grossInput) return alert('Preencha os dados.');
-                Logger.log('Nova Renda', `${company} - R$ ${netInput}`);
-                const data = Income.getData(); data.push({ id: Date.now(), date, company, role, type: 'Salário', gross: parseMoneyInput(grossInput), net: parseMoneyInput(netInput), status });
-                StorageManager.save('integrux_income', data); renderIncome(); closeModal('incomeModal');
-            },
+            save: () => { const date = document.getElementById('incDate').value; const company = Security.sanitize(document.getElementById('incCompany').value); const role = Security.sanitize(document.getElementById('incRole').value); const grossInput = document.getElementById('incGross').value; const netInput = document.getElementById('incNet').value; const status = document.getElementById('incStatus').value; if (!date || !grossInput) return alert('Preencha os dados.'); Logger.log('Nova Renda', `${company} - R$ ${netInput}`); const data = Income.getData(); data.push({ id: Date.now(), date, company, role, type: 'Salário', gross: parseMoneyInput(grossInput), net: parseMoneyInput(netInput), status }); StorageManager.save('integrux_income', data); renderIncome(); closeModal('incomeModal'); },
             remove: (id) => { if(confirm('Excluir?')) { StorageManager.save('integrux_income', Income.getData().filter(i => i.id !== id)); renderIncome(); } },
             markAsPaid: (id) => { if(confirm('Confirmar recebimento?')) { const data = Income.getData(); const item = data.find(i => i.id === id); if(item) { item.status = 'Pago'; StorageManager.save('integrux_income', data); renderIncome(); } } }
         };
@@ -1440,34 +1693,136 @@
         const Finance = {
             getData: () => StorageManager.load('integrux_finance') || [],
             add: (desc, amountInput, cat) => {
-                const val = parseMoneyInput(amountInput); if (!desc || val <= 0) return alert('Inválido.');
-                let saveDate = new Date().toISOString().slice(0,10); const currentFilter = document.getElementById('filterMonth').value;
-                if (currentFilter) { const now = new Date(); const [fYear, fMonth] = currentFilter.split('-'); if (now.getMonth() + 1 != fMonth || now.getFullYear() != fYear) saveDate = `${currentFilter}-01`; }
-                const data = Finance.getData(); data.unshift({ id: Date.now(), date: saveDate, desc: Security.sanitize(desc), amount: val, cat });
-                StorageManager.save('integrux_finance', data); renderFinance(); closeModal('transactionModal'); Logger.log('Despesa', `${desc} - R$ ${val}`);
+                let val = 0; if (typeof amountInput === 'number') val = amountInput; else val = parseMoneyInput(amountInput);
+                if (!desc || val === 0) return alert('Valor ou descrição inválidos.');
+                const expenseCategories = ['Aluguel', 'Luz', 'Agua', 'Internet', 'Vivo', 'Fralda', 'Gasolina', 'Mercado', 'Compras na Internet', 'Lazer', 'Contas', 'Dívida', 'Investimento', 'Empréstimo'];
+                if (expenseCategories.includes(cat) && val > 0) { val = val * -1; }
+                let saveDate = new Date().toISOString().slice(0, 10);
+                const currentFilter = document.getElementById('filterMonth') ? document.getElementById('filterMonth').value : null;
+                if (currentFilter) { const now = new Date(); const [fYear, fMonth] = currentFilter.split('-'); if (now.getMonth() + 1 != fMonth || now.getFullYear() != fYear) { saveDate = `${currentFilter}-01`; } }
+                const data = Finance.getData(); data.unshift({ id: Date.now(), date: saveDate, desc: Security.sanitize(desc), amount: val, cat: cat });
+                StorageManager.save('integrux_finance', data);
+                if (typeof renderFinance === 'function') renderFinance(); if (typeof closeModal === 'function') closeModal('transactionModal'); if (typeof renderStrategy === 'function') renderStrategy();
+                Logger.log('Financeiro', `Adicionado: ${desc} (${val.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})})`);
             },
-            remove: (id) => { StorageManager.save('integrux_finance', Finance.getData().filter(i => i.id !== id)); renderFinance(); if(document.getElementById('reportModal').style.display === 'flex') openMonthlyReport(); }
+            remove: (id) => {
+                const data = Finance.getData(); const target = data.find(i => i.id === id);
+                if (target) {
+                    const newData = data.filter(i => i.id !== id); StorageManager.save('integrux_finance', newData);
+                    if (target.desc.startsWith('Pagamento:')) {
+                        const debtName = target.desc.replace('Pagamento: ', '').trim();
+                        const debts = Debts.getData(); const d = debts.find(x => x.name === debtName);
+                        if(d) { d.lastPaid = null; StorageManager.save('integrux_debts', debts); }
+                    }
+                    if (typeof renderFinance === 'function') renderFinance(); if (typeof renderStrategy === 'function') renderStrategy();
+                    const reportModal = document.getElementById('reportModal'); if (reportModal && reportModal.style.display === 'flex' && typeof openMonthlyReport === 'function') { openMonthlyReport(); }
+                    Logger.log('Financeiro', `Removido: ${target.desc}`);
+                }
+            }
         };
 
-        function renderStrategy() {
-            const list = Finance.getData(); const now = new Date(); const currentMonthStr = now.toISOString().slice(0, 7);
+       function renderStrategy() {
+            const list = Finance.getData(); 
+            const now = new Date(); 
+            const currentMonthStr = now.toISOString().slice(0, 7);
+            const todayDay = now.getDate(); // Dia de hoje (1-31)
+
             const currentMonthExpenses = list.filter(i => i.date.startsWith(currentMonthStr));
+            
             let total = 0, essential = 0, debt = 0, lifestyle = 0;
-            currentMonthExpenses.forEach(i => { total += i.amount; if(['Aluguel', 'Luz', 'Agua', 'Mercado', 'Gasolina', 'Fralda'].includes(i.cat)) essential += i.amount; else if(['Banco', 'Gastos por Fora'].includes(i.cat)) debt += i.amount; else lifestyle += i.amount; });
-            const pEss = total ? (essential / total) * 100 : 0; const pDeb = total ? (debt / total) * 100 : 0; const pLif = total ? (lifestyle / total) * 100 : 0;
-            document.getElementById('pctEssencial').innerText = `${pEss.toFixed(0)}% (R$ ${essential})`; document.getElementById('barEssencial').style.width = `${pEss}%`;
-            document.getElementById('pctEstilo').innerText = `${pLif.toFixed(0)}% (R$ ${lifestyle})`; document.getElementById('barEstilo').style.width = `${pLif}%`;
-            document.getElementById('pctDividas').innerText = `${pDeb.toFixed(0)}% (R$ ${debt})`; document.getElementById('barDividas').style.width = `${pDeb}%`;
-            const goal = Strategy.getGoal(); let projectedIncome = 0; const fixedSalary = localStorage.getItem('integrux_fixed_salary');
-            if(fixedSalary) projectedIncome = parseFloat(fixedSalary); else { const incomes = Income.getData(); if(incomes.length > 0) projectedIncome = incomes.reduce((acc, i) => acc + (i.date.startsWith(currentMonthStr) ? i.net : 0), 0) || incomes[incomes.length-1].net; }
+            
+            currentMonthExpenses.forEach(i => { 
+                if (i.amount < 0) {
+                    const val = Math.abs(i.amount);
+                    total += val; 
+                    if(['Aluguel', 'Luz', 'Agua', 'Mercado', 'Gasolina', 'Fralda'].includes(i.cat)) essential += val; 
+                    else if(['Banco', 'Gastos por Fora', 'Empréstimo', 'Dívida', 'Contas'].includes(i.cat)) debt += val; 
+                    else lifestyle += val; 
+                }
+            });
+            
+            // Barras 50/30/20
+            const pEss = total ? (essential / total) * 100 : 0; 
+            const pDeb = total ? (debt / total) * 100 : 0; 
+            const pLif = total ? (lifestyle / total) * 100 : 0;
+            
+            document.getElementById('pctEssencial').innerText = `${pEss.toFixed(0)}% (R$ ${essential.toLocaleString('pt-BR')})`; document.getElementById('barEssencial').style.width = `${pEss}%`;
+            document.getElementById('pctEstilo').innerText = `${pLif.toFixed(0)}% (R$ ${lifestyle.toLocaleString('pt-BR')})`; document.getElementById('barEstilo').style.width = `${pLif}%`;
+            document.getElementById('pctDividas').innerText = `${pDeb.toFixed(0)}% (R$ ${debt.toLocaleString('pt-BR')})`; document.getElementById('barDividas').style.width = `${pDeb}%`;
+            
+            // Meta e Projeção
+            const goal = Strategy.getGoal(); 
+            const goalDesc = localStorage.getItem('integrux_goal_desc') || '(Sem nome)';
+            let projectedIncome = 0;
+            const incomeTransactions = list.filter(i => i.date.startsWith(currentMonthStr) && i.amount > 0);
+            if (incomeTransactions.length > 0) {
+                projectedIncome = incomeTransactions.reduce((acc, i) => acc + i.amount, 0);
+            } else {
+                projectedIncome = parseFloat(localStorage.getItem('integrux_fixed_salary') || 0);
+            }
             const currentBalance = projectedIncome - total;
-            document.getElementById('goalTarget').innerText = goal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}); document.getElementById('goalCurrent').innerText = currentBalance.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-            if(currentBalance < 0) { document.getElementById('goalCurrent').style.color = 'var(--danger)'; document.getElementById('goalBar').style.width = '0%'; document.getElementById('goalMessage').innerText = "Você está no vermelho!"; } 
-            else { document.getElementById('goalCurrent').style.color = 'var(--success)'; const pctGoal = (goal > 0) ? (currentBalance / goal) * 100 : 0; document.getElementById('goalBar').style.width = `${Math.min(pctGoal, 100)}%`; document.getElementById('goalMessage').innerText = goal > 0 && currentBalance >= goal ? "Meta atingida." : "Em progresso."; }
-            const debts = Debts.getData(); const essentialEl = document.getElementById('essentialList'); const loanEl = document.getElementById('loanList'); essentialEl.innerHTML = ''; loanEl.innerHTML = '';
-            const renderItem = (d, cssClass) => { const isPaid = d.lastPaid === currentMonthStr; return `<div class="transaction-item ${cssClass}" style="${isPaid ? 'opacity:0.6;' : ''}"><div><div style="font-weight:500;">${Security.sanitize(d.name)}</div><div style="font-size:0.7rem; color:var(--text-muted);">Vence dia ${d.dueDay}</div></div><div style="display:flex; gap:10px; align-items:center;"><div class="blur-sensitive" style="color:var(--text-main); font-weight:700;">${d.amount > 0 ? 'R$ '+d.amount : 'A definir'}</div>${isPaid ? `<span style="font-size:0.75rem; background:var(--success); color:white; padding:4px 8px; border-radius:4px; font-weight:700;">PAGO</span>` : `<button class="btn" style="padding:4px; color:var(--success);" onclick="Debts.pay(${d.id})"><i class="bi bi-check-lg"></i></button>`}<button class="btn" style="padding:4px; color:var(--danger);" onclick="Debts.remove(${d.id})"><i class="bi bi-trash"></i></button></div></div>`; };
-            const essentials = debts.filter(d => d.type === 'essential').sort((a,b) => a.dueDay - b.dueDay); essentials.forEach(d => essentialEl.innerHTML += renderItem(d, 'card-essential'));
-            const loans = debts.filter(d => d.type === 'loan').sort((a,b) => a.amount - b.amount); loans.forEach(d => loanEl.innerHTML += renderItem(d, 'card-loan'));
+
+            document.getElementById('goalTarget').innerText = goal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}); 
+            const descElement = document.getElementById('goalDesc');
+            if(descElement) descElement.innerText = goalDesc;
+            document.getElementById('goalCurrent').innerText = currentBalance.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            
+            if(currentBalance < 0) { 
+                document.getElementById('goalCurrent').style.color = 'var(--danger)'; 
+                document.getElementById('goalBar').style.width = '0%'; 
+                document.getElementById('goalMessage').innerText = "Você está no vermelho!"; 
+            } else { 
+                document.getElementById('goalCurrent').style.color = 'var(--success)'; 
+                const pctGoal = (goal > 0) ? (currentBalance / goal) * 100 : 0; 
+                document.getElementById('goalBar').style.width = `${Math.min(pctGoal, 100)}%`; 
+                document.getElementById('goalMessage').innerText = goal > 0 && currentBalance >= goal ? "Meta atingida." : "Em progresso."; 
+            }
+            
+            // Renderização das Listas de Dívidas com Lógica de Vencimento
+            const debts = Debts.getData(); 
+            const essentialEl = document.getElementById('essentialList'); 
+            const loanEl = document.getElementById('loanList'); 
+            essentialEl.innerHTML = ''; loanEl.innerHTML = '';
+            
+            const renderItem = (d, cssClass) => { 
+                const isPaid = d.lastPaid === currentMonthStr;
+                // Lógica de Vencimento: Se não pago E dia de vencimento < hoje
+                const isOverdue = !isPaid && d.dueDay < todayDay;
+                
+                let actionBtn = '';
+                if (isPaid) {
+                    actionBtn = `<span style="font-size:0.75rem; background:var(--success); color:white; padding:4px 8px; border-radius:4px; font-weight:700;">PAGO</span>`;
+                } else if (isOverdue) {
+                    // Botão Amarelo de Atenção + Badge Vencida
+                    actionBtn = `
+                        <span class="badge-vencida">VENCIDA</span>
+                        <button class="btn" style="padding:4px 8px; background:var(--warning); color:black; font-weight:700; font-size:0.75rem;" onclick="Debts.pay(${d.id})">PAGAR</button>
+                    `;
+                } else {
+                    // Botão Padrão Check
+                    actionBtn = `<button class="btn" style="padding:4px; color:var(--success);" onclick="Debts.pay(${d.id})"><i class="bi bi-check-lg"></i></button>`;
+                }
+
+                return `<div class="transaction-item ${cssClass}" style="${isPaid ? 'opacity:0.6;' : ''}">
+                    <div>
+                        <div style="font-weight:500;">${Security.sanitize(d.name)}</div>
+                        <div style="font-size:0.7rem; color:${isOverdue ? 'var(--danger)' : 'var(--text-muted)'};">
+                            ${isOverdue ? 'Venceu dia ' : 'Vence dia '}${d.dueDay}
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <div class="blur-sensitive" style="color:var(--text-main); font-weight:700;">${d.amount > 0 ? 'R$ '+d.amount : 'A definir'}</div>
+                        ${actionBtn}
+                        <button class="btn" style="padding:4px; color:var(--danger);" onclick="Debts.remove(${d.id})"><i class="bi bi-trash"></i></button>
+                    </div>
+                </div>`; 
+            };
+            
+            const essentials = debts.filter(d => d.type === 'essential').sort((a,b) => a.dueDay - b.dueDay); 
+            essentials.forEach(d => essentialEl.innerHTML += renderItem(d, 'card-essential'));
+            
+            const loans = debts.filter(d => d.type === 'loan').sort((a,b) => a.amount - b.amount); 
+            loans.forEach(d => loanEl.innerHTML += renderItem(d, 'card-loan'));
         }
 
         function renderIncome() {
@@ -1481,13 +1836,17 @@
         }
 
         function renderFinance() {
-            const list = Finance.getData(); const filter = document.getElementById('filterMonth').value; const search = document.getElementById('financeSearch').value.toLowerCase(); const el = document.getElementById('transactionList'); const catSummary = document.getElementById('categorySummary'); el.innerHTML = '';
+            const list = Finance.getData(); const filter = document.getElementById('filterMonth').value; const search = document.getElementById('financeSearch').value.toLowerCase(); const el = document.getElementById('transactionList'); const catSummary = document.getElementById('categorySummary'); 
+            const totalEl = document.getElementById('finTotal');
+            const cardLabel = totalEl.previousElementSibling; if(cardLabel && cardLabel.classList.contains('card-label')) { cardLabel.innerText = "Saldo em Caixa (Mês)"; }
+            el.innerHTML = '';
             let filtered = list; if(search) { filtered = list.filter(i => i.desc.toLowerCase().includes(search) || i.cat.toLowerCase().includes(search)); } else { filtered = list.filter(i => !filter || i.date.startsWith(filter)); }
-            if(filtered.length === 0) { el.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Nenhuma transação.</div>'; document.getElementById('finTotal').innerText = 'R$ 0,00'; catSummary.innerHTML = ''; return; }
+            if(filtered.length === 0) { el.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Nenhuma transação.</div>'; totalEl.innerText = 'R$ 0,00'; totalEl.style.color = 'var(--text-muted)'; catSummary.innerHTML = ''; return; }
             const displayList = search ? filtered : filtered.slice(0, 50);
-            displayList.forEach(i => { const icon = getCategoryIcon(i.cat); el.innerHTML += `<div class="transaction-item"><div style="display:flex; align-items:center;"><div class="t-icon">${icon}</div><div><div style="font-weight:500; color:var(--text-main);">${Security.sanitize(i.desc)}</div><div style="font-size:0.7rem; color:var(--text-muted);">${i.cat} - ${i.date}</div></div></div><div class="blur-sensitive" style="color:var(--danger); font-family:'JetBrains Mono'; font-weight:700;">- ${i.amount.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div></div>`; });
-            document.getElementById('finTotal').innerText = filtered.reduce((a,b) => a + Number(b.amount), 0).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-            if(!search) { const cats = {}; filtered.forEach(i => { cats[i.cat] = (cats[i.cat] || 0) + i.amount; }); const total = filtered.reduce((a,b) => a + Number(b.amount), 0); const sortedCats = Object.entries(cats).sort((a,b) => b[1] - a[1]).slice(0, 3); catSummary.innerHTML = sortedCats.map(c => { const pct = (c[1] / total) * 100; return `<div class="cat-bar-container"><div class="cat-bar-header"><span>${c[0]}</span><span>${pct.toFixed(0)}%</span></div><div class="cat-bar-fill" style="width:${pct}%"></div></div>`; }).join(''); } else catSummary.innerHTML = '';
+            displayList.forEach(i => { const icon = getCategoryIcon(i.cat); const itemColor = i.amount >= 0 ? 'var(--success)' : 'var(--danger)'; const itemSign = i.amount >= 0 ? '+' : ''; el.innerHTML += `<div class="transaction-item"><div style="display:flex; align-items:center;"><div class="t-icon">${icon}</div><div><div style="font-weight:500; color:var(--text-main);">${Security.sanitize(i.desc)}</div><div style="font-size:0.7rem; color:var(--text-muted);">${i.cat} - ${i.date}</div></div></div><div class="blur-sensitive" style="color:${itemColor}; font-family:'JetBrains Mono'; font-weight:700;">${itemSign} ${Math.abs(i.amount).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div></div>`; });
+            const totalVal = filtered.reduce((a,b) => a + Number(b.amount), 0); totalEl.innerText = totalVal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if (totalVal >= 0) { totalEl.style.color = 'var(--success)'; } else { totalEl.style.color = 'var(--danger)'; }
+            if(!search) { const cats = {}; filtered.forEach(i => { if(i.amount < 0) { cats[i.cat] = (cats[i.cat] || 0) + Math.abs(i.amount); } }); const totalExpenses = Object.values(cats).reduce((a,b) => a+b, 0); const sortedCats = Object.entries(cats).sort((a,b) => b[1] - a[1]).slice(0, 3); if(totalExpenses > 0) { catSummary.innerHTML = sortedCats.map(c => { const pct = (c[1] / totalExpenses) * 100; return `<div class="cat-bar-container"><div class="cat-bar-header"><span>${c[0]}</span><span>${pct.toFixed(0)}%</span></div><div class="cat-bar-fill" style="width:${pct}%"></div></div>`; }).join(''); } else { catSummary.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted)">Sem gastos registrados.</div>'; } } else catSummary.innerHTML = '';
         }
 
         function renderLogs() { const el = document.getElementById('logsTerminal'); const logs = Logger.getLogs(); if(logs.length === 0) { el.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px;">Vazio.</div>'; return; } el.innerHTML = logs.map(l => `<div style="padding:10px; background: rgba(0,0,0,0.2); border-left: 3px solid var(--primary); border-radius: 4px; margin-bottom: 5px;"><div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="color:var(--primary); font-weight:bold;">[${l.action}]</span><span style="color:var(--text-muted); font-size:0.7rem;">${l.time}</span></div><div style="color:var(--text-main);">${Security.sanitize(l.desc)}</div><div style="color:var(--text-muted); font-size:0.7rem; margin-top:4px;">Usuário: ${l.user}</div></div>`).join(''); }
@@ -1497,7 +1856,48 @@
         function openAddLoan() { document.getElementById('dType').value = 'loan'; toggleDebtFields(); document.getElementById('debtModal').style.display = 'flex'; }
         function toggleDebtFields() { document.getElementById('loanFields').style.display = document.getElementById('dType').value === 'loan' ? 'block' : 'none'; }
         function toggleAssetColor() {}
-        function getCategoryIcon(cat) { const map = { 'Aluguel': '🏠', 'Luz': '💡', 'Agua': '💧', 'Internet': '🌐', 'Vivo': '📱', 'Fralda': '👶', 'Gasolina': '⛽', 'Banco': '🏦', 'Mercado': '🛒', 'Compras na Internet': '🛍️' }; return map[cat] || '💸'; }
+        function getCategoryIcon(categoria) {
+            const cat = categoria ? categoria.toString() : '';
+            
+            const map = {
+                // Moradia e Contas Fixas
+                'Aluguel': '🏠', 'Casa': '🏡', 'Condomínio': '🏢',
+                'Luz': '💡', 'Energia': '⚡',
+                'Agua': '🚰', 'Água': '💧',
+                'Internet': '🌐', 'Wifi': '📶',
+                'Vivo': '📱', 'Celular': '📲', 'Tim': '📱', 'Claro': '📱',
+                
+                // Alimentação e Consumo
+                'Mercado': '🛒', 'Feira': '🥬', 'Padaria': '🥖',
+                'Restaurante': '🍽️', 'Ifood': '🍔', 'Lanche': '🍕',
+                'Compras': '🛍️', 'Web': '📦', 'Amazon': '📦', 'Shopee': '🛍️',
+                
+                // Transporte e Veículo
+                'Gasolina': '⛽', 'Combustível': '⛽', 'Uber': '🚗', 
+                'Transporte': '🚌', 'Mecânico': '🔧', 'Moto': '🏍️',
+                
+                // Saúde e Família
+                'Fralda': '👶', 'Escola': '🎒', 'Farmácia': '💊', 'Médico': '🩺',
+                
+                // Financeiro e Obrigações
+                'Banco': '🏦', 'Nubank': '🟪', 'Inter': '🟧', 'Taxa': '💸',
+                'Empréstimo': '🤝', 'Dívida': '📉', 'Cartão': '💳',
+                
+                // Entradas e Investimentos
+                'Salário': '💰', 'Pagamento': '💵', 'Renda': '💎', 'Freela': '💻',
+                'Investimento': '🚀', 'Aporte': '📈', 'Reserva': '🛡️', 'Cripto': '₿'
+            };
+
+            // 1. Tenta busca exata
+            if (map[cat]) return map[cat];
+
+            // 2. Tenta encontrar parte da palavra (ex: "Conta de Luz" acha "Luz")
+            const key = Object.keys(map).find(k => cat.includes(k));
+            if (key) return map[key];
+
+            // 3. Padrão se não achar nada
+            return '🧾';
+        }
         function switchView(v, el) { document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active-view')); document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active')); document.getElementById('view-'+v).classList.add('active-view'); if(el) el.classList.add('active'); if(v==='income') renderIncome(); if(v==='finance') renderFinance(); if(v==='logs') renderLogs(); if(v==='assets') Assets.render(); if(v==='strategy') { renderStrategy(); Debts.checkNotifications(); } if(v==='invest') Invest.render(); if(window.innerWidth < 1100) toggleSidebar(); }
         function toggleSidebar() { const s = document.getElementById('mainSidebar'); s.classList.toggle('open'); document.getElementById('sidebarOverlay').style.display = s.classList.contains('open') ? 'block' : 'none'; }
         function openAddTransaction() { document.getElementById('transactionModal').style.display = 'flex'; }
