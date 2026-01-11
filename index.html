@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Acesso Corporativo | Integrux</title>
+    <title>Capitalis Solution | sua solução em um só lugar.</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -26,7 +26,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* Garante que o html/body ocupem 100% mas sem scroll desnecessário */
         html, body { width: 100%; height: 100%; overflow: hidden; background-color: var(--bg-dark); position: fixed; transition: background-color 0.5s ease; }
         
         body { 
@@ -38,14 +37,10 @@
             padding: 20px; 
         }
         body.light-mode { background: var(--bg-dark); }
-
-        /* Animações de Fundo Sutis */
         body::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0, 102, 255, 0.1), transparent 70%); top: -200px; left: -200px; z-index: -1; animation: pulse 12s infinite alternate; opacity: 0.8; transition: opacity 0.5s; }
         body::after { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0, 240, 255, 0.08), transparent 70%); bottom: -100px; right: -100px; z-index: -1; animation: pulse 10s infinite alternate-reverse; opacity: 0.8; transition: opacity 0.5s; }
         body.light-mode::before, body.light-mode::after { opacity: 0; }
         @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
-
-        /* Container Principal */
         .container { 
             position: relative; z-index: 10; width: 100%; max-width: 1000px; 
             display: flex; 
@@ -56,8 +51,6 @@
             transition: all 0.5s ease; 
         }
         body.light-mode .container { box-shadow: 0 20px 60px rgba(0,0,0,0.1); border-color: transparent; }
-
-        /* Lado Esquerdo (Marca/Desktop) */
         .brand-side { 
             flex: 0.8; 
             background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 0, 0, 0)); 
@@ -70,33 +63,29 @@
         body.light-mode .brand-side { background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-right-color: var(--glass-border); }
         
         .brand-logo-text { 
-            font-size: 3rem; 
+            font-size: 2.2rem; 
             font-weight: 800; 
-            letter-spacing: 3px; 
+            letter-spacing: 1px; 
             margin-bottom: 20px;
-            color: var(--text-main); /* Cor sólida baseada no tema */
+            color: var(--text-main); 
+            line-height: 1.1;
         }
         
         .brand-side p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 350px; font-weight: 500; }
         .brand-highlight { color: var(--primary); font-weight: 700; }
-
-        /* Lado Direito (Formulário) */
         .form-side { 
             flex: 1.2; 
             padding: 50px; 
             position: relative; 
             overflow-y: auto; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; /* Centraliza tudo */
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
             min-width: 320px; 
         }
-        
-        /* Logo no topo do formulário (Para Mobile principalmente) */
         .form-logo-area { display: flex; justify-content: center; margin-bottom: 40px; }
         .form-logo-text { font-weight: 800; letter-spacing: 2px; font-size: 1.5rem; color: var(--text-main); }
 
         .form-container { width: 100%; max-width: 380px; transition: opacity 0.3s ease; }
-        
-        /* Títulos Centralizados */
+
         h2 { font-size: 1.8rem; margin-bottom: 8px; color: var(--text-main); text-align: center; }
         .sub-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; display: block; text-align: center; }
 
@@ -121,20 +110,19 @@
         .theme-btn { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50%; width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: var(--text-main); font-size: 1.1rem; }
         .theme-btn:hover { transform: scale(1.05); background: var(--input-bg); color: var(--primary); }
 
-        /* RESPONSIVIDADE */
         @media (max-width: 850px) {
             .container { flex-direction: column; height: 100%; max-height: none; border-radius: 0; border: none; background: transparent; box-shadow: none; }
-            .brand-side { display: none; } /* Esconde o painel esquerdo no mobile */
+            .brand-side { display: none; } 
             .form-side { width: 100%; padding: 30px; height: 100%; justify-content: center; align-items: center; }
             .form-container { max-width: 100%; width: 100%; }
             body { padding: 0; }
             body.light-mode .form-side { background-color: var(--bg-dark); }
             .theme-toggle-container { top: 20px; right: 20px; }
-            .form-logo-area { margin-bottom: 30px; display: flex; } /* Mostra o logo pequeno no mobile */
+            .form-logo-area { margin-bottom: 30px; display: flex; } 
         }
         
         @media (min-width: 851px) {
-            .form-logo-area { display: none; } /* Esconde o logo pequeno no desktop pois já tem o grande na esquerda */
+            .form-logo-area { display: none; } 
         }
     </style>
 </head>
@@ -154,7 +142,7 @@
 
     <div class="container">
         <div class="brand-side">
-            <div class="brand-logo-text">INTEGRUX</div>
+            <div class="brand-logo-text">CAPITALIS <br><span style="color: var(--primary); font-weight: 300; font-size: 1.8rem;">SOLUTION</span></div>
             <p>
                 Simples. Robusto. Integrado.<br>
                 A inteligência que o seu negócio exige.
@@ -163,7 +151,7 @@
 
         <div class="form-side">
             <div class="form-logo-area">
-                <span class="form-logo-text">INTEGRUX</span>
+                <span class="form-logo-text">CAPITALIS</span>
             </div>
 
             <div id="loginSection" class="form-container">
@@ -202,34 +190,26 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // TEMA
             const toggleBtn = document.getElementById('themeToggle');
             const body = document.body;
-            const savedTheme = localStorage.getItem('integrux_theme');
+            const savedTheme = localStorage.getItem('capitalis_theme');
             if (savedTheme === 'light') body.classList.add('light-mode');
 
             toggleBtn.addEventListener('click', () => {
                 body.classList.toggle('light-mode');
-                localStorage.setItem('integrux_theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+                localStorage.setItem('capitalis_theme', body.classList.contains('light-mode') ? 'light' : 'dark'); // ATUALIZADO
             });
-
-            // LIMPEZA DE SESSÃO AO ENTRAR
-            sessionStorage.removeItem('integrux_session');
+            sessionStorage.removeItem('capitalis_session');
         });
-
-        // UTILITÁRIOS
-        function hashPassword(pwd) { return btoa(pwd.split('').reverse().join('') + 'INTEGRUX_SALT_V2'); }
+        function hashPassword(pwd) { return btoa(pwd.split('').reverse().join('') + 'CAPITALIS_SALT_V2'); } // ATUALIZADO SALT
         
         function getDB() {
-            const stored = localStorage.getItem('integrux_users_db');
+            const stored = localStorage.getItem('capitalis_users_db');
             if (stored) return JSON.parse(stored);
-            // Usuário padrão (Seed) - Senha "123"
-            return [{ name: "Usuário Padrão", role: "Membro", user: "integrux", passHash: hashPassword("123"), initial: "I" }];
+            return [];
         }
 
-        function saveDB(db) { localStorage.setItem('integrux_users_db', JSON.stringify(db)); }
-
-        // LÓGICA DE REGISTRO / LOGIN
+        function saveDB(db) { localStorage.setItem('capitalis_users_db', JSON.stringify(db)); }
         let isRegisterMode = false;
         const form = document.getElementById('authForm');
         const title = document.getElementById('formTitle');
@@ -240,7 +220,7 @@
 
         toggleLink.addEventListener('click', () => {
             isRegisterMode = !isRegisterMode;
-            form.reset(); // Limpa campos ao trocar
+            form.reset();
             if (isRegisterMode) {
                 title.innerText = "Criar Conta";
                 subtitle.innerText = "Preencha seus dados para começar.";
@@ -269,7 +249,12 @@
             const db = getDB();
 
             if (isRegisterMode) {
-                // MODO CADASTRO
+
+                if (db.length >= 2) {
+                    showToast("Já existem 2 contas nesse dispositivo, faça login e vá em RESET GERAL na aba Logs e sistema. ", true);
+                    return;
+                }
+
                 const nameVal = document.getElementById('regName').value.trim();
                 if(!nameVal) return showToast("Nome é obrigatório.", true);
 
@@ -287,12 +272,10 @@
                 };
                 db.push(newUser);
                 saveDB(db);
-                
-                // Auto-login após cadastro
+
                 loginSuccess(newUser, true);
 
             } else {
-                // MODO LOGIN
                 const foundUser = db.find(u => u.user.toLowerCase() === userVal.toLowerCase() && u.passHash === passHash);
                 if (foundUser) {
                     loginSuccess(foundUser, false);
@@ -303,7 +286,7 @@
         });
 
         function loginSuccess(user, isNew) {
-            sessionStorage.setItem('integrux_session', JSON.stringify(user));
+            sessionStorage.setItem('capitalis_session', JSON.stringify(user)); // ATUALIZADO
             showToast(isNew ? `Conta criada! Bem-vindo, ${user.name}.` : `Bem-vindo de volta, ${user.name}!`, false);
             btnAction.innerText = "AGUARDE...";
             btnAction.disabled = true;
